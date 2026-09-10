@@ -9,6 +9,7 @@ const DEFAULTS: Omit<CountdownSlot, 'resetAt'>[] = [
   { id: 'claude-5h', label: 'Claude 5-hour window', provider: 'claude' },
   { id: 'claude-weekly', label: 'Claude weekly window', provider: 'claude' },
   { id: 'codex-weekly', label: 'Codex weekly window', provider: 'codex' },
+  { id: 'grok-weekly', label: 'Grok weekly pool', provider: 'grok' },
 ];
 
 export function CountdownPanel() {
@@ -23,8 +24,7 @@ export function CountdownPanel() {
     <section className="panel countdowns">
       <h3>Personal /usage countdowns</h3>
       <p className="muted">
-        Optional. Paste the next reset times from Claude Code <code>/usage</code> or your Codex
-        UI. Saved only in this browser via localStorage — never uploaded.
+        Optional. Paste next reset times from Claude <code>/usage</code>, Codex, or Grok Settings → Usage. Saved only in this browser via localStorage — never uploaded.
       </p>
       <div className="countdown-grid">
         {DEFAULTS.map((def) => {

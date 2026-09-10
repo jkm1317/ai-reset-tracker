@@ -2,7 +2,7 @@ interface Props {
   label: string;
   value: string;
   hint?: string;
-  accent?: 'claude' | 'codex' | 'neutral';
+  accent?: 'claude' | 'codex' | 'grok' | 'neutral';
 }
 
 export function StatCard({ label, value, hint, accent = 'neutral' }: Props) {

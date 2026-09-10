@@ -1,9 +1,9 @@
 # AI Reset Tracker
 
-> Unofficial multi-provider usage-limit reset tracker for Claude Code and OpenAI Codex.
-> Grok / xAI is a deferred TODO stub. Not affiliated with Anthropic, OpenAI, or xAI.
+> Unofficial multi-provider usage-limit reset tracker for Claude Code, OpenAI Codex, and Grok / xAI.
+> Not affiliated with Anthropic, OpenAI, or xAI.
 
-Generated: 2026-09-10T18:21:10Z
+Generated: 2026-09-10T18:35:00Z
 
 ## Machine-readable data
 
@@ -18,12 +18,23 @@ Each event has:
 - provider: claude | codex | grok
 - kind: reset | policy
 - delivery: immediate | banked | unknown
-- reason_tags: string[]
+- reason_tags: string[] (includes competitive_response for rival-aligned timing)
 - scope: string
 - date: ISO-8601 UTC
-- url: original X/Twitter announcement
+- url: original announcement or docs
 - account: announcing handle
 - note: short paraphrase
+
+## Anticipator (score formula)
+
+Score 0–100 from additive features (capped):
+1. Drought vs mean gap (0 / 10 / 22 / 35) — or thin-history drought bump when mean is unknown
+2. Rival pressure (0 / 12 / 16 / 22) — if another provider had product_launch / milestone / competitive_response / banked reset in the last 3–7 days
+3. Weekend proximity (+12 Fri–Sun UTC)
+4. Recent reason patterns (+4 to +8)
+5. Pace dampener (−8) for high-frequency providers early in cycle
+
+Labels: low <18, moderate <35, elevated <55, high ≥55. Descriptive only — not a schedule.
 
 ## Definitions
 
@@ -32,6 +43,7 @@ Each event has:
 - immediate: Reset applied (or propagating) without requiring the user to redeem a banked credit.
 - banked: Credit placed in a reset bank for the user to apply later.
 - unknown: Delivery mode unclear from the announcement text.
+- competitive_response: Reset timing aligned with a rival lab launch/promo — retention-pressure interpretation.
 
 ## Providers
 
@@ -47,20 +59,27 @@ Each event has:
 ### Codex
 - product: Codex / ChatGPT
 - resets: 52
-- meanGapDays: 7.0
+- meanGapDays: 7
 - longestGapDays: 67.7
 - daysSinceLast: 2.7
 - lastResetAt: 2026-09-08T01:56:57Z
 - attribution: Curated from https://codex-resets.com/ announcements
 
 ### Grok
-- status: todo stub
-- note: Deferred — stub only.
+- product: Grok / xAI
+- resets: 2
+- policyChangeCount: 2
+- meanGapDays: 6.1
+- daysSinceLast: 9.1
+- lastResetAt: 2026-09-01T16:00:00Z
+- note: Account-specific weekly pool per docs.x.ai; sparse public discretionary resets; anticipator uses rival pressure when history is thin.
+- attribution: docs.x.ai FAQ + @bot / press-covered @elonmusk signals
 
 ## Attribution & disclaimer
 
 Claude catalog adapted from https://claude-resets.com/data/resets.json with attribution.
 Codex announcements curated from https://codex-resets.com/ and @thsottiaux posts.
+Grok signals from https://docs.x.ai/grok/faq and sparse public announcements.
 Inspired by claude-resets.com and codex-resets.com (UX/data study only; no proprietary code copied).
 Unofficial. Not affiliated with Anthropic, OpenAI, xAI, Claude, Codex, or Grok.
 Anticipation scores are historical pattern hints, not schedules or guarantees.

@@ -94,15 +94,52 @@ export function isWeekendProximity(now = new Date()): boolean {
   return day === 5 || day === 0 || day === 6;
 }
 
-/** Honest, explained anticipation — NOT a schedule guarantee. */
+const RIVAL_PRESSURE_TAGS = new Set([
+  'product_launch',
+  'milestone',
+  'competitive_response',
+]);
+
+const RIVAL_WINDOW_DAYS = 7;
+
+function rivalPressureEvents(rivalEvents: ResetEvent[], now: Date): ResetEvent[] {
+  const cut = now.getTime() - RIVAL_WINDOW_DAYS * 86_400_000;
+  return rivalEvents
+    .filter((e) => {
+      const t = parseUtc(e.date).getTime();
+      if (t > now.getTime() || t < cut) return false;
+      if (e.kind === 'reset' && e.delivery === 'banked') return true;
+      return e.reason_tags.some((tag) => RIVAL_PRESSURE_TAGS.has(tag));
+    })
+    .sort((a, b) => parseUtc(b.date).getTime() - parseUtc(a.date).getTime());
+}
+
+function describeRivalEvent(e: ResetEvent): string {
+  const tags = e.reason_tags.filter((t) => RIVAL_PRESSURE_TAGS.has(t) || t === 'banked_credit');
+  const tagBit = tags.length ? tags[0].replace(/_/g, ' ') : e.kind;
+  const who =
+    e.provider === 'claude'
+      ? 'Claude'
+      : e.provider === 'codex'
+        ? 'Codex'
+        : 'Grok';
+  return `${who} ${tagBit}`;
+}
+
+/**
+ * Honest, explained anticipation — NOT a schedule guarantee.
+ * Optional rivalEvents enable cross-lab "rival pressure" scoring.
+ */
 export function anticipate(
   provider: ProviderId,
   events: ResetEvent[],
+  rivalEvents: ResetEvent[] = [],
   now = new Date(),
 ): AnticipationResult {
   const stats = computeProviderStats(events, now);
   const features: AnticipationResult['features'] = [];
   let score = 0;
+  const thinHistory = stats.resetCount < 3;
 
   const drought = stats.daysSinceLast ?? 0;
   const meanGap = stats.meanGapDays;
@@ -137,10 +174,41 @@ export function anticipate(
         weight: 0,
       });
     }
+  } else if (stats.resetCount > 0 && drought >= 7) {
+    const w = drought >= 14 ? 14 : 8;
+    score += w;
+    features.push({
+      label: 'Drought (thin history)',
+      detail: `${drought.toFixed(1)}d since the last seeded public reset — mean gap unknown with sparse announcements.`,
+      weight: w,
+    });
   } else {
     features.push({
       label: 'Drought vs mean',
-      detail: 'Not enough reset history to compute a mean gap.',
+      detail: thinHistory
+        ? 'Sparse public reset history — no reliable mean gap yet.'
+        : 'Not enough reset history to compute a mean gap.',
+      weight: 0,
+    });
+  }
+
+  // Rival pressure: other labs shipped a launch / milestone / banked reset in the last ~3–7 days
+  const rivals = rivalPressureEvents(rivalEvents, now);
+  if (rivals.length) {
+    const top = rivals[0];
+    const age = daysBetween(parseUtc(top.date), now);
+    const weight = age <= 3 ? 22 : age <= 5 ? 16 : 12;
+    score += weight;
+    const daysLabel = age < 1 ? 'today' : age < 1.5 ? '1 day ago' : `${age.toFixed(0)} days ago`;
+    features.push({
+      label: 'Rival pressure',
+      detail: `Rival shipped ${describeRivalEvent(top)} ${daysLabel} — historically a window for retention resets.`,
+      weight,
+    });
+  } else {
+    features.push({
+      label: 'Rival pressure',
+      detail: 'No major rival launch / milestone / banked reset in the last 7 days.',
       weight: 0,
     });
   }
@@ -149,7 +217,8 @@ export function anticipate(
     score += 12;
     features.push({
       label: 'Weekend proximity',
-      detail: 'UTC calendar is near a weekend — historically a common announcement window for goodwill resets.',
+      detail:
+        'UTC calendar is near a weekend — historically a common announcement window for goodwill resets.',
       weight: 12,
     });
   } else {
@@ -178,6 +247,13 @@ export function anticipate(
       detail: `Recent resets often tagged ${topTags.map(([t, n]) => `${t}(${n})`).join(', ')} — incident-driven clusters can recur, but that is not predictive.`,
       weight: 8,
     });
+  } else if (topTags.some(([t]) => t === 'competitive_response')) {
+    score += 6;
+    features.push({
+      label: 'Recent reason patterns',
+      detail: `Recent tags include competitive_response — labs sometimes reset when rivals ship: ${topTags.map(([t, n]) => `${t}(${n})`).join(', ')}.`,
+      weight: 6,
+    });
   } else if (topTags.length) {
     score += 4;
     features.push({
@@ -188,7 +264,17 @@ export function anticipate(
   } else {
     features.push({
       label: 'Recent reason patterns',
-      detail: 'No recent reset tags available.',
+      detail: thinHistory
+        ? 'Thin public log — Grok/xAI discretionary announcement resets are rare vs Claude/Codex miracle posts.'
+        : 'No recent reset tags available.',
+      weight: 0,
+    });
+  }
+
+  if (thinHistory) {
+    features.push({
+      label: 'Data thinness',
+      detail: `Only ${stats.resetCount} public discretionary reset(s) seeded. Score leans on rival pressure + whatever drought exists — treat odds cautiously.`,
       weight: 0,
     });
   }
@@ -209,6 +295,9 @@ export function anticipate(
   else if (score >= 35) oddsLabel = 'elevated';
   else if (score >= 18) oddsLabel = 'moderate';
 
+  // Sort features so the top explanatory driver (highest |weight|) is first for the one-liner
+  features.sort((a, b) => Math.abs(b.weight) - Math.abs(a.weight) || b.weight - a.weight);
+
   return {
     provider,
     oddsLabel,
@@ -217,7 +306,7 @@ export function anticipate(
     meanGap,
     features,
     disclaimer:
-      'These are descriptive odds from historical patterns — not a schedule, guarantee, or insider signal. Providers reset on their own timeline.',
+      'Descriptive odds from historical patterns — not a schedule or guarantee.',
   };
 }
 
@@ -280,4 +369,13 @@ export function heatmapDays(
 
 export function tagLabel(tag: string): string {
   return tag.replace(/_/g, ' ');
+}
+
+export function rivalCatalog(
+  all: Record<ProviderId, ResetEvent[]>,
+  self: ProviderId,
+): ResetEvent[] {
+  return (Object.keys(all) as ProviderId[])
+    .filter((id) => id !== self)
+    .flatMap((id) => all[id] ?? []);
 }

@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 export interface CountdownSlot {
   id: string;
   label: string;
-  provider: 'claude' | 'codex';
+  provider: 'claude' | 'codex' | 'grok';
   resetAt: string; // local ISO from datetime-local
 }
 

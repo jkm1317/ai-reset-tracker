@@ -5,10 +5,11 @@ import { Comparison } from './components/Comparison';
 import { CountdownPanel } from './components/CountdownPanel';
 import { ProviderHero } from './components/ProviderHero';
 import { Timeline } from './components/Timeline';
+import { rivalCatalog } from './lib/stats';
 import type { ResetsDataset, SummaryDataset } from './lib/types';
 import './App.css';
 
-type Tab = 'overview' | 'claude' | 'codex' | 'compare' | 'personal';
+type Tab = 'overview' | 'claude' | 'codex' | 'grok' | 'compare' | 'personal';
 
 export default function App() {
   const [data, setData] = useState<ResetsDataset | null>(null);
@@ -54,6 +55,12 @@ export default function App() {
   const codex = data.providers.codex;
   const grok = data.providers.grok;
 
+  const byProvider = {
+    claude: claude.events,
+    codex: codex.events,
+    grok: grok.events,
+  };
+
   return (
     <div className="app">
       <header className="topbar">
@@ -64,7 +71,7 @@ export default function App() {
           <div>
             <h1>AI Reset Tracker</h1>
             <p className="tagline">
-              Multi-provider usage-limit resets for Claude Code &amp; OpenAI Codex
+              Likelihood-first usage-limit resets for Claude Code, Codex / ChatGPT, and Grok
             </p>
           </div>
         </div>
@@ -74,6 +81,7 @@ export default function App() {
               ['overview', 'Overview'],
               ['claude', 'Claude'],
               ['codex', 'Codex'],
+              ['grok', 'Grok'],
               ['compare', 'Compare'],
               ['personal', 'My /usage'],
             ] as const
@@ -93,61 +101,96 @@ export default function App() {
       <main className="shell">
         <aside className="disclaimer banner">
           Unofficial community tracker. <strong>Not affiliated</strong> with Anthropic, OpenAI,
-          xAI, Claude, Codex, or Grok. Announcement notes are paraphrases; check each original
-          post. Anticipation scores are historical pattern hints — not guarantees.
+          xAI, Claude, Codex, or Grok. Odds are historical pattern hints — not guarantees.
         </aside>
 
         {tab === 'overview' && (
           <>
-            <div className="heroes">
-              <ProviderHero id="claude" meta={claude} />
-              <ProviderHero id="codex" meta={codex} />
+            <p className="section-lead">
+              <strong>Will they reset soon?</strong> Likelihood boxes first. History stays secondary
+              below.
+            </p>
+            <div className="provider-columns">
+              {(
+                [
+                  ['claude', claude, 'Claude Code'],
+                  ['codex', codex, 'Codex / ChatGPT'],
+                  ['grok', grok, 'Grok / xAI'],
+                ] as const
+              ).map(([id, meta, product]) => (
+                <div className="provider-column" key={id}>
+                  <AnticipationPanel
+                    provider={id}
+                    events={meta.events}
+                    rivalEvents={rivalCatalog(byProvider, id)}
+                    productName={product}
+                    prominent
+                  />
+                  <ProviderHero id={id} meta={meta} compact />
+                </div>
+              ))}
             </div>
-            <div className="split">
-              <AnticipationPanel
-                provider="claude"
-                events={claude.events}
-                productName="Claude Code"
-              />
-              <AnticipationPanel
-                provider="codex"
-                events={codex.events}
-                productName="Codex"
-              />
-            </div>
-            <Timeline claudeEvents={claude.events} codexEvents={codex.events} />
-            <ProviderHero id="grok" meta={grok} />
+            <Timeline
+              claudeEvents={claude.events}
+              codexEvents={codex.events}
+              grokEvents={grok.events}
+            />
           </>
         )}
 
         {tab === 'claude' && (
           <>
-            <ProviderHero id="claude" meta={claude} />
             <AnticipationPanel
               provider="claude"
               events={claude.events}
+              rivalEvents={rivalCatalog(byProvider, 'claude')}
               productName="Claude Code"
+              prominent
+              detailed
             />
+            <ProviderHero id="claude" meta={claude} />
             <Archive events={claude.events} title="Claude announcement archive" />
           </>
         )}
 
         {tab === 'codex' && (
           <>
-            <ProviderHero id="codex" meta={codex} />
             <AnticipationPanel
               provider="codex"
               events={codex.events}
-              productName="Codex"
+              rivalEvents={rivalCatalog(byProvider, 'codex')}
+              productName="Codex / ChatGPT"
+              prominent
+              detailed
             />
+            <ProviderHero id="codex" meta={codex} />
             <Archive events={codex.events} title="Codex announcement archive" />
+          </>
+        )}
+
+        {tab === 'grok' && (
+          <>
+            <AnticipationPanel
+              provider="grok"
+              events={grok.events}
+              rivalEvents={rivalCatalog(byProvider, 'grok')}
+              productName="Grok / xAI"
+              prominent
+              detailed
+            />
+            <ProviderHero id="grok" meta={grok} />
+            <Archive events={grok.events} title="Grok / xAI public signals" />
           </>
         )}
 
         {tab === 'compare' && (
           <>
             <Comparison claudeEvents={claude.events} codexEvents={codex.events} />
-            <Timeline claudeEvents={claude.events} codexEvents={codex.events} />
+            <Timeline
+              claudeEvents={claude.events}
+              codexEvents={codex.events}
+              grokEvents={grok.events}
+            />
           </>
         )}
 

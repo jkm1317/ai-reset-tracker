@@ -5,13 +5,15 @@ import type { ResetEvent } from '../lib/types';
 interface Props {
   claudeEvents: ResetEvent[];
   codexEvents: ResetEvent[];
+  grokEvents?: ResetEvent[];
 }
 
-export function Timeline({ claudeEvents, codexEvents }: Props) {
+export function Timeline({ claudeEvents, codexEvents, grokEvents = [] }: Props) {
   const marks = useMemo(() => {
     const all = [
       ...claudeEvents.filter((e) => e.kind === 'reset').map((e) => ({ ...e, lane: 'claude' as const })),
       ...codexEvents.filter((e) => e.kind === 'reset').map((e) => ({ ...e, lane: 'codex' as const })),
+      ...grokEvents.filter((e) => e.kind === 'reset').map((e) => ({ ...e, lane: 'grok' as const })),
     ].sort((a, b) => parseUtc(a.date).getTime() - parseUtc(b.date).getTime());
     if (!all.length) return [];
     const min = parseUtc(all[0].date).getTime();
@@ -21,49 +23,39 @@ export function Timeline({ claudeEvents, codexEvents }: Props) {
       ...e,
       pct: ((parseUtc(e.date).getTime() - min) / span) * 100,
     }));
-  }, [claudeEvents, codexEvents]);
+  }, [claudeEvents, codexEvents, grokEvents]);
 
   return (
     <section className="panel timeline">
       <h3>Shared timeline</h3>
-      <p className="muted">Every reset on one axis. Hover a mark; click through to X.</p>
+      <p className="muted">Every public reset on one axis. Hover a mark; click through to the source.</p>
       <div className="timeline-lanes">
-        <div className="lane">
-          <span className="lane-label claude">Claude</span>
-          <div className="lane-track">
-            {marks
-              .filter((m) => m.lane === 'claude')
-              .map((m) => (
-                <a
-                  key={`c-${m.id}`}
-                  className="mark claude"
-                  style={{ left: `${m.pct}%` }}
-                  href={m.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  title={`${formatDate(m.date)} — ${m.note ?? 'reset'}`}
-                />
-              ))}
+        {(
+          [
+            ['claude', 'Claude'],
+            ['codex', 'Codex'],
+            ['grok', 'Grok'],
+          ] as const
+        ).map(([lane, label]) => (
+          <div className="lane" key={lane}>
+            <span className={`lane-label ${lane}`}>{label}</span>
+            <div className="lane-track">
+              {marks
+                .filter((m) => m.lane === lane)
+                .map((m) => (
+                  <a
+                    key={`${lane}-${m.id}`}
+                    className={`mark ${lane}`}
+                    style={{ left: `${m.pct}%` }}
+                    href={m.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title={`${formatDate(m.date)} — ${m.note ?? 'reset'}`}
+                  />
+                ))}
+            </div>
           </div>
-        </div>
-        <div className="lane">
-          <span className="lane-label codex">Codex</span>
-          <div className="lane-track">
-            {marks
-              .filter((m) => m.lane === 'codex')
-              .map((m) => (
-                <a
-                  key={`x-${m.id}`}
-                  className="mark codex"
-                  style={{ left: `${m.pct}%` }}
-                  href={m.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  title={`${formatDate(m.date)} — ${m.note ?? 'reset'}`}
-                />
-              ))}
-          </div>
-        </div>
+        ))}
       </div>
     </section>
   );

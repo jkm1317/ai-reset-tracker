@@ -1,10 +1,11 @@
 {
   "meta": {
     "name": "AI Reset Tracker",
-    "generatedAt": "2026-09-10T18:21:10Z",
+    "generatedAt": "2026-09-10T18:35:00Z",
     "attribution": [
       "Claude event catalog adapted from https://claude-resets.com/data/resets.json (with attribution).",
       "Codex announcements curated from https://codex-resets.com/ and @thsottiaux posts; timestamps from announcement times / status IDs.",
+      "Grok / xAI signals from docs.x.ai FAQ, @bot announcements, and press coverage of @elonmusk posts — discretionary public resets are rare; weekly pools are account-specific.",
       "Not affiliated with Anthropic, OpenAI, or xAI."
     ],
     "definitions": {
@@ -12,7 +13,8 @@
       "policy": "Announcement that changed limits without flushing counters; listed but not counted as a reset.",
       "immediate": "Reset applied (or propagating) without requiring the user to redeem a banked credit.",
       "banked": "Credit placed in a reset bank for the user to apply later.",
-      "unknown": "Delivery mode unclear from the announcement text."
+      "unknown": "Delivery mode unclear from the announcement text.",
+      "competitive_response": "Reset timing aligned with a rival lab launch, promo, or banked-credit wave — interpreted as retention pressure, not an official reason."
     }
   },
   "providers": {
@@ -243,13 +245,14 @@
           "delivery": "immediate",
           "reason_tags": [
             "weekend_holiday",
-            "product_launch"
+            "product_launch",
+            "competitive_response"
           ],
           "scope": "Max",
           "date": "2026-09-04T20:08:45Z",
           "url": "https://x.com/lydiahallie/status/2095967323412930677",
           "account": "lydiahallie",
-          "note": "Reset weekly limits for everyone on a Claude Max plan after Fable 5.1 launched, so people could keep building over the long weekend."
+          "note": "Reset weekly limits for Claude Max after Fable 5.1, during Astra launch week — a retention window when ChatGPT/Codex was shipping hard."
         }
       ]
     },
@@ -300,7 +303,7 @@
           "date": "2025-11-22T23:13:56Z",
           "url": "https://x.com/thsottiaux/status/1992370994028388670",
           "account": "thsottiaux",
-          "note": "We have reset rate limits for all Codex users to compensate for the unusual high latencies in or near the US in the previous hours. Grateful for the team working hard behind the scenes to keep Codex running 24/7. I do recommend trying out GPT-5.1-Codex-Max too if you haven\u2019t!"
+          "note": "We have reset rate limits for all Codex users to compensate for the unusual high latencies in or near the US in the previous hours. Grateful for the team working hard behind the scenes to keep Codex running 24/7. I do recommend trying out GPT-5.1-Codex-Max too if you haven’t!"
         },
         {
           "id": "1995988609896513743",
@@ -328,7 +331,7 @@
           "date": "2025-12-17T02:18:14Z",
           "url": "https://x.com/thsottiaux/status/2001114683047317723",
           "account": "thsottiaux",
-          "note": "Didn\u2019t need to do this in a while, but you know the drill. We have reset everyone\u2019s usage limits, enjoy more Codex and apologies for the disruption."
+          "note": "Didn’t need to do this in a while, but you know the drill. We have reset everyone’s usage limits, enjoy more Codex and apologies for the disruption."
         },
         {
           "id": "2002137269134819610",
@@ -342,7 +345,7 @@
           "date": "2025-12-19T22:01:37Z",
           "url": "https://x.com/thsottiaux/status/2002137269134819610",
           "account": "thsottiaux",
-          "note": "We rewrote the underlying system to track and bill usage in Codex and we have reset usage limits in the process. Backfilling is time consuming and it\u2019s more fun to give free usage. Enjoy!"
+          "note": "We rewrote the underlying system to track and bill usage in Codex and we have reset usage limits in the process. Backfilling is time consuming and it’s more fun to give free usage. Enjoy!"
         },
         {
           "id": "2004100061933064395",
@@ -356,7 +359,7 @@
           "date": "2025-12-25T08:01:03Z",
           "url": "https://x.com/thsottiaux/status/2004100061933064395",
           "account": "thsottiaux",
-          "note": "For Codex users, to thank you all for the fun we've had over the last months, our first gift is that we have **reset rate limits and are lifting the usage limits to 2X the usual limits until the 1st of Jan**. Wish you all a merry holiday and lots of coding!! Spread the word \ud83d\udc40"
+          "note": "For Codex users, to thank you all for the fun we've had over the last months, our first gift is that we have **reset rate limits and are lifting the usage limits to 2X the usual limits until the 1st of Jan**. Wish you all a merry holiday and lots of coding!! Spread the word 👀"
         },
         {
           "id": "2028649088594436225",
@@ -370,7 +373,7 @@
           "date": "2026-03-03T01:50:07Z",
           "url": "https://x.com/thsottiaux/status/2028649088594436225",
           "account": "thsottiaux",
-          "note": "Codex is back up. We introduced an issue that caused requests to be blocked and rejected as high cyber risk. This was fixed in ~8 mins and we are now back online and fully operational. Team will reset rate limits, that\u2019s been a while. Enjoy one on us."
+          "note": "Codex is back up. We introduced an issue that caused requests to be blocked and rejected as high cyber risk. This was fixed in ~8 mins and we are now back online and fully operational. Team will reset rate limits, that’s been a while. Enjoy one on us."
         },
         {
           "id": "2029308599835738218",
@@ -399,7 +402,7 @@
           "date": "2026-03-08T02:42:13Z",
           "url": "https://x.com/thsottiaux/status/2030474136024400173",
           "account": "thsottiaux",
-          "note": "We don\u2019t have evidence of a widespread issue with codex usage being drained faster than it should but there are enough reports and we have reset rate limits for plus &amp; pro subscriptions while we work towards wrapping up our investigation over the coming 1-3 days."
+          "note": "We don’t have evidence of a widespread issue with codex usage being drained faster than it should but there are enough reports and we have reset rate limits for plus &amp; pro subscriptions while we work towards wrapping up our investigation over the coming 1-3 days."
         },
         {
           "id": "2031216405266481489",
@@ -470,7 +473,7 @@
           "date": "2026-04-07T23:13:48Z",
           "url": "https://x.com/thsottiaux/status/2041655710346572085",
           "account": "thsottiaux",
-          "note": "Three million people are now using Codex weekly - up from two million a little under a month ago. Incredible to see the growth. Thank you to all of you and to the ecosystem we\u2019re part of. To celebrate, we\u2019re resetting rate limits so you can keep building, and we\u2019ll reset them"
+          "note": "Three million people are now using Codex weekly - up from two million a little under a month ago. Incredible to see the growth. Thank you to all of you and to the ecosystem we’re part of. To celebrate, we’re resetting rate limits so you can keep building, and we’ll reset them"
         },
         {
           "id": "2042299371602264319",
@@ -484,7 +487,7 @@
           "date": "2026-04-09T17:51:28Z",
           "url": "https://x.com/thsottiaux/status/2042299371602264319",
           "account": "thsottiaux",
-          "note": "We did it, say hi to the $100 plan! It should be the sweet spot for a ton of you. It comes with a ton of codex usage. And yes we are resetting the limits again too as I mentioned yesterday. Let\u2019s keep building!"
+          "note": "We did it, say hi to the $100 plan! It should be the sweet spot for a ton of you. It comes with a ton of codex usage. And yes we are resetting the limits again too as I mentioned yesterday. Let’s keep building!"
         },
         {
           "id": "2044943514832871564",
@@ -653,7 +656,8 @@
           "kind": "reset",
           "delivery": "immediate",
           "reason_tags": [
-            "goodwill"
+            "goodwill",
+            "competitive_response"
           ],
           "scope": "all paid",
           "date": "2026-07-09T21:24:11Z",
@@ -667,13 +671,14 @@
           "kind": "reset",
           "delivery": "immediate",
           "reason_tags": [
-            "goodwill"
+            "goodwill",
+            "competitive_response"
           ],
           "scope": "all paid",
           "date": "2026-07-10T17:59:43Z",
           "url": "https://x.com/thsottiaux/status/2075641131002700120",
           "account": "thsottiaux",
-          "note": "Hello beautiful people! We have reset usage limits across Codex and ChatGPT Work. And another one will come later in the day. Rejoice. Now that I have your attention, a quick update on ChatGPT Work, Codex and all the updates we shared yesterday. We\u2019ve spent the last 24 hours"
+          "note": "Hello beautiful people! We have reset usage limits across Codex and ChatGPT Work. And another one will come later in the day. Rejoice. Now that I have your attention, a quick update on ChatGPT Work, Codex and all the updates we shared yesterday. We’ve spent the last 24 hours"
         },
         {
           "id": "2075820987833274448",
@@ -682,7 +687,8 @@
           "delivery": "immediate",
           "reason_tags": [
             "weekend_holiday",
-            "product_launch"
+            "product_launch",
+            "competitive_response"
           ],
           "scope": "all paid",
           "date": "2026-07-11T05:54:25Z",
@@ -703,7 +709,7 @@
           "date": "2026-07-12T21:28:59Z",
           "url": "https://x.com/thsottiaux/status/2076418567143408112",
           "account": "thsottiaux",
-          "note": "Added a banked reset to 500k users of ChatGPT Work and Codex. What\u2019s been happening: - Just released the ability to use a banked reset from web and mobile. Before today you could only do it in the desktop app - Had an issue where less than 10% of users who used a banked reset"
+          "note": "Added a banked reset to 500k users of ChatGPT Work and Codex. What’s been happening: - Just released the ability to use a banked reset from web and mobile. Before today you could only do it in the desktop app - Had an issue where less than 10% of users who used a banked reset"
         },
         {
           "id": "2076735790567338203",
@@ -974,7 +980,8 @@
           "delivery": "banked",
           "reason_tags": [
             "product_launch",
-            "banked_credit"
+            "banked_credit",
+            "competitive_response"
           ],
           "scope": "all paid",
           "date": "2026-09-03T23:12:09Z",
@@ -990,13 +997,14 @@
           "reason_tags": [
             "weekend_holiday",
             "product_launch",
-            "banked_credit"
+            "banked_credit",
+            "competitive_response"
           ],
           "scope": "all paid",
           "date": "2026-09-05T00:39:25Z",
           "url": "https://x.com/thsottiaux/status/2096035437299237298",
           "account": "thsottiaux",
-          "note": "Because we are beyond happy to have Astra rolled out today ahead of schedule and you have been super patient with us (not really, but it\u2019s ok!)\u2026 we will do the full banked reset today too for all Plus, Pro and Business users. Lands end of day. Happy Astra day and enjoy a pheno..."
+          "note": "Because we are beyond happy to have Astra rolled out today ahead of schedule and you have been super patient with us (not really, but it’s ok!)… we will do the full banked reset today too for all Plus, Pro and Business users. Lands end of day. Happy Astra day and enjoy a pheno..."
         },
         {
           "id": "2097174560412246215",
@@ -1017,11 +1025,72 @@
     "grok": {
       "name": "Grok",
       "product": "Grok / xAI",
-      "account": null,
-      "accountUrl": null,
-      "status": "todo",
-      "note": "Grok / xAI usage-limit reset tracking is deferred. Stub provider only.",
-      "events": []
+      "account": "xai",
+      "accountUrl": "https://x.com/xai",
+      "status": "active",
+      "note": "Paid SuperGrok uses an account-specific shared weekly usage pool (Settings → Usage). Free-tier Chat/Voice limits are separate. Unlike Claude/Codex, there is no dense public “miracle reset” log — anticipator leans on sparse announcements + rival pressure.",
+      "events": [
+        {
+          "id": "grok-policy-limits-increase-2026-05",
+          "provider": "grok",
+          "kind": "policy",
+          "delivery": "unknown",
+          "reason_tags": [
+            "capacity",
+            "policy_change"
+          ],
+          "scope": "paid SuperGrok",
+          "date": "2026-05-18T00:00:00Z",
+          "url": "https://piunikaweb.com/2026/05/18/elon-musk-grok-usage-limits-increase/",
+          "account": "elonmusk",
+          "note": "After paid-user throttling complaints on image/video/voice, Elon Musk said Grok usage limits will be increased (policy signal; not a counter flush)."
+        },
+        {
+          "id": "grok-policy-weekly-pool-2026-06",
+          "provider": "grok",
+          "kind": "policy",
+          "delivery": "unknown",
+          "reason_tags": [
+            "policy_change"
+          ],
+          "scope": "paid SuperGrok",
+          "date": "2026-06-15T00:00:00Z",
+          "url": "https://docs.x.ai/grok/faq",
+          "account": "xAI docs",
+          "note": "Docs: paid plans share one weekly usage pool across Chat, Imagine, Voice, and Build; reset time is account-specific in Settings → Usage. Free-tier Chat/Voice limits reset on their own schedule."
+        },
+        {
+          "id": "2092664183334846840",
+          "provider": "grok",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "product_launch",
+            "milestone",
+            "goodwill"
+          ],
+          "scope": "all users (announced)",
+          "date": "2026-08-26T14:00:00Z",
+          "url": "https://x.com/bot/status/2092664183334846840",
+          "account": "bot",
+          "note": "@bot: All SuperGrok and Cursor Pro subscribers now have Grok Bot access. Also resetting weekly usage limits for all users."
+        },
+        {
+          "id": "grok-elon-reset-2026-09-01",
+          "provider": "grok",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "goodwill",
+            "usage_anomaly"
+          ],
+          "scope": "Grok / Bot users",
+          "date": "2026-09-01T16:00:00Z",
+          "url": "https://in.mashable.com/tech/113514/elon-musk-announces-bonus-token-reset-for-grok-ai-users-heres-how-to-access",
+          "account": "elonmusk",
+          "note": "Elon Musk announced another free reset on token usage for @Grok / @Bot users (Sep 1, 2026 coverage); redeemable in Settings → Usage without waiting for the weekly clock. Follows an earlier Grok 4.6-era reset ~3 weeks prior."
+        }
+      ]
     }
   }
 }

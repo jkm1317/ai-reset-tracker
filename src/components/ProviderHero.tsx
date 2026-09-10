@@ -11,29 +11,17 @@ import { Heatmap } from './Heatmap';
 interface Props {
   id: ProviderId;
   meta: ProviderMeta;
+  /** Smaller stats + heatmap so likelihood stays primary. */
+  compact?: boolean;
 }
 
-export function ProviderHero({ id, meta }: Props) {
-  if (id === 'grok' || meta.status === 'todo') {
-    return (
-      <section className={`provider-hero provider-${id} stub`}>
-        <div className="provider-title">
-          <h2>{meta.name}</h2>
-          <span className="badge todo">TODO stub</span>
-        </div>
-        <p className="muted">
-          {meta.note ??
-            'Grok / xAI usage-limit reset tracking is deferred. No events seeded yet.'}
-        </p>
-      </section>
-    );
-  }
-
+export function ProviderHero({ id, meta, compact = false }: Props) {
   const stats = computeProviderStats(meta.events);
-  const accent = id === 'claude' ? 'claude' : 'codex';
+  const accent = id === 'claude' ? 'claude' : id === 'codex' ? 'codex' : 'grok';
+  const hasResets = stats.resetCount > 0;
 
   return (
-    <section className={`provider-hero provider-${id}`}>
+    <section className={`provider-hero provider-${id}${compact ? ' compact' : ''}`}>
       <div className="provider-title">
         <div>
           <h2>{meta.product}</h2>
@@ -43,15 +31,18 @@ export function ProviderHero({ id, meta }: Props) {
               <a href={meta.accountUrl} target="_blank" rel="noopener noreferrer">
                 @{meta.account}
               </a>
+            ) : meta.account ? (
+              <>@{meta.account}</>
             ) : (
-              '—'
+              'public docs + announcements'
             )}
           </p>
+          {meta.note ? <p className="muted small provider-note">{meta.note}</p> : null}
         </div>
         <div className="last-reset">
           <div className="stat-label">Latest reset</div>
           <div className="last-reset-value">
-            {formatRelativeDays(stats.daysSinceLast)}
+            {hasResets ? formatRelativeDays(stats.daysSinceLast) : 'No public log yet'}
           </div>
           <div className="muted small">{formatDate(stats.lastResetAt)}</div>
           {stats.lastResetUrl ? (
@@ -61,7 +52,7 @@ export function ProviderHero({ id, meta }: Props) {
           ) : null}
         </div>
       </div>
-      <div className="stat-grid">
+      <div className={`stat-grid${compact ? ' compact-grid' : ''}`}>
         <StatCard label="Resets" value={String(stats.resetCount)} accent={accent} />
         <StatCard
           label="Mean gap"
@@ -78,11 +69,15 @@ export function ProviderHero({ id, meta }: Props) {
         <StatCard
           label="Days since last"
           value={formatDays(stats.daysSinceLast)}
-          hint={`Pace ~${stats.pacePerMonth ?? '—'}/mo`}
+          hint={
+            stats.pacePerMonth != null
+              ? `Pace ~${stats.pacePerMonth}/mo`
+              : 'Account-specific clocks may differ'
+          }
           accent={accent}
         />
       </div>
-      <Heatmap events={meta.events} />
+      {hasResets ? <Heatmap events={meta.events} /> : null}
     </section>
   );
 }

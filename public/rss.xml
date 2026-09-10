@@ -3,9 +3,9 @@
   <channel>
     <title>AI Reset Tracker</title>
     <link>/</link>
-    <description>Unofficial Claude Code and Codex usage-limit reset announcements. Not affiliated with Anthropic, OpenAI, or xAI.</description>
+    <description>Unofficial Claude Code, Codex, and Grok usage-limit reset announcements. Not affiliated with Anthropic, OpenAI, or xAI.</description>
     <language>en-us</language>
-    <lastBuildDate>Thu, 10 Sep 2026 18:23:41 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 10 Sep 2026 18:35:00 GMT</lastBuildDate>
     <item>
       <title>Codex reset (immediate) — all paid</title>
       <link>https://x.com/thsottiaux/status/2097174560412246215</link>
@@ -29,7 +29,7 @@
       <link>https://x.com/lydiahallie/status/2095967323412930677</link>
       <guid isPermaLink="true">https://x.com/lydiahallie/status/2095967323412930677</guid>
       <pubDate>Fri, 04 Sep 2026 20:08:45 GMT</pubDate>
-      <description>Reset weekly limits for everyone on a Claude Max plan after Fable 5.1 launched, so people could keep building over the long weekend.</description>
+      <description>Reset weekly limits for Claude Max after Fable 5.1, during Astra launch week — a retention window when ChatGPT/Codex was shipping hard.</description>
       <category>claude</category>
       <category>reset</category>
     </item>
@@ -40,6 +40,15 @@
       <pubDate>Thu, 03 Sep 2026 23:12:09 GMT</pubDate>
       <description>We will give one banked reset for every day you don&#x27;t have access to Astra on your paid ChatGPT plan, starting today. Team is moving mountains to give access as fast as we can. First one will land in ~ 3 hours. There is still time to create your account if you don&#x27;t have one.</description>
       <category>codex</category>
+      <category>reset</category>
+    </item>
+    <item>
+      <title>Grok reset (immediate) — Grok / Bot users</title>
+      <link>https://in.mashable.com/tech/113514/elon-musk-announces-bonus-token-reset-for-grok-ai-users-heres-how-to-access</link>
+      <guid isPermaLink="true">https://in.mashable.com/tech/113514/elon-musk-announces-bonus-token-reset-for-grok-ai-users-heres-how-to-access</guid>
+      <pubDate>Tue, 01 Sep 2026 16:00:00 GMT</pubDate>
+      <description>Elon Musk announced another free reset on token usage for @Grok / @Bot users (Sep 1, 2026 coverage); redeemable in Settings → Usage without waiting for the weekly clock. Follows an earlier Grok 4.6-era reset ~3 weeks prior.</description>
+      <category>grok</category>
       <category>reset</category>
     </item>
     <item>
@@ -85,6 +94,15 @@
       <pubDate>Thu, 27 Aug 2026 16:35:05 GMT</pubDate>
       <description>Never slept better and feeling reseted. Brand new me and brand new usage for all ChatGPT Work and Codex users. Regaining my youth one button press at a time. Happy Thursday</description>
       <category>codex</category>
+      <category>reset</category>
+    </item>
+    <item>
+      <title>Grok reset (immediate) — all users (announced)</title>
+      <link>https://x.com/bot/status/2092664183334846840</link>
+      <guid isPermaLink="true">https://x.com/bot/status/2092664183334846840</guid>
+      <pubDate>Wed, 26 Aug 2026 14:00:00 GMT</pubDate>
+      <description>@bot: All SuperGrok and Cursor Pro subscribers now have Grok Bot access. Also resetting weekly usage limits for all users.</description>
+      <category>grok</category>
       <category>reset</category>
     </item>
     <item>
@@ -345,24 +363,6 @@
       <guid isPermaLink="true">https://x.com/ClaudeDevs/status/2067802163498352929</guid>
       <pubDate>Fri, 19 Jun 2026 02:50:28 GMT</pubDate>
       <description>About 3% of Max and Pro users hit a bug showing an incorrect weekly limit, in some cases blocking messages; limits reset for everyone affected.</description>
-      <category>claude</category>
-      <category>reset</category>
-    </item>
-    <item>
-      <title>Codex reset (immediate) — all paid</title>
-      <link>https://x.com/thsottiaux/status/2067399435009622521</link>
-      <guid isPermaLink="true">https://x.com/thsottiaux/status/2067399435009622521</guid>
-      <pubDate>Thu, 18 Jun 2026 00:10:10 GMT</pubDate>
-      <description>Dearest gentle codexer. We did a sneaky double reset. Not only do you get a full reset on us. But you are also getting one into the reset bank to use at your own leisure. Enjoy</description>
-      <category>codex</category>
-      <category>reset</category>
-    </item>
-    <item>
-      <title>Claude reset (immediate) — all</title>
-      <link>https://x.com/ClaudeDevs/status/2064464557951852643</link>
-      <guid isPermaLink="true">https://x.com/ClaudeDevs/status/2064464557951852643</guid>
-      <pubDate>Tue, 09 Jun 2026 21:48:01 GMT</pubDate>
-      <description>Reset 5-hour and weekly rate limits for all users.</description>
       <category>claude</category>
       <category>reset</category>
     </item>

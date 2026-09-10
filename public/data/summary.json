@@ -1,8 +1,8 @@
 {
   "site": "AI Reset Tracker",
   "name": "ai-reset-tracker",
-  "generatedAt": "2026-09-10T18:21:10Z",
-  "disclaimer": "Unofficial community tracker. Not affiliated with Anthropic, OpenAI, xAI, Claude, Codex, or Grok.",
+  "generatedAt": "2026-09-10T18:35:00Z",
+  "disclaimer": "Unofficial community tracker. Not affiliated with Anthropic, OpenAI, xAI, Claude, Codex, or Grok. Anticipation scores include drought, weekend proximity, reason patterns, and rival pressure — not schedules or guarantees.",
   "providers": {
     "claude": {
       "name": "Claude",
@@ -29,7 +29,8 @@
         "usage_anomaly": 1,
         "goodwill": 3,
         "milestone": 1,
-        "product_launch": 2
+        "product_launch": 2,
+        "competitive_response": 1
       },
       "datasetAttribution": "Adapted from https://claude-resets.com/data/resets.json"
     },
@@ -45,7 +46,7 @@
       "lastResetAccount": "thsottiaux",
       "lastResetScope": "all paid",
       "firstResetAt": "2025-09-17T04:02:52Z",
-      "meanGapDays": 7.0,
+      "meanGapDays": 7,
       "longestGapDays": 67.7,
       "daysSinceLast": 2.7,
       "pacePerMonth": 4.4,
@@ -61,15 +62,39 @@
         "milestone": 15,
         "weekend_holiday": 9,
         "usage_anomaly": 7,
-        "banked_credit": 7
+        "banked_credit": 7,
+        "competitive_response": 5
       },
       "datasetAttribution": "Curated from https://codex-resets.com/ announcements"
     },
     "grok": {
       "name": "Grok",
-      "status": "todo",
-      "note": "Deferred \u2014 stub only.",
-      "resetCount": 0
+      "product": "Grok / xAI",
+      "account": "xai",
+      "accountUrl": "https://x.com/xai",
+      "status": "active",
+      "note": "Paid SuperGrok uses an account-specific shared weekly usage pool (Settings → Usage). Free-tier Chat/Voice limits are separate. Unlike Claude/Codex, there is no dense public “miracle reset” log — anticipator leans on sparse announcements + rival pressure.",
+      "resetCount": 2,
+      "policyChangeCount": 2,
+      "lastResetAt": "2026-09-01T16:00:00Z",
+      "lastResetUrl": "https://in.mashable.com/tech/113514/elon-musk-announces-bonus-token-reset-for-grok-ai-users-heres-how-to-access",
+      "lastResetAccount": "elonmusk",
+      "lastResetScope": "Grok / Bot users",
+      "firstResetAt": "2026-08-26T14:00:00Z",
+      "meanGapDays": 6.1,
+      "longestGapDays": 6.1,
+      "daysSinceLast": 9.1,
+      "pacePerMonth": 10,
+      "deliveryCounts": {
+        "immediate": 2
+      },
+      "reasonTagCounts": {
+        "product_launch": 1,
+        "milestone": 1,
+        "goodwill": 2,
+        "usage_anomaly": 1
+      },
+      "datasetAttribution": "Public docs (docs.x.ai/grok/faq) + sparse @bot / @elonmusk announcement coverage"
     }
   },
   "definitions": {
@@ -77,7 +102,8 @@
     "policy": "Announcement that changed limits without flushing counters; listed but not counted as a reset.",
     "immediate": "Reset applied (or propagating) without requiring the user to redeem a banked credit.",
     "banked": "Credit placed in a reset bank for the user to apply later.",
-    "unknown": "Delivery mode unclear from the announcement text."
+    "unknown": "Delivery mode unclear from the announcement text.",
+    "competitive_response": "Reset timing aligned with a rival lab launch, promo, or banked-credit wave — interpreted as retention pressure, not an official reason."
   },
   "urls": {
     "resets": "/data/resets.json",

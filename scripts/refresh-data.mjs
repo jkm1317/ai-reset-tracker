@@ -7,7 +7,7 @@
  * Re-run classification lightly; preserves local schema.
  * Usage: node scripts/refresh-data.mjs
  */
-import { writeFile, mkdir } from 'node:fs/promises';
+import { writeFile, mkdir, readFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -22,6 +22,7 @@ function classifyReasonTags(text, kind = 'reset') {
   if (/celebrat|anniversary|million|\bm active|hit |reached|milestone|20m|15m|10m|9m|8m|7m|25m|3 million/.test(t)) tags.push('milestone');
   if (/weekend|friday|saturday|sunday|holiday|merry/.test(t)) tags.push('weekend_holiday');
   if (/launch|plugin|astra|fable|sol|feature|new plan|\$100/.test(t)) tags.push('product_launch');
+  if (/rival|competitor|retention|churn|keep (you|builders)|don.?t (switch|jump)/.test(t)) tags.push('competitive_response');
   if (/banked|into your bank|credit one|additional reset/.test(t)) tags.push('banked_credit');
   if (/investigat|faster than|drain|consumed|usage was being/.test(t)) tags.push('usage_anomaly');
   if (/capacity|gpu|provision|scale/.test(t)) tags.push('capacity');
@@ -127,6 +128,49 @@ const codexEvents = (codexApi.events ?? []).map((e) => {
   };
 }).sort((a, b) => parseDate(a.date) - parseDate(b.date));
 
+
+// Preserve curated Grok events + apply competitive_response overlays
+let previousGrok = {
+  name: 'Grok',
+  product: 'Grok / xAI',
+  account: 'xai',
+  accountUrl: 'https://x.com/xai',
+  status: 'active',
+  note: 'Paid SuperGrok uses an account-specific shared weekly usage pool (Settings → Usage). Free-tier Chat/Voice limits are separate. Public discretionary resets are sparse vs Claude/Codex.',
+  events: [],
+};
+try {
+  const prevRaw = JSON.parse(await readFile(join(outDir, 'resets.json'), 'utf8'));
+  if (prevRaw?.providers?.grok) previousGrok = { ...previousGrok, ...prevRaw.providers.grok };
+} catch {
+  /* first refresh */
+}
+
+function applyCompetitiveTags(events, provider) {
+  const overlays = {
+    claude: {
+      '2095967323412930677': 'competitive_response',
+    },
+    codex: {
+      '2095651088502591861': 'competitive_response',
+      '2096035437299237298': 'competitive_response',
+      '2075330198887940337': 'competitive_response',
+      '2075641131002700120': 'competitive_response',
+      '2075820987833274448': 'competitive_response',
+    },
+  };
+  const map = overlays[provider] ?? {};
+  return events.map((e) => {
+    const tag = map[e.id];
+    if (!tag) return e;
+    const reason_tags = e.reason_tags.includes(tag) ? e.reason_tags : [...e.reason_tags, tag];
+    return { ...e, reason_tags };
+  });
+}
+
+const claudeEventsTagged = applyCompetitiveTags(claudeEvents, 'claude');
+const codexEventsTagged = applyCompetitiveTags(codexEvents, 'codex');
+
 const generatedAt = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');
 const dataset = {
   meta: {
@@ -135,6 +179,7 @@ const dataset = {
     attribution: [
       'Claude event catalog adapted from https://claude-resets.com/data/resets.json (with attribution).',
       'Codex announcements curated from https://codex-resets.com/ and @thsottiaux posts; timestamps from announcement times / status IDs.',
+      'Grok / xAI signals curated locally from docs.x.ai + sparse public announcements.',
       'Not affiliated with Anthropic, OpenAI, or xAI.',
     ],
     definitions: {
@@ -143,6 +188,7 @@ const dataset = {
       immediate: 'Reset applied (or propagating) without requiring the user to redeem a banked credit.',
       banked: 'Credit placed in a reset bank for the user to apply later.',
       unknown: 'Delivery mode unclear from the announcement text.',
+      competitive_response: 'Reset timing aligned with a rival lab launch/promo — retention-pressure interpretation.',
     },
   },
   providers: {
@@ -151,24 +197,16 @@ const dataset = {
       product: 'Claude Code',
       account: 'ClaudeDevs',
       accountUrl: 'https://x.com/ClaudeDevs',
-      events: claudeEvents,
+      events: claudeEventsTagged,
     },
     codex: {
       name: 'Codex',
       product: 'Codex / ChatGPT',
       account: 'thsottiaux',
       accountUrl: 'https://x.com/thsottiaux',
-      events: codexEvents,
+      events: codexEventsTagged,
     },
-    grok: {
-      name: 'Grok',
-      product: 'Grok / xAI',
-      account: null,
-      accountUrl: null,
-      status: 'todo',
-      note: 'Grok / xAI usage-limit reset tracking is deferred. Stub provider only.',
-      events: [],
-    },
+    grok: previousGrok,
   },
 };
 
@@ -183,7 +221,7 @@ const summary = {
       product: 'Claude Code',
       account: 'ClaudeDevs',
       accountUrl: 'https://x.com/ClaudeDevs',
-      ...computeStats(claudeEvents),
+      ...computeStats(claudeEventsTagged),
       datasetAttribution: 'Adapted from https://claude-resets.com/data/resets.json',
     },
     codex: {
@@ -191,14 +229,18 @@ const summary = {
       product: 'Codex / ChatGPT',
       account: 'thsottiaux',
       accountUrl: 'https://x.com/thsottiaux',
-      ...computeStats(codexEvents),
+      ...computeStats(codexEventsTagged),
       datasetAttribution: 'Curated from https://codex-resets.com/ announcements',
     },
     grok: {
       name: 'Grok',
-      status: 'todo',
-      note: 'Deferred — stub only.',
-      resetCount: 0,
+      product: 'Grok / xAI',
+      account: previousGrok.account,
+      accountUrl: previousGrok.accountUrl,
+      status: previousGrok.status ?? 'active',
+      note: previousGrok.note,
+      ...computeStats(previousGrok.events ?? []),
+      datasetAttribution: 'docs.x.ai FAQ + sparse public announcements',
     },
   },
   definitions: dataset.meta.definitions,
@@ -213,4 +255,4 @@ const summary = {
 await mkdir(outDir, { recursive: true });
 await writeFile(join(outDir, 'resets.json'), JSON.stringify(dataset, null, 2) + '\n');
 await writeFile(join(outDir, 'summary.json'), JSON.stringify(summary, null, 2) + '\n');
-console.log(`Wrote ${claudeEvents.length} Claude + ${codexEvents.length} Codex events to public/data/`);
+console.log(`Wrote ${claudeEventsTagged.length} Claude + ${codexEventsTagged.length} Codex + ${(previousGrok.events??[]).length} Grok events to public/data/`);
