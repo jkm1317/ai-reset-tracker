@@ -73,9 +73,9 @@
       "account": "xai",
       "accountUrl": "https://x.com/xai",
       "status": "active",
-      "note": "Paid SuperGrok uses an account-specific shared weekly usage pool (Settings → Usage). Free-tier Chat/Voice limits are separate. Unlike Claude/Codex, there is no dense public “miracle reset” log — anticipator leans on sparse announcements + rival pressure.",
+      "note": "Paid SuperGrok uses an account-specific shared weekly usage pool (Settings → Usage), including redeemable banked credits (“Reset Available”) that do not replace the weekly clock. Free-tier Chat/Voice limits are separate. Public discretionary resets are sparse vs Claude/Codex — anticipator leans on sparse announcements + rival pressure.",
       "resetCount": 2,
-      "policyChangeCount": 2,
+      "policyChangeCount": 3,
       "lastResetAt": "2026-09-01T16:00:00Z",
       "lastResetUrl": "https://in.mashable.com/tech/113514/elon-musk-announces-bonus-token-reset-for-grok-ai-users-heres-how-to-access",
       "lastResetAccount": "elonmusk",
@@ -86,12 +86,15 @@
       "daysSinceLast": 9.1,
       "pacePerMonth": 10,
       "deliveryCounts": {
-        "immediate": 2
+        "banked": 2
       },
       "reasonTagCounts": {
+        "capacity": 1,
+        "policy_change": 3,
         "product_launch": 1,
         "milestone": 1,
         "goodwill": 2,
+        "banked_credit": 3,
         "usage_anomaly": 1
       },
       "datasetAttribution": "Public docs (docs.x.ai/grok/faq) + sparse @bot / @elonmusk announcement coverage"

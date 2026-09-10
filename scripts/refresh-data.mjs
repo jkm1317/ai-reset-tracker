@@ -146,6 +146,44 @@ try {
   /* first refresh */
 }
 
+/** Force curated Grok delivery/tags (banked credits via Settings → Usage). */
+function applyGrokOverlays(grok) {
+  const deliveryById = {
+    '2092664183334846840': 'banked',
+    'grok-elon-reset-2026-09-01': 'banked',
+  };
+  const events = (grok.events ?? []).map((e) => {
+    const delivery = deliveryById[e.id];
+    if (!delivery) return e;
+    const reason_tags = e.reason_tags?.includes('banked_credit')
+      ? e.reason_tags
+      : [...(e.reason_tags ?? []), 'banked_credit'];
+    return { ...e, delivery, reason_tags };
+  });
+  const policyId = 'grok-policy-banked-resets-2026-09';
+  if (!events.some((e) => e.id === policyId)) {
+    events.push({
+      id: policyId,
+      provider: 'grok',
+      kind: 'policy',
+      delivery: 'unknown',
+      reason_tags: ['policy_change', 'banked_credit'],
+      scope: 'paid SuperGrok / Heavy',
+      date: '2026-09-01T16:30:00Z',
+      url: 'https://docs.x.ai/grok/faq',
+      account: 'xAI',
+      note:
+        'Grok supports banked / redeemable resets (Settings → Usage “Reset Available”) similar to Codex — unlike Claude, which is immediate-only in this catalog.',
+    });
+  }
+  events.sort((a, b) => parseDate(a.date) - parseDate(b.date));
+  const note =
+    'Paid SuperGrok uses an account-specific shared weekly usage pool (Settings → Usage), including redeemable banked credits (“Reset Available”) that do not replace the weekly clock. Free-tier Chat/Voice limits are separate. Public discretionary resets are sparse vs Claude/Codex — anticipator leans on sparse announcements + rival pressure.';
+  return { ...grok, note, events };
+}
+
+previousGrok = applyGrokOverlays(previousGrok);
+
 function applyCompetitiveTags(events, provider) {
   const overlays = {
     claude: {

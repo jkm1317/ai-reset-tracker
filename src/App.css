@@ -249,13 +249,13 @@
   background: #9fd0ff;
 }
 .hm-banked {
-  background: var(--warn);
+  background: var(--delivery-banked);
 }
 .provider-claude .hm-1 {
-  background: var(--claude);
+  background: var(--delivery-immediate);
 }
 .provider-claude .hm-2 {
-  background: #efc7a8;
+  background: var(--delivery-immediate-bright);
 }
 
 .heatmap-dow {
@@ -384,8 +384,15 @@
   color: var(--warn);
   border-color: rgba(240, 193, 74, 0.35);
 }
+.badge.delivery-immediate {
+  color: var(--delivery-immediate);
+  border-color: rgba(34, 211, 238, 0.4);
+  background: var(--delivery-immediate-dim);
+}
 .badge.delivery-banked {
-  color: var(--warn);
+  color: var(--delivery-banked);
+  border-color: rgba(163, 230, 53, 0.4);
+  background: var(--delivery-banked-dim);
 }
 .badge.todo {
   color: var(--hot);

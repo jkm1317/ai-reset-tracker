@@ -15,6 +15,12 @@
   --good: #5ddea8;
   --warn: #f0c14a;
   --hot: #ff8b7a;
+  /* Delivery modes: cool cyan vs lime — high contrast on dark (not amber/yellow) */
+  --delivery-immediate: #22d3ee;
+  --delivery-immediate-bright: #67e8f9;
+  --delivery-banked: #a3e635;
+  --delivery-immediate-dim: rgba(34, 211, 238, 0.18);
+  --delivery-banked-dim: rgba(163, 230, 53, 0.18);
   --radius: 14px;
   --shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
   font-family:

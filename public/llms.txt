@@ -68,11 +68,11 @@ Labels: low <18, moderate <35, elevated <55, high ≥55. Descriptive only — no
 ### Grok
 - product: Grok / xAI
 - resets: 2
-- policyChangeCount: 2
+- policyChangeCount: 3
 - meanGapDays: 6.1
 - daysSinceLast: 9.1
 - lastResetAt: 2026-09-01T16:00:00Z
-- note: Account-specific weekly pool per docs.x.ai; sparse public discretionary resets; anticipator uses rival pressure when history is thin.
+- note: Account-specific weekly pool + redeemable banked credits (Settings → Usage “Reset Available”); sparse public discretionary resets; anticipator uses rival pressure when history is thin.
 - attribution: docs.x.ai FAQ + @bot / press-covered @elonmusk signals
 
 ## Attribution & disclaimer

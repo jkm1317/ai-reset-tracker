@@ -43,13 +43,22 @@
       <category>reset</category>
     </item>
     <item>
-      <title>Grok reset (immediate) — Grok / Bot users</title>
+      <title>Grok reset (banked) — Grok / Bot users</title>
       <link>https://in.mashable.com/tech/113514/elon-musk-announces-bonus-token-reset-for-grok-ai-users-heres-how-to-access</link>
       <guid isPermaLink="true">https://in.mashable.com/tech/113514/elon-musk-announces-bonus-token-reset-for-grok-ai-users-heres-how-to-access</guid>
       <pubDate>Tue, 01 Sep 2026 16:00:00 GMT</pubDate>
-      <description>Elon Musk announced another free reset on token usage for @Grok / @Bot users (Sep 1, 2026 coverage); redeemable in Settings → Usage without waiting for the weekly clock. Follows an earlier Grok 4.6-era reset ~3 weeks prior.</description>
+      <description>Elon Musk announced another free reset on token usage for @Grok / @Bot users (Sep 1, 2026 coverage). Redeemable in Settings → Usage (“Reset Available”) without replacing the weekly clock — banked credit, not an immediate flush. Follows an earlier Grok 4.6-era reset ~3 weeks prior.</description>
       <category>grok</category>
       <category>reset</category>
+    </item>
+    <item>
+      <title>Grok policy (unknown) — paid SuperGrok / Heavy</title>
+      <link>https://docs.x.ai/grok/faq</link>
+      <guid isPermaLink="false">grok-policy-banked-resets-2026-09</guid>
+      <pubDate>Tue, 01 Sep 2026 16:30:00 GMT</pubDate>
+      <description>Grok supports banked / redeemable resets (Settings → Usage “Reset Available”, ConsumerResetToken-style credits) similar to Codex — users can apply a credit without waiting for the weekly pool clock. Claude Code public resets in this catalog are immediate-only (no banked delivery mode). Community reports include time-limited SuperGrok Heavy banked credits.</description>
+      <category>grok</category>
+      <category>policy</category>
     </item>
     <item>
       <title>Codex reset (immediate) — all paid</title>
@@ -97,11 +106,11 @@
       <category>reset</category>
     </item>
     <item>
-      <title>Grok reset (immediate) — all users (announced)</title>
+      <title>Grok reset (banked) — all users (announced)</title>
       <link>https://x.com/bot/status/2092664183334846840</link>
       <guid isPermaLink="true">https://x.com/bot/status/2092664183334846840</guid>
       <pubDate>Wed, 26 Aug 2026 14:00:00 GMT</pubDate>
-      <description>@bot: All SuperGrok and Cursor Pro subscribers now have Grok Bot access. Also resetting weekly usage limits for all users.</description>
+      <description>@bot: All SuperGrok and Cursor Pro subscribers now have Grok Bot access. Also resetting weekly usage limits for all users — treated as a redeemable / banked credit (Settings → Usage “Reset Available”) rather than a hard clock flush.</description>
       <category>grok</category>
       <category>reset</category>
     </item>

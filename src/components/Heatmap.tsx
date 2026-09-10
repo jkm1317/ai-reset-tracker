@@ -26,7 +26,7 @@ export function Heatmap({ events, weeks = 26 }: Props) {
         <span>Last {weeks} weeks</span>
         <span className="legend-items">
           <i className="hm-0" /> none
-          <i className="hm-1" /> reset
+          <i className="hm-1" /> immediate
           <i className="hm-banked" /> banked
         </span>
       </div>

@@ -1028,7 +1028,7 @@
       "account": "xai",
       "accountUrl": "https://x.com/xai",
       "status": "active",
-      "note": "Paid SuperGrok uses an account-specific shared weekly usage pool (Settings → Usage). Free-tier Chat/Voice limits are separate. Unlike Claude/Codex, there is no dense public “miracle reset” log — anticipator leans on sparse announcements + rival pressure.",
+      "note": "Paid SuperGrok uses an account-specific shared weekly usage pool (Settings → Usage), including redeemable banked credits (“Reset Available”) that do not replace the weekly clock. Free-tier Chat/Voice limits are separate. Public discretionary resets are sparse vs Claude/Codex — anticipator leans on sparse announcements + rival pressure.",
       "events": [
         {
           "id": "grok-policy-limits-increase-2026-05",
@@ -1063,24 +1063,26 @@
           "id": "2092664183334846840",
           "provider": "grok",
           "kind": "reset",
-          "delivery": "immediate",
+          "delivery": "banked",
           "reason_tags": [
             "product_launch",
             "milestone",
-            "goodwill"
+            "goodwill",
+            "banked_credit"
           ],
           "scope": "all users (announced)",
           "date": "2026-08-26T14:00:00Z",
           "url": "https://x.com/bot/status/2092664183334846840",
           "account": "bot",
-          "note": "@bot: All SuperGrok and Cursor Pro subscribers now have Grok Bot access. Also resetting weekly usage limits for all users."
+          "note": "@bot: All SuperGrok and Cursor Pro subscribers now have Grok Bot access. Also resetting weekly usage limits for all users — treated as a redeemable / banked credit (Settings → Usage “Reset Available”) rather than a hard clock flush."
         },
         {
           "id": "grok-elon-reset-2026-09-01",
           "provider": "grok",
           "kind": "reset",
-          "delivery": "immediate",
+          "delivery": "banked",
           "reason_tags": [
+            "banked_credit",
             "goodwill",
             "usage_anomaly"
           ],
@@ -1088,7 +1090,22 @@
           "date": "2026-09-01T16:00:00Z",
           "url": "https://in.mashable.com/tech/113514/elon-musk-announces-bonus-token-reset-for-grok-ai-users-heres-how-to-access",
           "account": "elonmusk",
-          "note": "Elon Musk announced another free reset on token usage for @Grok / @Bot users (Sep 1, 2026 coverage); redeemable in Settings → Usage without waiting for the weekly clock. Follows an earlier Grok 4.6-era reset ~3 weeks prior."
+          "note": "Elon Musk announced another free reset on token usage for @Grok / @Bot users (Sep 1, 2026 coverage). Redeemable in Settings → Usage (“Reset Available”) without replacing the weekly clock — banked credit, not an immediate flush. Follows an earlier Grok 4.6-era reset ~3 weeks prior."
+        },
+        {
+          "id": "grok-policy-banked-resets-2026-09",
+          "provider": "grok",
+          "kind": "policy",
+          "delivery": "unknown",
+          "reason_tags": [
+            "policy_change",
+            "banked_credit"
+          ],
+          "scope": "paid SuperGrok / Heavy",
+          "date": "2026-09-01T16:30:00Z",
+          "url": "https://docs.x.ai/grok/faq",
+          "account": "xAI",
+          "note": "Grok supports banked / redeemable resets (Settings → Usage “Reset Available”, ConsumerResetToken-style credits) similar to Codex — users can apply a credit without waiting for the weekly pool clock. Claude Code public resets in this catalog are immediate-only (no banked delivery mode). Community reports include time-limited SuperGrok Heavy banked credits."
         }
       ]
     }
