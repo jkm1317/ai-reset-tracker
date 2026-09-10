@@ -33,7 +33,7 @@ export function AnticipationPanel({
       aria-label={`${productName} reset likelihood`}
     >
       <div className="likelihood-kicker">
-        <span>Reset chance (~7d)</span>
+        <span>Reset chance (~72h)</span>
         <span className="likelihood-product">{productName}</span>
       </div>
 

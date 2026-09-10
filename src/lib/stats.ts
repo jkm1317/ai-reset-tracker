@@ -100,10 +100,16 @@ const RIVAL_PRESSURE_TAGS = new Set([
   'competitive_response',
 ]);
 
-const RIVAL_WINDOW_DAYS = 7;
+/** Rival lookback for score boost (shorter than the old 7d context window). */
+const RIVAL_SCORE_WINDOW_DAYS = 3; // 72h
+const RIVAL_CONTEXT_WINDOW_DAYS = 7;
 
-function rivalPressureEvents(rivalEvents: ResetEvent[], now: Date): ResetEvent[] {
-  const cut = now.getTime() - RIVAL_WINDOW_DAYS * 86_400_000;
+function rivalPressureEvents(
+  rivalEvents: ResetEvent[],
+  now: Date,
+  windowDays = RIVAL_CONTEXT_WINDOW_DAYS,
+): ResetEvent[] {
+  const cut = now.getTime() - windowDays * 86_400_000;
   return rivalEvents
     .filter((e) => {
       const t = parseUtc(e.date).getTime();
@@ -126,41 +132,44 @@ function describeRivalEvent(e: ResetEvent): string {
   return `${who} ${tagBit}`;
 }
 
+/** Primary anticipation horizon: 72 hours (3 days). */
+export const ANTICIPATION_HORIZON_DAYS = 3;
+
+function clamp01(x: number, lo = 0.04, hi = 0.92): number {
+  return Math.min(hi, Math.max(lo, x));
+}
+
 /**
  * Empirical P(gap ends in (drought, drought+horizon] | survived past drought)
- * from this provider's completed gaps only. Strong shrinkage when few survivors.
- * Long droughts that have outlived most historical gaps get LOW short-horizon p
- * (inverse of "overdue = urgent").
+ * from this provider's completed gaps only. Prior = unconditional short-horizon
+ * rate (freshRate) — NOT an early-cycle massAhead inflation (that inverted
+ * Claude at 72h). Lighter shrinkage so frequent labs can reach elevated/high.
  */
 export function gapConditionalHazard(
   gaps: number[],
   drought: number,
-  horizon = 7,
+  horizon = ANTICIPATION_HORIZON_DAYS,
 ): { p: number; survivors: number; hits: number; prior: number; pastFrac: number } {
   if (!gaps.length) {
-    return { p: 0.25, survivors: 0, hits: 0, prior: 0.25, pastFrac: 0 };
+    return { p: 0.2, survivors: 0, hits: 0, prior: 0.2, pastFrac: 0 };
   }
 
   const freshRate = gaps.filter((g) => g <= horizon).length / gaps.length;
   const pastFrac = gaps.filter((g) => g <= drought).length / gaps.length;
-  const massAhead = 1 - pastFrac;
-  // Early-cycle density prior: higher when many gaps still have mass ahead.
-  // Thin catalogs (1–2 gaps) stay humble — a single short gap must not imply ~90%.
   const thin = gaps.length < 3;
-  const priorRaw =
-    freshRate * (0.35 + 0.65 * massAhead) + 0.05 * massAhead;
-  const prior = Math.min(
-    thin ? 0.45 : 0.88,
-    Math.max(0.08, thin ? 0.2 * priorRaw + 0.8 * 0.28 : priorRaw),
+  // Prior tracks the provider's own short-horizon base rate.
+  const prior = clamp01(
+    thin ? 0.55 * freshRate + 0.45 * 0.22 : freshRate,
+    thin ? 0.08 : 0.05,
+    thin ? 0.4 : 0.75,
   );
 
   const survivors = gaps.filter((g) => g > drought);
   const hits = gaps.filter((g) => g > drought && g <= drought + horizon);
 
   if (survivors.length === 0) {
-    // Unprecedented vs history — short-horizon chance is low, not "overdue high".
     return {
-      p: Math.min(thin ? 0.22 : 0.16, prior * 0.5),
+      p: Math.min(thin ? 0.18 : 0.12, prior * 0.45),
       survivors: 0,
       hits: 0,
       prior,
@@ -169,28 +178,115 @@ export function gapConditionalHazard(
   }
 
   const k = Math.max(
-    thin ? 8 : 4,
-    Math.round((thin ? 16 : 10) / Math.sqrt(gaps.length)),
+    thin ? 6 : 2,
+    Math.round((thin ? 12 : 5) / Math.sqrt(gaps.length)),
   );
   const haz = (hits.length + k * prior) / (survivors.length + k);
-  const w = survivors.length / (survivors.length + (thin ? 6 : 3));
-  const p = Math.min(thin ? 0.55 : 0.9, Math.max(0.06, w * haz + (1 - w) * prior));
+  const w = survivors.length / (survivors.length + (thin ? 5 : 1.25));
+  let p = w * haz + (1 - w) * prior;
+  // When survivors are plentiful and empirical haz beats the prior, trust haz harder
+  // so frequent labs (Codex) can surface elevated/high instead of underconfident mid-30s.
+  if (!thin && survivors.length >= 5 && haz > prior) {
+    p = p + 0.65 * (haz - p);
+  }
+  // Absolute honesty cap from the provider's own unconditional short-horizon rate:
+  // sparse labs (Claude ~10% gaps ≤3d) must not paint "elevated" from a noisy mid-cycle bin.
+  const absCap = thin
+    ? 0.5
+    : Math.min(0.92, Math.max(0.32, prior + 0.28 + 0.35 * Math.max(0, haz - prior)));
+  p = clamp01(Math.min(p, absCap), thin ? 0.06 : 0.04, thin ? 0.55 : 0.92);
   return { p, survivors: survivors.length, hits: hits.length, prior, pastFrac };
 }
 
+/**
+ * Coarse drought-bin empirical 72h rates from completed gaps only (blind at T).
+ * Softens local sampling noise vs pure point-drought hazard.
+ */
+export function droughtBinHazard(
+  gaps: number[],
+  drought: number,
+  horizon = ANTICIPATION_HORIZON_DAYS,
+): { p: number; binLo: number; binHi: number; survivors: number; hits: number } {
+  const edges = [0, 1, 3, 7, 14, 30, Infinity];
+  let binLo = 0;
+  let binHi = Infinity;
+  for (let i = 0; i < edges.length - 1; i++) {
+    if (drought >= edges[i] && drought < edges[i + 1]) {
+      binLo = edges[i];
+      binHi = edges[i + 1];
+      break;
+    }
+  }
+  // Landmark at bin start (survived past binLo): hit if gap ends within horizon of binLo,
+  // but only count gaps that actually entered the bin (gap > binLo). For drought inside
+  // the bin we evaluate at current drought via survivors past drought — here we use
+  // survivors past max(drought, binLo) approximated by survivors past drought, pooled
+  // with other gaps that spent time in this bin by evaluating at binLo for gaps > binLo
+  // when drought is near binLo; otherwise condition on drought.
+  const anchor = Math.max(binLo, Math.min(drought, binHi === Infinity ? drought : binHi - 1e-6));
+  const survivors = gaps.filter((g) => g > anchor);
+  const hits = gaps.filter((g) => g > anchor && g <= anchor + horizon);
+  const freshRate = gaps.length
+    ? gaps.filter((g) => g <= horizon).length / gaps.length
+    : 0.2;
+  const prior = clamp01(freshRate, 0.05, 0.75);
+  if (!survivors.length) {
+    return { p: Math.min(0.12, prior * 0.4), binLo, binHi, survivors: 0, hits: 0 };
+  }
+  const k = Math.max(2, Math.round(6 / Math.sqrt(Math.max(gaps.length, 1))));
+  const haz = (hits.length + k * prior) / (survivors.length + k);
+  const w = survivors.length / (survivors.length + 2);
+  return {
+    p: clamp01(w * haz + (1 - w) * prior),
+    binLo,
+    binHi,
+    survivors: survivors.length,
+    hits: hits.length,
+  };
+}
+
+/**
+ * Blind past gap-start lift for a binary feature: among completed gaps available
+ * at T, compare 72h-end rates when feature was on vs off at gap start.
+ */
+function pastGapStartLift(
+  ownResets: ResetEvent[],
+  featureAt: (gapStartMs: number) => boolean,
+  horizon = ANTICIPATION_HORIZON_DAYS,
+): { lift: number; nOn: number; nOff: number; rateOn: number; rateOff: number } {
+  const on: number[] = [];
+  const off: number[] = [];
+  for (let i = 1; i < ownResets.length; i++) {
+    const start = parseUtc(ownResets[i - 1].date).getTime();
+    const end = parseUtc(ownResets[i].date).getTime();
+    const gapDays = (end - start) / 86_400_000;
+    const y = gapDays <= horizon ? 1 : 0;
+    if (featureAt(start)) on.push(y);
+    else off.push(y);
+  }
+  const rateOn = on.length ? on.reduce((a, b) => a + b, 0) / on.length : 0;
+  const rateOff = off.length ? off.reduce((a, b) => a + b, 0) / off.length : 0;
+  // Shrink lift toward 0 when either cell is thin.
+  const nEff = Math.min(on.length, off.length);
+  const shrink = nEff / (nEff + 4);
+  const lift = shrink * (rateOn - rateOff);
+  return { lift, nOn: on.length, nOff: off.length, rateOn, rateOff };
+}
+
 function oddsFromScore(score: number): AnticipationResult['oddsLabel'] {
-  // Score ≈ 100 × estimated P(reset in ~7d). Labels track chance-soon ranking bands, not overdue / calibrated Brier skill.
-  if (score >= 65) return 'high';
-  if (score >= 50) return 'elevated';
-  if (score >= 35) return 'moderate';
+  // Score ≈ 100 × estimated P(reset in ~72h / 3d). Bands sit slightly lower than the old 7d
+  // thresholds because unconditional 72h rates are lower; still chance-soon ranking, not overdue.
+  if (score >= 60) return 'high';
+  if (score >= 45) return 'elevated';
+  if (score >= 30) return 'moderate';
   return 'low';
 }
 
 /**
- * Honest anticipation: score ≈ 100 × P(public reset in next ~7 days | this
+ * Honest anticipation: score ≈ 100 × P(public reset in next ~72 hours / 3 days | this
  * provider's gap history at T). NOT a schedule guarantee.
- * Rival pressure is surfaced when present but does not boost the score on this log
- * (empirically unhelpful / slightly inverse for short-horizon hits).
+ * Additive blind features: drought-bin blend, rival pressure in last ~72h (lift fit on
+ * past gap-starts only), weekend proximity (same), recent rival banked credits (~48h).
  */
 export function anticipate(
   provider: ProviderId,
@@ -204,16 +300,86 @@ export function anticipate(
   const drought = stats.daysSinceLast ?? 0;
   const meanGap = stats.meanGapDays;
   const gaps = stats.gaps;
+  const ownResets = stats.resets;
 
-  const haz = gapConditionalHazard(gaps, drought, 7);
-  const p7 = haz.p;
-  let score = Math.round(100 * p7);
+  const haz = gapConditionalHazard(gaps, drought, ANTICIPATION_HORIZON_DAYS);
+  const bin = droughtBinHazard(gaps, drought, ANTICIPATION_HORIZON_DAYS);
+  // Blend point-drought hazard with bin-smoothed rate (both blind).
+  const blendW = gaps.length >= 6 ? 0.55 : 0.7;
+  let pSoon = clamp01(blendW * haz.p + (1 - blendW) * bin.p);
+  // Re-assert unconditional-rate honesty after bin blend (bin can spike on thin cells).
+  const freshRate = gaps.length
+    ? gaps.filter((g) => g <= ANTICIPATION_HORIZON_DAYS).length / gaps.length
+    : 0.2;
+  if (gaps.length >= 3 && freshRate < 0.25) {
+    pSoon = Math.min(pSoon, Math.max(0.28, freshRate + 0.18));
+  }
 
-  // Primary driver: gap-conditional 7d hazard (early-cycle density, not overdue).
-  const pct = Math.round(100 * p7);
+  // --- Rival short-window lift (fit on past gap-starts only; applied if rivals in last 72h) ---
+  const rivalsScore = rivalPressureEvents(rivalEvents, now, RIVAL_SCORE_WINDOW_DAYS);
+  const rivalsBanked48 = rivalEvents.filter((e) => {
+    const age = daysBetween(parseUtc(e.date), now);
+    return (
+      age >= 0 &&
+      age <= 2 &&
+      e.kind === 'reset' &&
+      e.delivery === 'banked' &&
+      parseUtc(e.date).getTime() <= now.getTime()
+    );
+  });
+  const rivalLift = pastGapStartLift(ownResets, (gapStartMs) => {
+    const cut = gapStartMs - RIVAL_SCORE_WINDOW_DAYS * 86_400_000;
+    return rivalEvents.some((e) => {
+      const t = parseUtc(e.date).getTime();
+      if (t > gapStartMs || t < cut) return false;
+      if (e.kind === 'reset' && e.delivery === 'banked') return true;
+      return e.reason_tags.some((tag) => RIVAL_PRESSURE_TAGS.has(tag));
+    });
+  });
+  const bankedLift = pastGapStartLift(ownResets, (gapStartMs) => {
+    const cut = gapStartMs - 2 * 86_400_000;
+    return rivalEvents.some((e) => {
+      const t = parseUtc(e.date).getTime();
+      return (
+        t <= gapStartMs &&
+        t >= cut &&
+        e.kind === 'reset' &&
+        e.delivery === 'banked'
+      );
+    });
+  });
+
+  let rivalDelta = 0;
+  if (rivalsScore.length && rivalLift.nOn >= 2 && rivalLift.lift > 0) {
+    rivalDelta += Math.min(0.18, rivalLift.lift);
+  }
+  if (rivalsBanked48.length && bankedLift.nOn >= 1 && bankedLift.lift > 0) {
+    rivalDelta += Math.min(0.12, bankedLift.lift);
+  }
+  pSoon = clamp01(pSoon + rivalDelta);
+
+  // --- Weekend proximity lift (past gap-starts only) ---
+  const weekendNow = isWeekendProximity(now);
+  const weekendLift = pastGapStartLift(ownResets, (gapStartMs) =>
+    isWeekendProximity(new Date(gapStartMs)),
+  );
+  let weekendDelta = 0;
+  if (weekendNow && weekendLift.nOn >= 3 && weekendLift.lift > 0.02) {
+    weekendDelta = Math.min(0.1, weekendLift.lift);
+    pSoon = clamp01(pSoon + weekendDelta);
+  } else if (!weekendNow && weekendLift.nOff >= 3 && weekendLift.lift < -0.02) {
+    // Feature "weekend" has negative lift ⇒ weekday slightly higher; small bump mid-week.
+    weekendDelta = Math.min(0.06, -weekendLift.lift * 0.5);
+    pSoon = clamp01(pSoon + weekendDelta);
+  }
+
+  let score = Math.round(100 * pSoon);
+  const pct = Math.round(100 * pSoon);
+
+  // Primary driver: gap-conditional 72h hazard (empirical, not overdue).
   if (gaps.length === 0) {
     features.push({
-      label: '7d gap hazard',
+      label: '72h gap hazard',
       detail: thinHistory
         ? 'Sparse public reset history — no completed gaps to estimate a short-horizon chance.'
         : 'Not enough reset history to estimate gap hazard.',
@@ -221,9 +387,9 @@ export function anticipate(
     });
   } else if (haz.survivors === 0) {
     features.push({
-      label: '7d gap hazard',
-      detail: `Drought ${drought.toFixed(1)}d has outlived every prior gap (${gaps.length} completed). Estimated ~${pct}% chance of a reset in the next 7 days — long tails stay long.`,
-      weight: score,
+      label: '72h gap hazard',
+      detail: `Drought ${drought.toFixed(1)}d has outlived every prior gap (${gaps.length} completed). Estimated ~${pct}% chance of a reset in the next ~72 hours (3 days) — long tails stay long.`,
+      weight: Math.round(100 * haz.p),
     });
   } else {
     const early =
@@ -233,22 +399,29 @@ export function anticipate(
           ? 'mid-cycle'
           : 'late-cycle';
     features.push({
-      label: '7d gap hazard',
-      detail: `From ${gaps.length} prior gaps at ${drought.toFixed(1)}d drought (${early}): ${haz.hits}/${haz.survivors} historical survivors ended within +7d → ~${pct}% (shrunk). Higher score means elevated chance of a reset soon, not “overdue.”`,
-      weight: score,
+      label: '72h gap hazard',
+      detail: `From ${gaps.length} prior gaps at ${drought.toFixed(1)}d drought (${early}): ${haz.hits}/${haz.survivors} historical survivors ended within +3d (~72h) → hazard ~${Math.round(100 * haz.p)}% (shrunk). Bin-smoothed ~${Math.round(100 * bin.p)}%. Higher score means elevated chance of a reset soon, not “overdue.”`,
+      weight: Math.round(100 * (blendW * haz.p + (1 - blendW) * bin.p)),
     });
   }
 
-  // Rival pressure: informational only (does not move score on this catalog).
-  const rivals = rivalPressureEvents(rivalEvents, now);
-  if (rivals.length) {
-    const top = rivals[0];
+  // Rival pressure: may move score when past gap-starts show positive short-window lift.
+  const rivalsCtx = rivalPressureEvents(rivalEvents, now, RIVAL_CONTEXT_WINDOW_DAYS);
+  if (rivalsScore.length) {
+    const top = rivalsScore[0];
     const age = daysBetween(parseUtc(top.date), now);
     const daysLabel =
       age < 1 ? 'today' : age < 1.5 ? '1 day ago' : `${age.toFixed(0)} days ago`;
+    const wRival = Math.round(100 * rivalDelta);
     features.push({
       label: 'Rival pressure',
-      detail: `Rival shipped ${describeRivalEvent(top)} ${daysLabel} — tracked for context; not used to raise the score (no reliable short-horizon lift on this log).`,
+      detail: `Rival shipped ${describeRivalEvent(top)} ${daysLabel} (within ~72h). Past gap-start lift ${rivalLift.lift >= 0 ? '+' : ''}${(100 * rivalLift.lift).toFixed(0)}pp (n_on=${rivalLift.nOn}) — ${wRival > 0 ? `applied +${wRival}` : 'too thin / non-positive to boost'}.`,
+      weight: wRival,
+    });
+  } else if (rivalsCtx.length) {
+    features.push({
+      label: 'Rival pressure',
+      detail: `Rival activity in the last 7 days but outside the 72h score window — context only.`,
       weight: 0,
     });
   } else {
@@ -259,18 +432,31 @@ export function anticipate(
     });
   }
 
-  if (isWeekendProximity(now)) {
+  if (rivalsBanked48.length && bankedLift.lift > 0) {
+    features.push({
+      label: 'Rival banked credits',
+      detail: `Rival banked reset within ~48h; past gap-start lift +${(100 * bankedLift.lift).toFixed(0)}pp (n_on=${bankedLift.nOn}).`,
+      weight: Math.round(100 * Math.min(0.12, Math.max(0, bankedLift.lift))),
+    });
+  }
+
+  if (weekendNow) {
     features.push({
       label: 'Weekend proximity',
       detail:
-        'UTC calendar is near a weekend — noted only; calendar effects are weak vs gap hazard on this log.',
-      weight: 0,
+        weekendDelta > 0
+          ? `Near weekend (UTC); past gap-start weekend lift +${(100 * weekendLift.lift).toFixed(0)}pp applied.`
+          : 'UTC calendar is near a weekend — noted; insufficient past lift to move the score.',
+      weight: Math.round(100 * weekendDelta),
     });
   } else {
     features.push({
       label: 'Weekend proximity',
-      detail: 'Mid-week (UTC).',
-      weight: 0,
+      detail:
+        weekendDelta > 0
+          ? `Mid-week (UTC); small bump from inverse weekend lift on this log.`
+          : 'Mid-week (UTC).',
+      weight: Math.round(100 * weekendDelta),
     });
   }
 
@@ -329,7 +515,7 @@ export function anticipate(
     meanGap,
     features,
     disclaimer:
-      'Score ≈ estimated chance of a public reset in the next ~7 days from this provider’s own gap history — not a schedule or guarantee.',
+      'Score ≈ estimated chance of a public reset in the next ~72 hours (3 days) from this provider’s own gap history — not a schedule or guarantee.',
   };
 }
 

@@ -14,22 +14,22 @@ Inspired by (UX/data study only — no proprietary code copied):
 - **Front-and-center likelihood boxes** (odds label + score + one-line why) on Overview for all three providers
 - Unified dashboard: days since last reset, counts, mean gap, longest drought, heatmap, shared timeline
 - Announcement archive with X/docs links, delivery mode (`immediate` | `banked` | `unknown`), and `reason_tags`
-- Anticipator: **gap-conditional 7d hazard** (chance-soon ranking signal; skill≈0 vs constant base rate on this log), with rival pressure shown as context — **not a schedule guarantee**
+- Anticipator: **gap-conditional 72h (3d) hazard** (chance-soon ranking signal; skill≈0 vs constant base rate on this log), with rival pressure shown as context — **not a schedule guarantee**
 - Claude vs Codex comparison (overlap / 90d / all-time)
 - Machine-readable: `public/data/summary.json`, `public/data/resets.json`, `public/llms.txt`, `public/rss.xml`
 - Optional personal `/usage` countdowns in `localStorage` (never uploaded)
 
 ## Anticipator score (brief)
 
-Score ≈ **100 × estimated P(public reset in the next ~7 days)** from this provider’s **own completed gap history** (blind to the future):
+Score ≈ **100 × estimated P(public reset in the next ~72 hours / 3 days)** from this provider’s **own completed gap history** (blind to the future):
 
 | Feature | Role |
 | --- | --- |
-| **7d gap hazard** | Empirical P(gap ends in (drought, drought+7] \| survived past drought), shrunk toward an early-cycle prior. Long droughts that outlived most historical gaps score **low** (not “overdue”). |
-| Rival pressure | Shown for context when a rival launch/milestone/banked reset landed in the last ~7 days — **does not boost** the score on this catalog (no reliable short-horizon lift). |
-| Weekend / reason tags | Informational only |
+| **72h gap hazard** | Empirical P(gap ends in (drought, drought+3] \| survived past drought), shrunk toward an early-cycle prior. Long droughts that outlived most historical gaps score **low** (not “overdue”). |
+| Rival pressure (~72h) | Short-window rival launch/milestone/banked events may **boost** the score only when past gap-starts for this provider show a positive shrunk lift; 7d rivals remain context. |
+| Weekend / drought bins | Weekend proximity and coarse drought-bin smoothing — lifts fit only on past gap-starts / completed gaps at T (blind). Reason tags stay descriptive. |
 
-Labels track estimated chance-soon (ranking bands — not a claim of calibrated Brier skill): **low** &lt;35 · **moderate** &lt;50 · **elevated** &lt;65 · **high** ≥65.
+Labels track estimated chance-soon (ranking bands — not a claim of calibrated Brier skill): **low** &lt;30 · **moderate** &lt;45 · **elevated** &lt;60 · **high** ≥60 (72h bands; slightly lower than the old 7d cutovers).
 
 **Rival pressure thesis (context only):** labs sometimes reset when a rival ships; we still surface those events in the feature list without letting them dominate the probability.
 
@@ -78,7 +78,7 @@ Static output lands in `dist/` — deploy that folder to any static host (GitHub
 npm run backtest
 ```
 
-Writes `scripts/backtest-report.md` + `scripts/backtest-results.json` — per-provider Brier/log-loss on the **primary weekly non-overlap** protocol, plus event-triggered post-reset diagnostics (windows may collide when resets are &lt;7d apart) and **one-row-per-gap** hazard residuals (`anticipate()` blinded to future events). Skill vs constant base rate is typically ≈0; Codex shows a ranking signal. Pooled overlapping daily band-lift is not the success bar.
+Writes `scripts/backtest-report.md` + `scripts/backtest-results.json` — per-provider Brier/log-loss on the **primary weekly non-overlap** protocol with **72h hit** as the primary outcome (7d hit kept as secondary), plus event-triggered post-reset diagnostics (windows may collide when resets are close) and **one-row-per-gap** hazard residuals (`anticipate()` blinded to future events). Skill vs constant base rate is typically ≈0; do not claim calibrated Brier skill. Pooled overlapping daily band-lift is not the success bar.
 
 ## Refresh seed data
 
