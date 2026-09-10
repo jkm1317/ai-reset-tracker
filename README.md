@@ -14,7 +14,7 @@ Inspired by (UX/data study only — no proprietary code copied):
 - **Front-and-center likelihood boxes** (odds label + score + one-line why) on Overview for all three providers
 - Unified dashboard: days since last reset, counts, mean gap, longest drought, heatmap, shared timeline
 - Announcement archive with X/docs links, delivery mode (`immediate` | `banked` | `unknown`), and `reason_tags`
-- Anticipator: **gap-conditional 7d hazard** (calibrated chance-soon), with rival pressure shown as context — **not a schedule guarantee**
+- Anticipator: **gap-conditional 7d hazard** (chance-soon ranking signal; skill≈0 vs constant base rate on this log), with rival pressure shown as context — **not a schedule guarantee**
 - Claude vs Codex comparison (overlap / 90d / all-time)
 - Machine-readable: `public/data/summary.json`, `public/data/resets.json`, `public/llms.txt`, `public/rss.xml`
 - Optional personal `/usage` countdowns in `localStorage` (never uploaded)
@@ -29,7 +29,7 @@ Score ≈ **100 × estimated P(public reset in the next ~7 days)** from this pro
 | Rival pressure | Shown for context when a rival launch/milestone/banked reset landed in the last ~7 days — **does not boost** the score on this catalog (no reliable short-horizon lift). |
 | Weekend / reason tags | Informational only |
 
-Labels track calibrated chance-soon: **low** &lt;35 · **moderate** &lt;50 · **elevated** &lt;65 · **high** ≥65.
+Labels track estimated chance-soon (ranking bands — not a claim of calibrated Brier skill): **low** &lt;35 · **moderate** &lt;50 · **elevated** &lt;65 · **high** ≥65.
 
 **Rival pressure thesis (context only):** labs sometimes reset when a rival ships; we still surface those events in the feature list without letting them dominate the probability.
 
@@ -78,7 +78,7 @@ Static output lands in `dist/` — deploy that folder to any static host (GitHub
 npm run backtest
 ```
 
-Writes `scripts/backtest-report.md` + `scripts/backtest-results.json` — per-provider Brier/log-loss on **non-overlapping** weekly & post-reset checkpoints plus gap-conditional residuals (`anticipate()` blinded to future events). Pooled overlapping daily band-lift is not the success bar.
+Writes `scripts/backtest-report.md` + `scripts/backtest-results.json` — per-provider Brier/log-loss on the **primary weekly non-overlap** protocol, plus event-triggered post-reset diagnostics (windows may collide when resets are &lt;7d apart) and **one-row-per-gap** hazard residuals (`anticipate()` blinded to future events). Skill vs constant base rate is typically ≈0; Codex shows a ranking signal. Pooled overlapping daily band-lift is not the success bar.
 
 ## Refresh seed data
 

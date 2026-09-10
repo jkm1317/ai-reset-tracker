@@ -179,7 +179,7 @@ export function gapConditionalHazard(
 }
 
 function oddsFromScore(score: number): AnticipationResult['oddsLabel'] {
-  // Score ≈ 100 × calibrated P(reset in ~7d). Labels track chance-soon, not overdue.
+  // Score ≈ 100 × estimated P(reset in ~7d). Labels track chance-soon ranking bands, not overdue / calibrated Brier skill.
   if (score >= 65) return 'high';
   if (score >= 50) return 'elevated';
   if (score >= 35) return 'moderate';

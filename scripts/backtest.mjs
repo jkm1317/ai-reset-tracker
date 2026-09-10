@@ -1,10 +1,13 @@
 #!/usr/bin/env node
 /**
- * Blind calibration backtest of anticipate() / gapConditionalHazard().
+ * Blind backtest of anticipate() / gapConditionalHazard().
  *
- * Primary estimand: calibrated P(reset within 7d | history at T).
- * Eval is PER PROVIDER on NON-OVERLAPPING checkpoints (weekly + post-reset)
- * and gap-conditional hazard residuals — NOT pooled overlapping daily band lift.
+ * Primary estimand: estimated P(reset within 7d | history at T).
+ * Primary non-overlap protocol: WEEKLY checkpoints (7d apart).
+ * Post-reset is EVENT-TRIGGERED (NOT non-overlapping — Codex often has
+ * checkpoints <7d apart so next-7d windows collide).
+ * Gap-conditional: one drought sample per held-out gap (no dependent row stack).
+ * NOT pooled overlapping daily band lift.
  */
 import { spawnSync } from 'node:child_process';
 import {
@@ -198,7 +201,17 @@ function mulberry32(seed) {
  */
 function blockBootstrapTopDecile(rows, blockLen = 2, draws = BOOTSTRAP_DRAWS) {
   if (rows.length < 5) {
-    return { nDraws: 0, mean: null, lo: null, hi: null, precision: topDecilePrecision(rows).precision };
+    const observed = topDecilePrecision(rows);
+    return {
+      nDraws: 0,
+      mean: null,
+      lo: null,
+      hi: null,
+      precision: observed.precision,
+      nTop: observed.n,
+      n: observed.n,
+      baseRate: observed.baseRate,
+    };
   }
   const rand = mulberry32(BOOTSTRAP_SEED);
   const observed = topDecilePrecision(rows);
@@ -302,7 +315,7 @@ async function main() {
     generatedAt: new Date().toISOString(),
     evalEnd: isoDay(evalEndMs),
     method:
-      'Blind per-provider calibration: anticipate()/gap hazard sees only events before T. Primary metrics = Brier & log-loss on non-overlapping weekly and post-reset checkpoints, plus gap-conditional hazard residuals. Pooled overlapping daily band lift is NOT the success criterion.',
+      'Blind per-provider backtest: anticipate()/gap hazard sees only events before T. Primary NON-OVERLAP protocol = weekly (7d-apart) checkpoints. Post-reset is event-triggered (NOT non-overlapping — windows often collide when resets are <7d apart). Gap-conditional = one drought landmark per held-out gap. Report Brier/log-loss vs constant base rate (skill often ≈0) and ranking separation; do not claim calibrated Brier skill. Pooled overlapping daily band lift is NOT the success criterion.',
     providers: {},
   };
 
@@ -331,7 +344,7 @@ async function main() {
 
     const rivalsFull = rivalCatalog(allByProvider, provider);
 
-    // --- Weekly non-overlapping checkpoints (7d-apart) ---
+    // --- Weekly non-overlapping checkpoints (PRIMARY protocol; 7d-apart) ---
     const weeklyRows = [];
     for (let tMs = startMs; tMs + 7 * DAY_MS <= evalEndMs; tMs += 7 * DAY_MS) {
       const priorEvents = filterBefore(events, tMs);
@@ -351,7 +364,8 @@ async function main() {
       });
     }
 
-    // --- Post-reset checkpoints: UTC day after each reset ---
+    // --- Post-reset checkpoints: EVENT-TRIGGERED (UTC day after each reset).
+    // NOT non-overlapping — Codex often resets <7d apart so next-7d windows collide. ---
     const postResetRows = [];
     for (let i = 1; i < resetTimes.length; i++) {
       const tMs = utcDay(new Date(resetTimes[i])) + DAY_MS;
@@ -373,17 +387,18 @@ async function main() {
       });
     }
 
-    // --- Gap-conditional residual: held-out gaps, d = 0,7,14,... ---
+    // --- Gap-conditional residual: ONE drought sample per held-out gap ---
+    // Landmark d=0 (fresh-cycle 7d hazard) avoids stacking dependent mid-gap rows
+    // that overstate n. Effective-n = number of held-out gaps.
     const allGaps = computeGaps(events);
     const gapRows = [];
     for (let i = 2; i < allGaps.length; i++) {
       const hist = allGaps.slice(0, i);
       const g = allGaps[i];
-      for (let d = 0; d < g && d < 120; d += 7) {
-        const { p } = gapConditionalHazard(hist, d, 7);
-        const y = g > d && g <= d + 7 ? 1 : 0;
-        gapRows.push({ p, y, drought: d, gap: g });
-      }
+      const d = 0; // single landmark per gap
+      const { p } = gapConditionalHazard(hist, d, 7);
+      const y = g > d && g <= d + 7 ? 1 : 0;
+      gapRows.push({ p, y, drought: d, gap: g });
     }
 
     // Reference-only: overlapping daily walk (NOT primary success metric)
@@ -401,8 +416,8 @@ async function main() {
     }
 
     const weekly = summarizeProtocol(weeklyRows, 'weekly_nonoverlap');
-    const postReset = summarizeProtocol(postResetRows, 'post_reset_day');
-    const gapCond = summarizeProtocol(gapRows, 'gap_conditional');
+    const postReset = summarizeProtocol(postResetRows, 'post_reset_event_triggered');
+    const gapCond = summarizeProtocol(gapRows, 'gap_conditional_one_per_gap');
     const dailyRef = summarizeProtocol(dailyRows, 'daily_overlapping_reference');
 
     results.providers[provider] = {
@@ -420,7 +435,7 @@ async function main() {
     console.log(`\n=== ${provider} ===`);
     for (const [name, s] of [
       ['weekly', weekly],
-      ['post-reset', postReset],
+      ['post-reset*', postReset],
       ['gap-cond', gapCond],
     ]) {
       console.log(
@@ -452,7 +467,7 @@ function buildVerdict(results) {
   for (const provider of PROVIDERS) {
     const p = results.providers[provider];
     if (!p?.weekly || p.weekly.n === 0) {
-      lines.push(`${provider}: insufficient non-overlapping sample.`);
+      lines.push(`${provider}: insufficient weekly (primary non-overlap) sample.`);
       continue;
     }
     const w = p.weekly;
@@ -463,24 +478,24 @@ function buildVerdict(results) {
       sep?.avgPOnHit != null &&
       sep?.avgPOnMiss != null &&
       sep.avgPOnHit > sep.avgPOnMiss + 0.05;
-    const skillOk = (w.brierSkill ?? -1) >= -0.02;
+    const skillNearZero = Math.abs(w.brierSkill ?? 99) < 0.03;
     const top = w.topDecile;
     const topOk =
       top?.precision != null &&
       top.baseRate != null &&
       top.precision >= top.baseRate;
 
-    if (ranked && skillOk) {
+    if (ranked) {
       lines.push(
-        `${provider}: ranking signal on weekly checkpoints (p̂ hit ${fmtNum(sep.avgPOnHit, 2)} > miss ${fmtNum(sep.avgPOnMiss, 2)}); Brier skill ${fmtNum(w.brierSkill)} vs constant base ${fmtPct(w.baseRate)}; top-decile prec ${fmtPct(top?.precision)} (block-bootstrap 95% [${fmtPct(top?.lo)}, ${fmtPct(top?.hi)}], n=${w.n}).`,
+        `${provider}: ranking signal on weekly (primary non-overlap) checkpoints (p̂ hit ${fmtNum(sep.avgPOnHit, 2)} > miss ${fmtNum(sep.avgPOnMiss, 2)}); Brier skill ${fmtNum(w.brierSkill)} ≈ 0 vs constant base ${fmtPct(w.baseRate)} — ranking present, not calibrated Brier skill; top-decile prec ${fmtPct(top?.precision)} (block-bootstrap 95% [${fmtPct(top?.lo)}, ${fmtPct(top?.hi)}], n_weekly=${w.n}, n_gap=${g?.n ?? 0}).`,
       );
-    } else if (ranked) {
+    } else if (skillNearZero) {
       lines.push(
-        `${provider}: weak ranking (p̂ hit ${fmtNum(sep.avgPOnHit, 2)} / miss ${fmtNum(sep.avgPOnMiss, 2)}) but Brier skill ${fmtNum(w.brierSkill)} ≈ baseline — treat scores as soft probabilities, not sharp forecasts (n_weekly=${w.n}, n_gap=${g?.n ?? 0}).`,
+        `${provider}: no ranking edge on weekly checkpoints (p̂ hit/miss ${fmtNum(sep?.avgPOnHit, 2)}/${fmtNum(sep?.avgPOnMiss, 2)}); Brier skill ${fmtNum(w.brierSkill)} ≈ 0 vs constant base rate (n_weekly=${w.n}, n_gap=${g?.n ?? 0}) — UI shows a shrunk hazard ranking signal, not a calibrated forecast.`,
       );
     } else {
       lines.push(
-        `${provider}: no reliable short-horizon calibration edge on this catalog (weekly Brier skill ${fmtNum(w.brierSkill)}, p̂ hit/miss ${fmtNum(sep?.avgPOnHit, 2)}/${fmtNum(sep?.avgPOnMiss, 2)}, n=${w.n}) — UI still shows an honest shrunk hazard, not overdue urgency.`,
+        `${provider}: no reliable short-horizon ranking on this catalog (weekly p̂ hit/miss ${fmtNum(sep?.avgPOnHit, 2)}/${fmtNum(sep?.avgPOnMiss, 2)}, Brier skill ${fmtNum(w.brierSkill)} vs constant base, n=${w.n}) — UI still shows an honest shrunk hazard, not overdue urgency.`,
       );
     }
     if (
@@ -495,7 +510,7 @@ function buildVerdict(results) {
     }
   }
   lines.push(
-    'Pooled overlapping daily band-lift is intentionally not the success bar (overlapping windows, non-IID days, cross-provider base-rate mix).',
+    'Weekly is the primary non-overlap protocol; post-reset is event-triggered (windows collide when resets are <7d apart). Pooled overlapping daily band-lift is intentionally not the success bar.',
   );
   return lines.join(' ');
 }
@@ -526,7 +541,7 @@ function renderProtocolSection(title, s) {
   }
   if (s.topDecile) {
     lines.push(
-      `| Top-decile precision (7d) | ${fmtPct(s.topDecile.precision)} (n=${s.topDecile.nTop ?? s.topDecile.n}; block-bootstrap 95% [${fmtPct(s.topDecile.lo)}, ${fmtPct(s.topDecile.hi)}]) |`,
+      `| Top-decile precision (7d) | ${fmtPct(s.topDecile.precision)} (n=${s.topDecile.nTop ?? s.topDecile.n ?? '—'}; block-bootstrap 95% [${fmtPct(s.topDecile.lo)}, ${fmtPct(s.topDecile.hi)}]) |`,
     );
   }
   lines.push('');
@@ -546,7 +561,7 @@ function renderProtocolSection(title, s) {
 
 function renderMarkdown(results) {
   const lines = [];
-  lines.push('# Anticipation scorer — blind calibration backtest');
+  lines.push('# Anticipation scorer — blind backtest');
   lines.push('');
   lines.push(`Generated: ${results.generatedAt} (UTC)`);
   lines.push(`Evaluation end: ${results.evalEnd} UTC`);
@@ -562,22 +577,22 @@ function renderMarkdown(results) {
     '- Blind: events/rivals filtered to `date < T`; `now = T` (UTC midnight).',
   );
   lines.push(
-    '- **Weekly protocol:** checkpoints every 7 UTC days → non-overlapping next-7d outcomes.',
+    '- **Weekly protocol (PRIMARY non-overlap):** checkpoints every 7 UTC days → non-overlapping next-7d outcomes.',
   );
   lines.push(
-    '- **Post-reset protocol:** UTC day after each reset → next-7d outcome.',
+    '- **Post-reset protocol (event-triggered, NOT non-overlapping):** UTC day after each reset → next-7d outcome. Codex often has resets <7d apart, so these windows collide; treat as diagnostic, not a second IID sample.',
   );
   lines.push(
-    '- **Gap-conditional:** for each held-out completed gap, at drought d = 0,7,14,… score empirical hazard from prior gaps only; y = 1 if that gap ends in (d, d+7].',
+    '- **Gap-conditional (one row per gap):** for each held-out completed gap, score empirical hazard once at landmark drought d = 0 from prior gaps only; y = 1 if that gap ends in (0, 7]. Avoids stacking dependent mid-gap rows that overstate n.',
   );
   lines.push(
-    '- Primary metrics: **Brier** and **log-loss** vs a constant base-rate forecast (skill = baseline − model; higher skill is better).',
+    '- Metrics: **Brier** / **log-loss** vs constant base rate (skill = baseline − model; on this catalog skill is typically ≈ 0 — do **not** claim calibrated Brier skill). Prefer **ranking** separation (p̂ on hit vs miss) where present (Codex).',
   );
   lines.push(
-    '- Secondary: top-decile precision with **block bootstrap** 95% interval (contiguous blocks).',
+    '- Secondary: top-decile precision with **block bootstrap** 95% interval (contiguous blocks; CI omitted when n < 5).',
   );
   lines.push(
-    '- Score ≈ 100 × estimated P(reset in ~7d). Labels: low &lt;35 · moderate &lt;50 · elevated &lt;65 · high ≥65 — meaning chance-soon, not overdue.',
+    '- Score ≈ 100 × estimated P(reset in ~7d). Labels: low &lt;35 · moderate &lt;50 · elevated &lt;65 · high ≥65 — chance-soon ranking bands, not overdue.',
   );
   lines.push('');
 
@@ -595,10 +610,10 @@ function renderMarkdown(results) {
     );
     lines.push(`- Eval window: **${p.evalStart}** → **${p.evalEnd}**`);
     lines.push('');
-    lines.push(...renderProtocolSection('Weekly non-overlapping', p.weekly));
-    lines.push(...renderProtocolSection('Post-reset day', p.postReset));
+    lines.push(...renderProtocolSection('Weekly non-overlapping (primary)', p.weekly));
+    lines.push(...renderProtocolSection('Post-reset day (event-triggered — NOT non-overlapping)', p.postReset));
     lines.push(
-      ...renderProtocolSection('Gap-conditional hazard residual', p.gapConditional),
+      ...renderProtocolSection('Gap-conditional hazard residual (one row per gap, landmark d=0)', p.gapConditional),
     );
     lines.push(
       ...renderProtocolSection(
@@ -613,7 +628,7 @@ function renderMarkdown(results) {
   lines.push(results.verdict);
   lines.push('');
   lines.push(
-    '_Descriptive backtest on a small public announcement log — not a claim of forecasting skill. Absolute Brier skill vs a constant provider base rate is often near zero on thin samples; ranking within a provider (Codex) is the realistic ceiling._',
+    '_Descriptive backtest on a small public announcement log — not a claim of calibrated Brier skill. Skill vs a constant provider base rate is typically ≈0; where a signal appears it is a within-provider ranking effect (Codex on weekly checkpoints). Post-reset rows are event-triggered and may overlap._',
   );
   lines.push('');
   return lines.join('\n');

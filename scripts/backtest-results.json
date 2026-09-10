@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-09-10T19:02:00.898Z",
+  "generatedAt": "2026-09-10T19:08:07.978Z",
   "evalEnd": "2026-09-10",
-  "method": "Blind per-provider calibration: anticipate()/gap hazard sees only events before T. Primary metrics = Brier & log-loss on non-overlapping weekly and post-reset checkpoints, plus gap-conditional hazard residuals. Pooled overlapping daily band lift is NOT the success criterion.",
+  "method": "Blind per-provider backtest: anticipate()/gap hazard sees only events before T. Primary NON-OVERLAP protocol = weekly (7d-apart) checkpoints. Post-reset is event-triggered (NOT non-overlapping — windows often collide when resets are <7d apart). Gap-conditional = one drought landmark per held-out gap. Report Brier/log-loss vs constant base rate (skill often ≈0) and ranking separation; do not claim calibrated Brier skill. Pooled overlapping daily band lift is NOT the success criterion.",
   "providers": {
     "claude": {
       "resetCount": 11,
@@ -63,7 +63,7 @@
         }
       },
       "postReset": {
-        "protocol": "post_reset_day",
+        "protocol": "post_reset_event_triggered",
         "n": 9,
         "baseRate": 0.2222222222222222,
         "brier": 0.21764444444444442,
@@ -116,33 +116,33 @@
         }
       },
       "gapConditional": {
-        "protocol": "gap_conditional",
-        "n": 21,
-        "baseRate": 0.38095238095238093,
-        "brier": 0.2597627342394483,
-        "logLoss": 0.7401138862931717,
-        "baselineBrier": 0.2358276643990929,
-        "baselineLogLoss": 0.6645284386549151,
-        "brierSkill": -0.0239350698403554,
-        "logLossSkill": -0.07558544763825659,
+        "protocol": "gap_conditional_one_per_gap",
+        "n": 8,
+        "baseRate": 0.25,
+        "brier": 0.2262962967267549,
+        "logLoss": 0.655132731166109,
+        "baselineBrier": 0.1875,
+        "baselineLogLoss": 0.5623351446188083,
+        "brierSkill": -0.038796296726754886,
+        "logLossSkill": -0.09279758654730075,
         "separation": {
-          "avgPOnHit": 0.265559768805723,
-          "avgPOnMiss": 0.2581733649778521,
-          "nHit": 8,
-          "nMiss": 13
+          "avgPOnHit": 0.25419823232323235,
+          "avgPOnMiss": 0.33947214822214816,
+          "nHit": 2,
+          "nMiss": 6
         },
         "byBand": {
           "low": {
-            "days": 15,
+            "days": 5,
             "hitRate7": 0.4,
-            "lift7": 1.05,
-            "avgP": 0.21366675044991013
+            "lift7": 1.6,
+            "avgP": 0.28990484515484516
           },
           "moderate": {
-            "days": 6,
-            "hitRate7": 0.3333333333333333,
-            "lift7": 0.875,
-            "avgP": 0.3792884397348683
+            "days": 3,
+            "hitRate7": 0,
+            "lift7": 0,
+            "avgP": 0.36523504273504265
           },
           "elevated": {
             "days": 0,
@@ -160,12 +160,12 @@
         "topDecile": {
           "nDraws": 400,
           "blockLen": 2,
-          "precision": 0.3333333333333333,
-          "mean": 0.3016666666666677,
+          "precision": 0,
+          "mean": 0,
           "lo": 0,
-          "hi": 1,
-          "nTop": 3,
-          "baseRate": 0.38095238095238093
+          "hi": 0,
+          "nTop": 1,
+          "baseRate": 0.25
         }
       },
       "dailyOverlappingReference": {
@@ -282,7 +282,7 @@
         }
       },
       "postReset": {
-        "protocol": "post_reset_day",
+        "protocol": "post_reset_event_triggered",
         "n": 48,
         "baseRate": 0.7291666666666666,
         "brier": 0.21915208333333333,
@@ -335,56 +335,56 @@
         }
       },
       "gapConditional": {
-        "protocol": "gap_conditional",
-        "n": 74,
-        "baseRate": 0.6621621621621622,
-        "brier": 0.2461799206464481,
-        "logLoss": 0.7057819327133344,
-        "baselineBrier": 0.22370343316289285,
-        "baselineLogLoss": 0.6395909009186865,
-        "brierSkill": -0.02247648748355527,
-        "logLossSkill": -0.06619103179464791,
+        "protocol": "gap_conditional_one_per_gap",
+        "n": 49,
+        "baseRate": 0.7142857142857143,
+        "brier": 0.235048096799554,
+        "logLoss": 0.6777565050758076,
+        "baselineBrier": 0.2040816326530611,
+        "baselineLogLoss": 0.5982695885852568,
+        "brierSkill": -0.0309664641464929,
+        "logLossSkill": -0.07948691649055084,
         "separation": {
-          "avgPOnHit": 0.49151348329533256,
-          "avgPOnMiss": 0.36752914493956546,
-          "nHit": 49,
-          "nMiss": 25
+          "avgPOnHit": 0.5470530231834735,
+          "avgPOnMiss": 0.4915106659132928,
+          "nHit": 35,
+          "nMiss": 14
         },
         "byBand": {
           "low": {
-            "days": 20,
-            "hitRate7": 0.4,
-            "lift7": 0.6040816326530613,
-            "avgP": 0.19362408624736555
+            "days": 5,
+            "hitRate7": 0.6,
+            "lift7": 0.84,
+            "avgP": 0.17954942279942282
           },
           "moderate": {
-            "days": 16,
-            "hitRate7": 0.8125,
-            "lift7": 1.2270408163265305,
-            "avgP": 0.4312830532062334
+            "days": 8,
+            "hitRate7": 0.75,
+            "lift7": 1.05,
+            "avgP": 0.4583297381011311
           },
           "elevated": {
-            "days": 30,
-            "hitRate7": 0.7333333333333333,
-            "lift7": 1.1074829931972787,
-            "avgP": 0.5728035145056027
+            "days": 28,
+            "hitRate7": 0.7142857142857143,
+            "lift7": 1,
+            "avgP": 0.5767266722091504
           },
           "high": {
             "days": 8,
             "hitRate7": 0.75,
-            "lift7": 1.1326530612244898,
+            "lift7": 1.05,
             "avgP": 0.6644091616931623
           }
         },
         "topDecile": {
           "nDraws": 400,
           "blockLen": 2,
-          "precision": 0.75,
-          "mean": 0.82,
-          "lo": 0.5,
+          "precision": 1,
+          "mean": 0.8789999999999994,
+          "lo": 0.4,
           "hi": 1,
-          "nTop": 8,
-          "baseRate": 0.6621621621621622
+          "nTop": 5,
+          "baseRate": 0.7142857142857143
         }
       },
       "dailyOverlappingReference": {
@@ -494,11 +494,14 @@
           "mean": null,
           "lo": null,
           "hi": null,
-          "precision": 0
+          "precision": 0,
+          "nTop": 1,
+          "n": 1,
+          "baseRate": 0
         }
       },
       "postReset": {
-        "protocol": "post_reset_day",
+        "protocol": "post_reset_event_triggered",
         "n": 1,
         "baseRate": 0,
         "brier": 0.1936,
@@ -544,11 +547,14 @@
           "mean": null,
           "lo": null,
           "hi": null,
-          "precision": 0
+          "precision": 0,
+          "nTop": 1,
+          "n": 1,
+          "baseRate": 0
         }
       },
       "gapConditional": {
-        "protocol": "gap_conditional",
+        "protocol": "gap_conditional_one_per_gap",
         "n": 0,
         "baseRate": null,
         "brier": null,
@@ -608,10 +614,13 @@
           "mean": null,
           "lo": null,
           "hi": null,
-          "precision": 0
+          "precision": 0,
+          "nTop": 1,
+          "n": 1,
+          "baseRate": 0
         }
       }
     }
   },
-  "verdict": "claude: no reliable short-horizon calibration edge on this catalog (weekly Brier skill -0.009, p̂ hit/miss 0.28/0.24, n=19) — UI still shows an honest shrunk hazard, not overdue urgency.   └ top-decile precision 0.0% vs base 36.8% (secondary). codex: weak ranking (p̂ hit 0.44 / miss 0.29) but Brier skill -0.022 ≈ baseline — treat scores as soft probabilities, not sharp forecasts (n_weekly=44, n_gap=74). grok: no reliable short-horizon calibration edge on this catalog (weekly Brier skill -0.194, p̂ hit/miss —/0.44, n=1) — UI still shows an honest shrunk hazard, not overdue urgency. Pooled overlapping daily band-lift is intentionally not the success bar (overlapping windows, non-IID days, cross-provider base-rate mix)."
+  "verdict": "claude: no ranking edge on weekly checkpoints (p̂ hit/miss 0.28/0.24); Brier skill -0.009 ≈ 0 vs constant base rate (n_weekly=19, n_gap=8) — UI shows a shrunk hazard ranking signal, not a calibrated forecast.   └ top-decile precision 0.0% vs base 36.8% (secondary). codex: ranking signal on weekly (primary non-overlap) checkpoints (p̂ hit 0.44 > miss 0.29); Brier skill -0.022 ≈ 0 vs constant base 61.4% — ranking present, not calibrated Brier skill; top-decile prec 80.0% (block-bootstrap 95% [40.0%, 100.0%], n_weekly=44, n_gap=49). grok: no reliable short-horizon ranking on this catalog (weekly p̂ hit/miss —/0.44, Brier skill -0.194 vs constant base, n=1) — UI still shows an honest shrunk hazard, not overdue urgency. Weekly is the primary non-overlap protocol; post-reset is event-triggered (windows collide when resets are <7d apart). Pooled overlapping daily band-lift is intentionally not the success bar."
 }
