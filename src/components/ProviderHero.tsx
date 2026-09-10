@@ -37,7 +37,10 @@ export function ProviderHero({ id, meta, compact = false }: Props) {
               'public docs + announcements'
             )}
           </p>
-          {meta.note ? <p className="muted small provider-note">{meta.note}</p> : null}
+          {/* Overview (compact): keep cards equal-height — long notes live in the shared footnote. */}
+          {!compact && meta.note ? (
+            <p className="muted small provider-note">{meta.note}</p>
+          ) : null}
         </div>
         <div className="last-reset">
           <div className="stat-label">Latest reset</div>

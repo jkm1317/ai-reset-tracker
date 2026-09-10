@@ -130,6 +130,25 @@ export default function App() {
                 </div>
               ))}
             </div>
+            {(claude.note || codex.note || grok.note) && (
+              <aside className="provider-footnotes" aria-label="Provider notes">
+                {claude.note ? (
+                  <p className="muted small">
+                    <strong>Claude:</strong> {claude.note}
+                  </p>
+                ) : null}
+                {codex.note ? (
+                  <p className="muted small">
+                    <strong>Codex:</strong> {codex.note}
+                  </p>
+                ) : null}
+                {grok.note ? (
+                  <p className="muted small">
+                    <strong>Grok:</strong> {grok.note}
+                  </p>
+                ) : null}
+              </aside>
+            )}
             <Timeline
               claudeEvents={claude.events}
               codexEvents={codex.events}
