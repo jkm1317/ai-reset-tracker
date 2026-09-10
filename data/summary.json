@@ -1,0 +1,117 @@
+{
+  "site": "AI Reset Tracker",
+  "name": "ai-reset-tracker",
+  "generatedAt": "2026-09-10T18:35:00Z",
+  "disclaimer": "Unofficial community tracker. Not affiliated with Anthropic, OpenAI, xAI, Claude, Codex, or Grok. Anticipation scores include drought, weekend proximity, reason patterns, and rival pressure — not schedules or guarantees.",
+  "providers": {
+    "claude": {
+      "name": "Claude",
+      "product": "Claude Code",
+      "account": "ClaudeDevs",
+      "accountUrl": "https://x.com/ClaudeDevs",
+      "resetCount": 11,
+      "policyChangeCount": 5,
+      "lastResetAt": "2026-09-04T20:08:45Z",
+      "lastResetUrl": "https://x.com/lydiahallie/status/2095967323412930677",
+      "lastResetAccount": "lydiahallie",
+      "lastResetScope": "Max",
+      "firstResetAt": "2026-04-16T20:02:04Z",
+      "meanGapDays": 14.1,
+      "longestGapDays": 50.7,
+      "daysSinceLast": 5.9,
+      "pacePerMonth": 2.4,
+      "deliveryCounts": {
+        "immediate": 11
+      },
+      "reasonTagCounts": {
+        "incident": 6,
+        "weekend_holiday": 2,
+        "usage_anomaly": 1,
+        "goodwill": 3,
+        "milestone": 1,
+        "product_launch": 2,
+        "competitive_response": 1
+      },
+      "datasetAttribution": "Adapted from https://claude-resets.com/data/resets.json"
+    },
+    "codex": {
+      "name": "Codex",
+      "product": "Codex / ChatGPT",
+      "account": "thsottiaux",
+      "accountUrl": "https://x.com/thsottiaux",
+      "resetCount": 52,
+      "policyChangeCount": 0,
+      "lastResetAt": "2026-09-08T01:56:57Z",
+      "lastResetUrl": "https://x.com/thsottiaux/status/2097174560412246215",
+      "lastResetAccount": "thsottiaux",
+      "lastResetScope": "all paid",
+      "firstResetAt": "2025-09-17T04:02:52Z",
+      "meanGapDays": 7,
+      "longestGapDays": 67.7,
+      "daysSinceLast": 2.7,
+      "pacePerMonth": 4.4,
+      "deliveryCounts": {
+        "immediate": 46,
+        "banked": 6
+      },
+      "reasonTagCounts": {
+        "capacity": 2,
+        "incident": 15,
+        "product_launch": 12,
+        "goodwill": 10,
+        "milestone": 15,
+        "weekend_holiday": 9,
+        "usage_anomaly": 7,
+        "banked_credit": 7,
+        "competitive_response": 5
+      },
+      "datasetAttribution": "Curated from https://codex-resets.com/ announcements"
+    },
+    "grok": {
+      "name": "Grok",
+      "product": "Grok / xAI",
+      "account": "xai",
+      "accountUrl": "https://x.com/xai",
+      "status": "active",
+      "note": "Paid SuperGrok uses an account-specific shared weekly usage pool (Settings → Usage), including redeemable banked credits (“Reset Available”) that do not replace the weekly clock. Free-tier Chat/Voice limits are separate. Public discretionary resets are sparse vs Claude/Codex — anticipator leans on sparse announcements + rival pressure.",
+      "resetCount": 2,
+      "policyChangeCount": 3,
+      "lastResetAt": "2026-09-01T16:00:00Z",
+      "lastResetUrl": "https://in.mashable.com/tech/113514/elon-musk-announces-bonus-token-reset-for-grok-ai-users-heres-how-to-access",
+      "lastResetAccount": "elonmusk",
+      "lastResetScope": "Grok / Bot users",
+      "firstResetAt": "2026-08-26T14:00:00Z",
+      "meanGapDays": 6.1,
+      "longestGapDays": 6.1,
+      "daysSinceLast": 9.1,
+      "pacePerMonth": 10,
+      "deliveryCounts": {
+        "banked": 2
+      },
+      "reasonTagCounts": {
+        "capacity": 1,
+        "policy_change": 3,
+        "product_launch": 1,
+        "milestone": 1,
+        "goodwill": 2,
+        "banked_credit": 3,
+        "usage_anomaly": 1
+      },
+      "datasetAttribution": "Public docs (docs.x.ai/grok/faq) + sparse @bot / @elonmusk announcement coverage"
+    }
+  },
+  "definitions": {
+    "reset": "Announcement that flushed usage counters (5-hour and/or weekly).",
+    "policy": "Announcement that changed limits without flushing counters; listed but not counted as a reset.",
+    "immediate": "Reset applied (or propagating) without requiring the user to redeem a banked credit.",
+    "banked": "Credit placed in a reset bank for the user to apply later.",
+    "unknown": "Delivery mode unclear from the announcement text.",
+    "competitive_response": "Reset timing aligned with a rival lab launch, promo, or banked-credit wave — interpreted as retention pressure, not an official reason."
+  },
+  "urls": {
+    "resets": "/data/resets.json",
+    "summary": "/data/summary.json",
+    "llms": "/llms.txt",
+    "rss": "/rss.xml"
+  }
+}

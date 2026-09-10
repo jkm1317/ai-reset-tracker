@@ -1,0 +1,85 @@
+# AI Reset Tracker
+
+> Unofficial multi-provider usage-limit reset tracker for Claude Code, OpenAI Codex, and Grok / xAI.
+> Not affiliated with Anthropic, OpenAI, or xAI.
+
+Generated: 2026-09-10T18:35:00Z
+
+## Machine-readable data
+
+- [/data/summary.json](/data/summary.json): per-provider counts, mean gap, longest drought, days since last
+- [/data/resets.json](/data/resets.json): full event catalog with provider, kind, delivery, reason_tags, scope, date (UTC), url, account, note
+- [/rss.xml](/rss.xml): announcement RSS feed
+- [/llms.txt](/llms.txt): this file
+
+## Event schema
+
+Each event has:
+- provider: claude | codex | grok
+- kind: reset | policy
+- delivery: immediate | banked | unknown
+- reason_tags: string[] (includes competitive_response for rival-aligned timing)
+- scope: string
+- date: ISO-8601 UTC
+- url: original announcement or docs
+- account: announcing handle
+- note: short paraphrase
+
+## Anticipator (score formula)
+
+Score 0–100 from additive features (capped):
+1. Drought vs mean gap (0 / 10 / 22 / 35) — or thin-history drought bump when mean is unknown
+2. Rival pressure (0 / 12 / 16 / 22) — if another provider had product_launch / milestone / competitive_response / banked reset in the last 3–7 days
+3. Weekend proximity (+12 Fri–Sun UTC)
+4. Recent reason patterns (+4 to +8)
+5. Pace dampener (−8) for high-frequency providers early in cycle
+
+Labels: low <18, moderate <35, elevated <55, high ≥55. Descriptive only — not a schedule.
+
+## Definitions
+
+- reset: Announcement that flushed usage counters (5-hour and/or weekly).
+- policy: Announcement that changed limits without flushing counters; listed but not counted as a reset.
+- immediate: Reset applied (or propagating) without requiring the user to redeem a banked credit.
+- banked: Credit placed in a reset bank for the user to apply later.
+- unknown: Delivery mode unclear from the announcement text.
+- competitive_response: Reset timing aligned with a rival lab launch/promo — retention-pressure interpretation.
+
+## Providers
+
+### Claude
+- product: Claude Code
+- resets: 11
+- meanGapDays: 14.1
+- longestGapDays: 50.7
+- daysSinceLast: 5.9
+- lastResetAt: 2026-09-04T20:08:45Z
+- attribution: Adapted from https://claude-resets.com/data/resets.json
+
+### Codex
+- product: Codex / ChatGPT
+- resets: 52
+- meanGapDays: 7
+- longestGapDays: 67.7
+- daysSinceLast: 2.7
+- lastResetAt: 2026-09-08T01:56:57Z
+- attribution: Curated from https://codex-resets.com/ announcements
+
+### Grok
+- product: Grok / xAI
+- resets: 2
+- policyChangeCount: 3
+- meanGapDays: 6.1
+- daysSinceLast: 9.1
+- lastResetAt: 2026-09-01T16:00:00Z
+- note: Account-specific weekly pool + redeemable banked credits (Settings → Usage “Reset Available”); sparse public discretionary resets; anticipator uses rival pressure when history is thin.
+- attribution: docs.x.ai FAQ + @bot / press-covered @elonmusk signals
+
+## Attribution & disclaimer
+
+Claude catalog adapted from https://claude-resets.com/data/resets.json with attribution.
+Codex announcements curated from https://codex-resets.com/ and @thsottiaux posts.
+Grok signals from https://docs.x.ai/grok/faq and sparse public announcements.
+Inspired by claude-resets.com and codex-resets.com (UX/data study only; no proprietary code copied).
+Unofficial. Not affiliated with Anthropic, OpenAI, xAI, Claude, Codex, or Grok.
+Anticipation scores are historical pattern hints, not schedules or guarantees.
