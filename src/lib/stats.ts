@@ -127,8 +127,70 @@ function describeRivalEvent(e: ResetEvent): string {
 }
 
 /**
- * Honest, explained anticipation — NOT a schedule guarantee.
- * Optional rivalEvents enable cross-lab "rival pressure" scoring.
+ * Empirical P(gap ends in (drought, drought+horizon] | survived past drought)
+ * from this provider's completed gaps only. Strong shrinkage when few survivors.
+ * Long droughts that have outlived most historical gaps get LOW short-horizon p
+ * (inverse of "overdue = urgent").
+ */
+export function gapConditionalHazard(
+  gaps: number[],
+  drought: number,
+  horizon = 7,
+): { p: number; survivors: number; hits: number; prior: number; pastFrac: number } {
+  if (!gaps.length) {
+    return { p: 0.25, survivors: 0, hits: 0, prior: 0.25, pastFrac: 0 };
+  }
+
+  const freshRate = gaps.filter((g) => g <= horizon).length / gaps.length;
+  const pastFrac = gaps.filter((g) => g <= drought).length / gaps.length;
+  const massAhead = 1 - pastFrac;
+  // Early-cycle density prior: higher when many gaps still have mass ahead.
+  // Thin catalogs (1–2 gaps) stay humble — a single short gap must not imply ~90%.
+  const thin = gaps.length < 3;
+  const priorRaw =
+    freshRate * (0.35 + 0.65 * massAhead) + 0.05 * massAhead;
+  const prior = Math.min(
+    thin ? 0.45 : 0.88,
+    Math.max(0.08, thin ? 0.2 * priorRaw + 0.8 * 0.28 : priorRaw),
+  );
+
+  const survivors = gaps.filter((g) => g > drought);
+  const hits = gaps.filter((g) => g > drought && g <= drought + horizon);
+
+  if (survivors.length === 0) {
+    // Unprecedented vs history — short-horizon chance is low, not "overdue high".
+    return {
+      p: Math.min(thin ? 0.22 : 0.16, prior * 0.5),
+      survivors: 0,
+      hits: 0,
+      prior,
+      pastFrac,
+    };
+  }
+
+  const k = Math.max(
+    thin ? 8 : 4,
+    Math.round((thin ? 16 : 10) / Math.sqrt(gaps.length)),
+  );
+  const haz = (hits.length + k * prior) / (survivors.length + k);
+  const w = survivors.length / (survivors.length + (thin ? 6 : 3));
+  const p = Math.min(thin ? 0.55 : 0.9, Math.max(0.06, w * haz + (1 - w) * prior));
+  return { p, survivors: survivors.length, hits: hits.length, prior, pastFrac };
+}
+
+function oddsFromScore(score: number): AnticipationResult['oddsLabel'] {
+  // Score ≈ 100 × calibrated P(reset in ~7d). Labels track chance-soon, not overdue.
+  if (score >= 65) return 'high';
+  if (score >= 50) return 'elevated';
+  if (score >= 35) return 'moderate';
+  return 'low';
+}
+
+/**
+ * Honest anticipation: score ≈ 100 × P(public reset in next ~7 days | this
+ * provider's gap history at T). NOT a schedule guarantee.
+ * Rival pressure is surfaced when present but does not boost the score on this log
+ * (empirically unhelpful / slightly inverse for short-horizon hits).
  */
 export function anticipate(
   provider: ProviderId,
@@ -138,72 +200,56 @@ export function anticipate(
 ): AnticipationResult {
   const stats = computeProviderStats(events, now);
   const features: AnticipationResult['features'] = [];
-  let score = 0;
   const thinHistory = stats.resetCount < 3;
-
   const drought = stats.daysSinceLast ?? 0;
   const meanGap = stats.meanGapDays;
+  const gaps = stats.gaps;
 
-  if (meanGap != null && meanGap > 0) {
-    const ratio = drought / meanGap;
-    if (ratio >= 1.5) {
-      score += 35;
-      features.push({
-        label: 'Drought vs mean',
-        detail: `Current drought (${drought.toFixed(1)}d) is ${ratio.toFixed(1)}× the mean gap (${meanGap}d).`,
-        weight: 35,
-      });
-    } else if (ratio >= 1.0) {
-      score += 22;
-      features.push({
-        label: 'Drought vs mean',
-        detail: `Drought (${drought.toFixed(1)}d) has reached or passed the mean gap (${meanGap}d).`,
-        weight: 22,
-      });
-    } else if (ratio >= 0.7) {
-      score += 10;
-      features.push({
-        label: 'Drought vs mean',
-        detail: `Drought (${drought.toFixed(1)}d) is approaching the mean gap (${meanGap}d).`,
-        weight: 10,
-      });
-    } else {
-      features.push({
-        label: 'Drought vs mean',
-        detail: `Still early in the cycle (${drought.toFixed(1)}d vs mean ${meanGap}d).`,
-        weight: 0,
-      });
-    }
-  } else if (stats.resetCount > 0 && drought >= 7) {
-    const w = drought >= 14 ? 14 : 8;
-    score += w;
+  const haz = gapConditionalHazard(gaps, drought, 7);
+  const p7 = haz.p;
+  let score = Math.round(100 * p7);
+
+  // Primary driver: gap-conditional 7d hazard (early-cycle density, not overdue).
+  const pct = Math.round(100 * p7);
+  if (gaps.length === 0) {
     features.push({
-      label: 'Drought (thin history)',
-      detail: `${drought.toFixed(1)}d since the last seeded public reset — mean gap unknown with sparse announcements.`,
-      weight: w,
+      label: '7d gap hazard',
+      detail: thinHistory
+        ? 'Sparse public reset history — no completed gaps to estimate a short-horizon chance.'
+        : 'Not enough reset history to estimate gap hazard.',
+      weight: score,
+    });
+  } else if (haz.survivors === 0) {
+    features.push({
+      label: '7d gap hazard',
+      detail: `Drought ${drought.toFixed(1)}d has outlived every prior gap (${gaps.length} completed). Estimated ~${pct}% chance of a reset in the next 7 days — long tails stay long.`,
+      weight: score,
     });
   } else {
+    const early =
+      haz.pastFrac < 0.35
+        ? 'early-cycle'
+        : haz.pastFrac < 0.7
+          ? 'mid-cycle'
+          : 'late-cycle';
     features.push({
-      label: 'Drought vs mean',
-      detail: thinHistory
-        ? 'Sparse public reset history — no reliable mean gap yet.'
-        : 'Not enough reset history to compute a mean gap.',
-      weight: 0,
+      label: '7d gap hazard',
+      detail: `From ${gaps.length} prior gaps at ${drought.toFixed(1)}d drought (${early}): ${haz.hits}/${haz.survivors} historical survivors ended within +7d → ~${pct}% (shrunk). Higher score means elevated chance of a reset soon, not “overdue.”`,
+      weight: score,
     });
   }
 
-  // Rival pressure: other labs shipped a launch / milestone / banked reset in the last ~3–7 days
+  // Rival pressure: informational only (does not move score on this catalog).
   const rivals = rivalPressureEvents(rivalEvents, now);
   if (rivals.length) {
     const top = rivals[0];
     const age = daysBetween(parseUtc(top.date), now);
-    const weight = age <= 3 ? 22 : age <= 5 ? 16 : 12;
-    score += weight;
-    const daysLabel = age < 1 ? 'today' : age < 1.5 ? '1 day ago' : `${age.toFixed(0)} days ago`;
+    const daysLabel =
+      age < 1 ? 'today' : age < 1.5 ? '1 day ago' : `${age.toFixed(0)} days ago`;
     features.push({
       label: 'Rival pressure',
-      detail: `Rival shipped ${describeRivalEvent(top)} ${daysLabel} — historically a window for retention resets.`,
-      weight,
+      detail: `Rival shipped ${describeRivalEvent(top)} ${daysLabel} — tracked for context; not used to raise the score (no reliable short-horizon lift on this log).`,
+      weight: 0,
     });
   } else {
     features.push({
@@ -214,17 +260,16 @@ export function anticipate(
   }
 
   if (isWeekendProximity(now)) {
-    score += 12;
     features.push({
       label: 'Weekend proximity',
       detail:
-        'UTC calendar is near a weekend — historically a common announcement window for goodwill resets.',
-      weight: 12,
+        'UTC calendar is near a weekend — noted only; calendar effects are weak vs gap hazard on this log.',
+      weight: 0,
     });
   } else {
     features.push({
       label: 'Weekend proximity',
-      detail: 'Mid-week (UTC) — weekend-proximate goodwill resets are less relevant today.',
+      detail: 'Mid-week (UTC).',
       weight: 0,
     });
   }
@@ -239,27 +284,11 @@ export function anticipate(
   const topTags = Object.entries(tagCounts)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 3);
-
-  if (topTags.some(([t]) => t === 'incident' || t === 'usage_anomaly')) {
-    score += 8;
+  if (topTags.length) {
     features.push({
       label: 'Recent reason patterns',
-      detail: `Recent resets often tagged ${topTags.map(([t, n]) => `${t}(${n})`).join(', ')} — incident-driven clusters can recur, but that is not predictive.`,
-      weight: 8,
-    });
-  } else if (topTags.some(([t]) => t === 'competitive_response')) {
-    score += 6;
-    features.push({
-      label: 'Recent reason patterns',
-      detail: `Recent tags include competitive_response — labs sometimes reset when rivals ship: ${topTags.map(([t, n]) => `${t}(${n})`).join(', ')}.`,
-      weight: 6,
-    });
-  } else if (topTags.length) {
-    score += 4;
-    features.push({
-      label: 'Recent reason patterns',
-      detail: `Recent tags: ${topTags.map(([t, n]) => `${t}(${n})`).join(', ')}.`,
-      weight: 4,
+      detail: `Recent tags: ${topTags.map(([t, n]) => `${t}(${n})`).join(', ')} — descriptive only.`,
+      weight: 0,
     });
   } else {
     features.push({
@@ -274,28 +303,22 @@ export function anticipate(
   if (thinHistory) {
     features.push({
       label: 'Data thinness',
-      detail: `Only ${stats.resetCount} public discretionary reset(s) seeded. Score leans on rival pressure + whatever drought exists — treat odds cautiously.`,
+      detail: `Only ${stats.resetCount} public discretionary reset(s) seeded. Treat the ~${pct}% estimate as a wide prior, not a forecast.`,
       weight: 0,
     });
   }
 
-  // Pace dampener: very frequent providers shouldn't scream "overdue" as loudly
-  if (meanGap != null && meanGap < 5 && drought < meanGap) {
-    score = Math.max(0, score - 8);
+  if (meanGap != null) {
     features.push({
-      label: 'Pace dampener',
-      detail: 'High-frequency reset history — short droughts are normal, so odds stay tempered.',
-      weight: -8,
+      label: 'Cycle context',
+      detail: `Drought ${drought.toFixed(1)}d vs mean gap ${meanGap}d — context only; score uses the survival distribution, not “days overdue.”`,
+      weight: 0,
     });
   }
 
   score = Math.max(0, Math.min(100, score));
-  let oddsLabel: AnticipationResult['oddsLabel'] = 'low';
-  if (score >= 55) oddsLabel = 'high';
-  else if (score >= 35) oddsLabel = 'elevated';
-  else if (score >= 18) oddsLabel = 'moderate';
+  const oddsLabel = oddsFromScore(score);
 
-  // Sort features so the top explanatory driver (highest |weight|) is first for the one-liner
   features.sort((a, b) => Math.abs(b.weight) - Math.abs(a.weight) || b.weight - a.weight);
 
   return {
@@ -306,7 +329,7 @@ export function anticipate(
     meanGap,
     features,
     disclaimer:
-      'Descriptive odds from historical patterns — not a schedule or guarantee.',
+      'Score ≈ estimated chance of a public reset in the next ~7 days from this provider’s own gap history — not a schedule or guarantee.',
   };
 }
 

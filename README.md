@@ -14,32 +14,30 @@ Inspired by (UX/data study only — no proprietary code copied):
 - **Front-and-center likelihood boxes** (odds label + score + one-line why) on Overview for all three providers
 - Unified dashboard: days since last reset, counts, mean gap, longest drought, heatmap, shared timeline
 - Announcement archive with X/docs links, delivery mode (`immediate` | `banked` | `unknown`), and `reason_tags`
-- Anticipator features: drought vs mean, **rival pressure**, weekend proximity, recent reason patterns — **not a schedule guarantee**
+- Anticipator: **gap-conditional 7d hazard** (calibrated chance-soon), with rival pressure shown as context — **not a schedule guarantee**
 - Claude vs Codex comparison (overlap / 90d / all-time)
 - Machine-readable: `public/data/summary.json`, `public/data/resets.json`, `public/llms.txt`, `public/rss.xml`
 - Optional personal `/usage` countdowns in `localStorage` (never uploaded)
 
 ## Anticipator score (brief)
 
-Score is additive, then clamped to 0–100:
+Score ≈ **100 × estimated P(public reset in the next ~7 days)** from this provider’s **own completed gap history** (blind to the future):
 
-| Feature | Typical weights |
+| Feature | Role |
 | --- | --- |
-| Drought vs mean gap | 0 / +10 / +22 / +35 (or thin-history drought bump) |
-| **Rival pressure** | 0 / +12 / +16 / +22 if another lab had `product_launch`, `milestone`, `competitive_response`, or a **banked** reset in the last ~3–7 days |
-| Weekend proximity (Fri–Sun UTC) | +12 |
-| Recent reason patterns | +4 to +8 |
-| Pace dampener (high-frequency, early cycle) | −8 |
+| **7d gap hazard** | Empirical P(gap ends in (drought, drought+7] \| survived past drought), shrunk toward an early-cycle prior. Long droughts that outlived most historical gaps score **low** (not “overdue”). |
+| Rival pressure | Shown for context when a rival launch/milestone/banked reset landed in the last ~7 days — **does not boost** the score on this catalog (no reliable short-horizon lift). |
+| Weekend / reason tags | Informational only |
 
-Labels: **low** &lt;18 · **moderate** &lt;35 · **elevated** &lt;55 · **high** ≥55.
+Labels track calibrated chance-soon: **low** &lt;35 · **moderate** &lt;50 · **elevated** &lt;65 · **high** ≥65.
 
-**Rival pressure thesis:** labs sometimes reset not only after incidents, but when a rival ships something good so maxed users do not churn (e.g. Claude Max around Astra week). Cross-links: Claude odds look at recent Codex/Grok events and vice versa.
+**Rival pressure thesis (context only):** labs sometimes reset when a rival ships; we still surface those events in the feature list without letting them dominate the probability.
 
 ## Grok / xAI notes
 
 - Paid SuperGrok uses an **account-specific shared weekly usage pool** (see [docs.x.ai FAQ](https://docs.x.ai/grok/faq)); free-tier Chat/Voice limits are separate.
 - Public discretionary “miracle” resets are **rare** compared with Claude/Codex — the catalog seeds documented policy + sparse announcement events and says so when history is thin.
-- Anticipator still scores on rival pressure + any drought from seeded public resets.
+- Anticipator uses whatever public reset gaps exist; thin history → wide shrunk prior.
 
 ## Event schema
 
@@ -80,7 +78,7 @@ Static output lands in `dist/` — deploy that folder to any static host (GitHub
 npm run backtest
 ```
 
-Writes `scripts/backtest-report.md` + `scripts/backtest-results.json` (walk history day-by-day with `anticipate()` blinded to future events).
+Writes `scripts/backtest-report.md` + `scripts/backtest-results.json` — per-provider Brier/log-loss on **non-overlapping** weekly & post-reset checkpoints plus gap-conditional residuals (`anticipate()` blinded to future events). Pooled overlapping daily band-lift is not the success bar.
 
 ## Refresh seed data
 
