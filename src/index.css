@@ -1,0 +1,79 @@
+:root {
+  color-scheme: dark;
+  --bg: #0b0f14;
+  --bg-elev: #121821;
+  --bg-elev-2: #18212d;
+  --border: #243041;
+  --text: #e7eef8;
+  --muted: #93a0b4;
+  --claude: #d4a27f;
+  --claude-dim: rgba(212, 162, 127, 0.18);
+  --codex: #6cb6ff;
+  --codex-dim: rgba(108, 182, 255, 0.16);
+  --good: #5ddea8;
+  --warn: #f0c14a;
+  --hot: #ff8b7a;
+  --radius: 14px;
+  --shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+  font-family:
+    'Segoe UI',
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background:
+    radial-gradient(1200px 600px at 10% -10%, rgba(212, 162, 127, 0.12), transparent 55%),
+    radial-gradient(900px 500px at 90% 0%, rgba(108, 182, 255, 0.1), transparent 50%),
+    var(--bg);
+}
+
+a {
+  color: var(--codex);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.9em;
+  background: var(--bg-elev-2);
+  padding: 0.1em 0.35em;
+  border-radius: 6px;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.2;
+  margin: 0 0 0.4rem;
+  letter-spacing: -0.02em;
+}
+
+p {
+  margin: 0 0 0.75rem;
+}

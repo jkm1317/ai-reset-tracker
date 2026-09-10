@@ -1,0 +1,88 @@
+{
+  "site": "AI Reset Tracker",
+  "name": "ai-reset-tracker",
+  "generatedAt": "2026-09-10T18:21:10Z",
+  "disclaimer": "Unofficial community tracker. Not affiliated with Anthropic, OpenAI, xAI, Claude, Codex, or Grok.",
+  "providers": {
+    "claude": {
+      "name": "Claude",
+      "product": "Claude Code",
+      "account": "ClaudeDevs",
+      "accountUrl": "https://x.com/ClaudeDevs",
+      "resetCount": 11,
+      "policyChangeCount": 5,
+      "lastResetAt": "2026-09-04T20:08:45Z",
+      "lastResetUrl": "https://x.com/lydiahallie/status/2095967323412930677",
+      "lastResetAccount": "lydiahallie",
+      "lastResetScope": "Max",
+      "firstResetAt": "2026-04-16T20:02:04Z",
+      "meanGapDays": 14.1,
+      "longestGapDays": 50.7,
+      "daysSinceLast": 5.9,
+      "pacePerMonth": 2.4,
+      "deliveryCounts": {
+        "immediate": 11
+      },
+      "reasonTagCounts": {
+        "incident": 6,
+        "weekend_holiday": 2,
+        "usage_anomaly": 1,
+        "goodwill": 3,
+        "milestone": 1,
+        "product_launch": 2
+      },
+      "datasetAttribution": "Adapted from https://claude-resets.com/data/resets.json"
+    },
+    "codex": {
+      "name": "Codex",
+      "product": "Codex / ChatGPT",
+      "account": "thsottiaux",
+      "accountUrl": "https://x.com/thsottiaux",
+      "resetCount": 52,
+      "policyChangeCount": 0,
+      "lastResetAt": "2026-09-08T01:56:57Z",
+      "lastResetUrl": "https://x.com/thsottiaux/status/2097174560412246215",
+      "lastResetAccount": "thsottiaux",
+      "lastResetScope": "all paid",
+      "firstResetAt": "2025-09-17T04:02:52Z",
+      "meanGapDays": 7.0,
+      "longestGapDays": 67.7,
+      "daysSinceLast": 2.7,
+      "pacePerMonth": 4.4,
+      "deliveryCounts": {
+        "immediate": 46,
+        "banked": 6
+      },
+      "reasonTagCounts": {
+        "capacity": 2,
+        "incident": 15,
+        "product_launch": 12,
+        "goodwill": 10,
+        "milestone": 15,
+        "weekend_holiday": 9,
+        "usage_anomaly": 7,
+        "banked_credit": 7
+      },
+      "datasetAttribution": "Curated from https://codex-resets.com/ announcements"
+    },
+    "grok": {
+      "name": "Grok",
+      "status": "todo",
+      "note": "Deferred \u2014 stub only.",
+      "resetCount": 0
+    }
+  },
+  "definitions": {
+    "reset": "Announcement that flushed usage counters (5-hour and/or weekly).",
+    "policy": "Announcement that changed limits without flushing counters; listed but not counted as a reset.",
+    "immediate": "Reset applied (or propagating) without requiring the user to redeem a banked credit.",
+    "banked": "Credit placed in a reset bank for the user to apply later.",
+    "unknown": "Delivery mode unclear from the announcement text."
+  },
+  "urls": {
+    "resets": "/data/resets.json",
+    "summary": "/data/summary.json",
+    "llms": "/llms.txt",
+    "rss": "/rss.xml"
+  }
+}

@@ -1,0 +1,1027 @@
+{
+  "meta": {
+    "name": "AI Reset Tracker",
+    "generatedAt": "2026-09-10T18:21:10Z",
+    "attribution": [
+      "Claude event catalog adapted from https://claude-resets.com/data/resets.json (with attribution).",
+      "Codex announcements curated from https://codex-resets.com/ and @thsottiaux posts; timestamps from announcement times / status IDs.",
+      "Not affiliated with Anthropic, OpenAI, or xAI."
+    ],
+    "definitions": {
+      "reset": "Announcement that flushed usage counters (5-hour and/or weekly).",
+      "policy": "Announcement that changed limits without flushing counters; listed but not counted as a reset.",
+      "immediate": "Reset applied (or propagating) without requiring the user to redeem a banked credit.",
+      "banked": "Credit placed in a reset bank for the user to apply later.",
+      "unknown": "Delivery mode unclear from the announcement text."
+    }
+  },
+  "providers": {
+    "claude": {
+      "name": "Claude",
+      "product": "Claude Code",
+      "account": "ClaudeDevs",
+      "accountUrl": "https://x.com/ClaudeDevs",
+      "events": [
+        {
+          "id": "2044868953206612154",
+          "provider": "claude",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "incident"
+          ],
+          "scope": "all",
+          "date": "2026-04-16T20:02:04Z",
+          "url": "https://x.com/ClaudeDevs/status/2044868953206612154",
+          "account": "ClaudeDevs",
+          "note": "Fixed a bug where subscription rate limits weren't adjusted for long-context requests on Opus 4.7, then reset 5-hour and weekly limits."
+        },
+        {
+          "id": "2047371123185287223",
+          "provider": "claude",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "incident"
+          ],
+          "scope": "all",
+          "date": "2026-04-23T17:44:48Z",
+          "url": "https://x.com/ClaudeDevs/status/2047371123185287223",
+          "account": "ClaudeDevs",
+          "note": "Published a post-mortem on three Claude Code quality regressions, fixed in v2.1.116+, and reset usage limits for all subscribers."
+        },
+        {
+          "id": "2052064938840228237",
+          "provider": "claude",
+          "kind": "policy",
+          "delivery": "unknown",
+          "reason_tags": [
+            "policy_change"
+          ],
+          "scope": "paid plans",
+          "date": "2026-05-06T16:36:21Z",
+          "url": "https://x.com/ClaudeDevs/status/2052064938840228237",
+          "account": "ClaudeDevs",
+          "note": "Doubled Claude Code's 5-hour limits on Pro, Max, Team and seat-based Enterprise, removed the peak-hours reduction, and raised Opus API limits."
+        },
+        {
+          "id": "2055347539923308703",
+          "provider": "claude",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "incident",
+            "weekend_holiday"
+          ],
+          "scope": "all",
+          "date": "2026-05-15T18:00:14Z",
+          "url": "https://x.com/ClaudeDevs/status/2055347539923308703",
+          "account": "ClaudeDevs",
+          "note": "A Friday reset of everyone's 5-hour and weekly rate limits, with no incident attached."
+        },
+        {
+          "id": "2061501787769893055",
+          "provider": "claude",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "incident",
+            "usage_anomaly"
+          ],
+          "scope": "Pro + Max",
+          "date": "2026-06-01T17:35:01Z",
+          "url": "https://x.com/ClaudeDevs/status/2061501787769893055",
+          "account": "ClaudeDevs",
+          "note": "Fixed an issue where some Claude Code sessions spawned excessive parallel subagents and burned usage faster than expected, then reset limits."
+        },
+        {
+          "id": "2064464557951852643",
+          "provider": "claude",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "goodwill"
+          ],
+          "scope": "all",
+          "date": "2026-06-09T21:48:01Z",
+          "url": "https://x.com/ClaudeDevs/status/2064464557951852643",
+          "account": "ClaudeDevs",
+          "note": "Reset 5-hour and weekly rate limits for all users."
+        },
+        {
+          "id": "2067802163498352929",
+          "provider": "claude",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "incident",
+            "milestone"
+          ],
+          "scope": "affected users",
+          "date": "2026-06-19T02:50:28Z",
+          "url": "https://x.com/ClaudeDevs/status/2067802163498352929",
+          "account": "ClaudeDevs",
+          "note": "About 3% of Max and Pro users hit a bug showing an incorrect weekly limit, in some cases blocking messages; limits reset for everyone affected."
+        },
+        {
+          "id": "2068122937308426676",
+          "provider": "claude",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "incident"
+          ],
+          "scope": "all",
+          "date": "2026-06-20T00:05:06Z",
+          "url": "https://x.com/ClaudeDevs/status/2068122937308426676",
+          "account": "ClaudeDevs",
+          "note": "Followed up the incorrect-weekly-limit bug by resetting 5-hour and weekly usage limits for everyone, across all plans."
+        },
+        {
+          "id": "2072429181565288665",
+          "provider": "claude",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "product_launch"
+          ],
+          "scope": "all",
+          "date": "2026-07-01T21:16:35Z",
+          "url": "https://x.com/ClaudeDevs/status/2072429181565288665",
+          "account": "ClaudeDevs",
+          "note": "Reset everyone's 5-hour and weekly rate limits once Fable 5 was ready to build with again."
+        },
+        {
+          "id": "2075279141352706215",
+          "provider": "claude",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "goodwill"
+          ],
+          "scope": "all",
+          "date": "2026-07-09T18:01:18Z",
+          "url": "https://x.com/ClaudeDevs/status/2075279141352706215",
+          "account": "ClaudeDevs",
+          "note": "Reset 5-hour and weekly rate limits for all users."
+        },
+        {
+          "id": "2077603834453770467",
+          "provider": "claude",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "goodwill"
+          ],
+          "scope": "all",
+          "date": "2026-07-16T03:58:48Z",
+          "url": "https://x.com/ClaudeDevs/status/2077603834453770467",
+          "account": "ClaudeDevs",
+          "note": "Reset 5-hour and weekly rate limits for all users."
+        },
+        {
+          "id": "2078511173759324328",
+          "provider": "claude",
+          "kind": "policy",
+          "delivery": "unknown",
+          "reason_tags": [
+            "policy_change"
+          ],
+          "scope": "paid plans",
+          "date": "2026-07-18T16:04:15Z",
+          "url": "https://x.com/ClaudeDevs/status/2078511173759324328",
+          "account": "ClaudeDevs",
+          "note": "Kept Claude Code weekly limits 50% higher through August 19 for Pro, Max, Team and seat-based Enterprise users."
+        },
+        {
+          "id": "2089798442306711646",
+          "provider": "claude",
+          "kind": "policy",
+          "delivery": "unknown",
+          "reason_tags": [
+            "capacity",
+            "policy_change"
+          ],
+          "scope": "paid plans",
+          "date": "2026-08-18T19:35:49Z",
+          "url": "https://x.com/ClaudeDevs/status/2089798442306711646",
+          "account": "ClaudeDevs",
+          "note": "Extended the 50% higher Claude Code weekly limits through August 31, and said Anthropic hopes to make the increase permanent though capacity may stay tight."
+        },
+        {
+          "id": "2093730620539289689",
+          "provider": "claude",
+          "kind": "policy",
+          "delivery": "unknown",
+          "reason_tags": [
+            "policy_change"
+          ],
+          "scope": "paid plans",
+          "date": "2026-08-29T16:00:54Z",
+          "url": "https://x.com/ClaudeDevs/status/2093730620539289689",
+          "account": "ClaudeDevs",
+          "note": "Said standard weekly limits rise a permanent 25% from Sept 14 for Pro, Max, Team and seat-based Enterprise, with the temporary 50% increase holding until Sept 13."
+        },
+        {
+          "id": "2093742321473065266",
+          "provider": "claude",
+          "kind": "policy",
+          "delivery": "unknown",
+          "reason_tags": [
+            "policy_change"
+          ],
+          "scope": "paid plans",
+          "date": "2026-08-29T16:47:23Z",
+          "url": "https://x.com/ClaudeDevs/status/2093742321473065266",
+          "account": "ClaudeDevs",
+          "note": "Restated the permanent 25% weekly limit rise from September 14 for Pro, Max, Team and seat-based Enterprise, naming Claude Code explicitly."
+        },
+        {
+          "id": "2095967323412930677",
+          "provider": "claude",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "weekend_holiday",
+            "product_launch"
+          ],
+          "scope": "Max",
+          "date": "2026-09-04T20:08:45Z",
+          "url": "https://x.com/lydiahallie/status/2095967323412930677",
+          "account": "lydiahallie",
+          "note": "Reset weekly limits for everyone on a Claude Max plan after Fable 5.1 launched, so people could keep building over the long weekend."
+        }
+      ]
+    },
+    "codex": {
+      "name": "Codex",
+      "product": "Codex / ChatGPT",
+      "account": "thsottiaux",
+      "accountUrl": "https://x.com/thsottiaux",
+      "events": [
+        {
+          "id": "1968163721034994139",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "capacity"
+          ],
+          "scope": "all paid",
+          "date": "2025-09-17T04:02:52Z",
+          "url": "https://x.com/thsottiaux/status/1968163721034994139",
+          "account": "thsottiaux",
+          "note": "We have reset everyone's limits for gpt-5-codex to allow you all to benefit more from it today and as a way to make up for the slowdowns earlier while we were provisioning additional GPUs. We'll continue to add capacity throughout the week to maintain the speed. Enjoy!"
+        },
+        {
+          "id": "1986166501435711936",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "incident",
+            "product_launch"
+          ],
+          "scope": "all paid",
+          "date": "2025-11-05T20:19:29Z",
+          "url": "https://x.com/thsottiaux/status/1986166501435711936",
+          "account": "thsottiaux",
+          "note": "Codex outage resolved. We suffered a minor outage for last 45 minutes which turned into a global outage for last 30 minutes, this is now resolved and we have reset the rate limits. Please let me know if you still see issues."
+        },
+        {
+          "id": "1992370994028388670",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "goodwill"
+          ],
+          "scope": "all paid",
+          "date": "2025-11-22T23:13:56Z",
+          "url": "https://x.com/thsottiaux/status/1992370994028388670",
+          "account": "thsottiaux",
+          "note": "We have reset rate limits for all Codex users to compensate for the unusual high latencies in or near the US in the previous hours. Grateful for the team working hard behind the scenes to keep Codex running 24/7. I do recommend trying out GPT-5.1-Codex-Max too if you haven\u2019t!"
+        },
+        {
+          "id": "1995988609896513743",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "incident"
+          ],
+          "scope": "all paid",
+          "date": "2025-12-02T22:49:02Z",
+          "url": "https://x.com/thsottiaux/status/1995988609896513743",
+          "account": "thsottiaux",
+          "note": "We have reset the usage limits for everyone in Codex, which helps us mitigate the issue the fastest and the team will continue to work on the underlying cause. This should propagate to all users over the next 10 mins, enjoy and apologies for the confusion!"
+        },
+        {
+          "id": "2001114683047317723",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "incident"
+          ],
+          "scope": "all paid",
+          "date": "2025-12-17T02:18:14Z",
+          "url": "https://x.com/thsottiaux/status/2001114683047317723",
+          "account": "thsottiaux",
+          "note": "Didn\u2019t need to do this in a while, but you know the drill. We have reset everyone\u2019s usage limits, enjoy more Codex and apologies for the disruption."
+        },
+        {
+          "id": "2002137269134819610",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "milestone"
+          ],
+          "scope": "all paid",
+          "date": "2025-12-19T22:01:37Z",
+          "url": "https://x.com/thsottiaux/status/2002137269134819610",
+          "account": "thsottiaux",
+          "note": "We rewrote the underlying system to track and bill usage in Codex and we have reset usage limits in the process. Backfilling is time consuming and it\u2019s more fun to give free usage. Enjoy!"
+        },
+        {
+          "id": "2004100061933064395",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "weekend_holiday"
+          ],
+          "scope": "all paid",
+          "date": "2025-12-25T08:01:03Z",
+          "url": "https://x.com/thsottiaux/status/2004100061933064395",
+          "account": "thsottiaux",
+          "note": "For Codex users, to thank you all for the fun we've had over the last months, our first gift is that we have **reset rate limits and are lifting the usage limits to 2X the usual limits until the 1st of Jan**. Wish you all a merry holiday and lots of coding!! Spread the word \ud83d\udc40"
+        },
+        {
+          "id": "2028649088594436225",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "incident"
+          ],
+          "scope": "all paid",
+          "date": "2026-03-03T01:50:07Z",
+          "url": "https://x.com/thsottiaux/status/2028649088594436225",
+          "account": "thsottiaux",
+          "note": "Codex is back up. We introduced an issue that caused requests to be blocked and rejected as high cyber risk. This was fixed in ~8 mins and we are now back online and fully operational. Team will reset rate limits, that\u2019s been a while. Enjoy one on us."
+        },
+        {
+          "id": "2029308599835738218",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "incident"
+          ],
+          "scope": "Plus + Pro",
+          "date": "2026-03-04T21:30:47Z",
+          "url": "https://x.com/thsottiaux/status/2029308599835738218",
+          "account": "thsottiaux",
+          "note": "We caught an issue that was causing the 2X promotional increase in limits to not be applied to an estimated 9% of plus and pro users for Codex. We have now fixed this issue and are reseting the rate limit for all plus and pro users to compensate. Apologies and thank you for the"
+        },
+        {
+          "id": "2030474136024400173",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "incident",
+            "usage_anomaly"
+          ],
+          "scope": "all paid",
+          "date": "2026-03-08T02:42:13Z",
+          "url": "https://x.com/thsottiaux/status/2030474136024400173",
+          "account": "thsottiaux",
+          "note": "We don\u2019t have evidence of a widespread issue with codex usage being drained faster than it should but there are enough reports and we have reset rate limits for plus &amp; pro subscriptions while we work towards wrapping up our investigation over the coming 1-3 days."
+        },
+        {
+          "id": "2031216405266481489",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "incident",
+            "product_launch"
+          ],
+          "scope": "all paid",
+          "date": "2026-03-10T03:51:43Z",
+          "url": "https://x.com/thsottiaux/status/2031216405266481489",
+          "account": "thsottiaux",
+          "note": "This codex issue is now fully resolved and stable for the last couple of hours. You have come to expect it, but yes, that means we will be reseting rate limits in a bit. Enjoy."
+        },
+        {
+          "id": "2031605592352313567",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "goodwill"
+          ],
+          "scope": "all paid",
+          "date": "2026-03-11T05:38:13Z",
+          "url": "https://x.com/thsottiaux/status/2031605592352313567",
+          "account": "thsottiaux",
+          "note": "OK, Codex is back and stable and we should be good for a while. Reset button pressed, should see it in a bit"
+        },
+        {
+          "id": "2037346989244096581",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "product_launch"
+          ],
+          "scope": "all paid",
+          "date": "2026-03-27T01:52:28Z",
+          "url": "https://x.com/thsottiaux/status/2037346989244096581",
+          "account": "thsottiaux",
+          "note": "Hello. We have reset Codex usage limits across all plans to let everyone experiment with the magnificent plugins we just launched, and because it had been a while! You can just build unlimited things with Codex. Have fun!"
+        },
+        {
+          "id": "2039248564967424483",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "milestone"
+          ],
+          "scope": "all paid",
+          "date": "2026-04-01T07:48:39Z",
+          "url": "https://x.com/thsottiaux/status/2039248564967424483",
+          "account": "thsottiaux",
+          "note": "Our Codex dashboards are showing increased rate of users hitting rate limits and since we don't fully understand why I have made the cautious decision of resetting the usage limits for all plans. Enjoy. I also wanted to celebrate us finding a pocket of fraudulent accounts that"
+        },
+        {
+          "id": "2041655710346572085",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "milestone"
+          ],
+          "scope": "all paid",
+          "date": "2026-04-07T23:13:48Z",
+          "url": "https://x.com/thsottiaux/status/2041655710346572085",
+          "account": "thsottiaux",
+          "note": "Three million people are now using Codex weekly - up from two million a little under a month ago. Incredible to see the growth. Thank you to all of you and to the ecosystem we\u2019re part of. To celebrate, we\u2019re resetting rate limits so you can keep building, and we\u2019ll reset them"
+        },
+        {
+          "id": "2042299371602264319",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "product_launch"
+          ],
+          "scope": "all paid",
+          "date": "2026-04-09T17:51:28Z",
+          "url": "https://x.com/thsottiaux/status/2042299371602264319",
+          "account": "thsottiaux",
+          "note": "We did it, say hi to the $100 plan! It should be the sweet spot for a ton of you. It comes with a ton of codex usage. And yes we are resetting the limits again too as I mentioned yesterday. Let\u2019s keep building!"
+        },
+        {
+          "id": "2044943514832871564",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "milestone",
+            "product_launch"
+          ],
+          "scope": "all paid",
+          "date": "2026-04-17T00:58:21Z",
+          "url": "https://x.com/thsottiaux/status/2044943514832871564",
+          "account": "thsottiaux",
+          "note": "Hi! To celebrate its 1-year anniversary, I have allowed Codex to reset its own rate limits across all plans. Enjoy all the new features."
+        },
+        {
+          "id": "2046367145588916687",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "incident"
+          ],
+          "scope": "all paid",
+          "date": "2026-04-20T23:15:21Z",
+          "url": "https://x.com/thsottiaux/status/2046367145588916687",
+          "account": "thsottiaux",
+          "note": "Codex incident is mitigated, seeing recovery. Lasted about 10 mins, Codex itself helped with the remediation, but ultimately the insight came from a human this time. Apologies for the disruption and rate limit reset incoming."
+        },
+        {
+          "id": "2048997818673537399",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "milestone"
+          ],
+          "scope": "all paid",
+          "date": "2026-04-28T05:28:43Z",
+          "url": "https://x.com/thsottiaux/status/2048997818673537399",
+          "account": "thsottiaux",
+          "note": "Don't just reset Codex rate limits for fun, it costs money. Don't just reset Codex rate limits for fun, it costs money. ... but the vibes are good ... I have reset Codex rate limits for ALL paid plans to celebrate a good week and allow everyone to build more with GPT-5.5. Enjoy"
+        },
+        {
+          "id": "2055707616605835333",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "weekend_holiday"
+          ],
+          "scope": "all paid",
+          "date": "2026-05-16T17:51:03Z",
+          "url": "https://x.com/thsottiaux/status/2055707616605835333",
+          "account": "thsottiaux",
+          "note": "Codex usage limits have now been reset across all paid plans. Enjoy the weekend!"
+        },
+        {
+          "id": "2058280452851638313",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "incident",
+            "milestone",
+            "weekend_holiday",
+            "usage_anomaly"
+          ],
+          "scope": "all paid",
+          "date": "2026-05-23T20:14:35Z",
+          "url": "https://x.com/thsottiaux/status/2058280452851638313",
+          "account": "thsottiaux",
+          "note": "Some of you noticed limits drained faster in Codex, we root caused it to an optimization that we rolled back that had an impact on cache hit rates when compacting across long running sessions. We fixed this and have now reset usage limits for all accounts. Enjoy the weekend."
+        },
+        {
+          "id": "2061106703446450392",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "goodwill"
+          ],
+          "scope": "all paid",
+          "date": "2026-05-31T15:25:06Z",
+          "url": "https://x.com/thsottiaux/status/2061106703446450392",
+          "account": "thsottiaux",
+          "note": "The Codex usage limits have been reset for all paid ChatGPT subscriptions. You should be back to 100% weekly and 100% hourly limits. Let the tokens do incredible things today and have fun."
+        },
+        {
+          "id": "2062329981548802523",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "incident"
+          ],
+          "scope": "all paid",
+          "date": "2026-06-04T00:25:58Z",
+          "url": "https://x.com/thsottiaux/status/2062329981548802523",
+          "account": "thsottiaux",
+          "note": "Hi. Over the last 24 hours we had three separate small incidents that affected Codex reliability. Those are three too many and we are taking active steps for them to not reproduce. I have reset usage limits for Codex across all paid plans. May the tokens flow again."
+        },
+        {
+          "id": "2067399435009622521",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "goodwill"
+          ],
+          "scope": "all paid",
+          "date": "2026-06-18T00:10:10Z",
+          "url": "https://x.com/thsottiaux/status/2067399435009622521",
+          "account": "thsottiaux",
+          "note": "Dearest gentle codexer. We did a sneaky double reset. Not only do you get a full reset on us. But you are also getting one into the reset bank to use at your own leisure. Enjoy"
+        },
+        {
+          "id": "2070653282440405046",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "usage_anomaly"
+          ],
+          "scope": "all paid",
+          "date": "2026-06-26T23:39:48Z",
+          "url": "https://x.com/thsottiaux/status/2070653282440405046",
+          "account": "thsottiaux",
+          "note": "We are giving all Codex users a usage reset on the house. Should be showing in your accounts in the next few hours. We have applied some mitigations, but our investigation hasn't shown users being impacted at large. We are continuing to monitor the situation."
+        },
+        {
+          "id": "2071381664853319742",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "banked",
+          "reason_tags": [
+            "banked_credit",
+            "usage_anomaly"
+          ],
+          "scope": "all paid",
+          "date": "2026-06-28T23:54:07Z",
+          "url": "https://x.com/thsottiaux/status/2071381664853319742",
+          "account": "thsottiaux",
+          "note": "As we are still investigating, I have reset everyone's Codex usage limits. This is a hard reset given some users had stacked up to three banked resets already that they can apply on their own schedule. Funnily enough, this week at OpenAI is called the RESET week, which is meant"
+        },
+        {
+          "id": "2071740419030053227",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "incident",
+            "banked_credit",
+            "usage_anomaly"
+          ],
+          "scope": "all paid",
+          "date": "2026-06-29T23:39:41Z",
+          "url": "https://x.com/thsottiaux/status/2071740419030053227",
+          "account": "thsottiaux",
+          "note": "Codex usage limits will be fully reset again in the next hour and we will credit one additional reset into your bank for your own usage over the next 24 hours. We investigated reports that Codex usage was being consumed faster than expected. There wasn't one central issue, but a"
+        },
+        {
+          "id": "2075330198887940337",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "goodwill"
+          ],
+          "scope": "all paid",
+          "date": "2026-07-09T21:24:11Z",
+          "url": "https://x.com/thsottiaux/status/2075330198887940337",
+          "account": "thsottiaux",
+          "note": "Enjoy a full reset of your usage limits for ChatGPT Work and Codex. Propagating in the next hour. @_rajanagarwal just joined to work on model research and push on coding capabilities. You can thank him for pressing the button today."
+        },
+        {
+          "id": "2075641131002700120",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "goodwill"
+          ],
+          "scope": "all paid",
+          "date": "2026-07-10T17:59:43Z",
+          "url": "https://x.com/thsottiaux/status/2075641131002700120",
+          "account": "thsottiaux",
+          "note": "Hello beautiful people! We have reset usage limits across Codex and ChatGPT Work. And another one will come later in the day. Rejoice. Now that I have your attention, a quick update on ChatGPT Work, Codex and all the updates we shared yesterday. We\u2019ve spent the last 24 hours"
+        },
+        {
+          "id": "2075820987833274448",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "weekend_holiday",
+            "product_launch"
+          ],
+          "scope": "all paid",
+          "date": "2026-07-11T05:54:25Z",
+          "url": "https://x.com/thsottiaux/status/2075820987833274448",
+          "account": "thsottiaux",
+          "note": "Introducing... another usage limit reset for all our ChatGPT Work and Codex users. Should land over next 30 minutes. Hope you have an awesome weekend. Thank you for pushing our systems to the absolute limit, we have never seen traffic increase so quickly. Keep the feedback"
+        },
+        {
+          "id": "2076418567143408112",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "banked",
+          "reason_tags": [
+            "incident",
+            "banked_credit"
+          ],
+          "scope": "subset (~500k)",
+          "date": "2026-07-12T21:28:59Z",
+          "url": "https://x.com/thsottiaux/status/2076418567143408112",
+          "account": "thsottiaux",
+          "note": "Added a banked reset to 500k users of ChatGPT Work and Codex. What\u2019s been happening: - Just released the ability to use a banked reset from web and mobile. Before today you could only do it in the desktop app - Had an issue where less than 10% of users who used a banked reset"
+        },
+        {
+          "id": "2076735790567338203",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "banked",
+          "reason_tags": [
+            "milestone",
+            "banked_credit"
+          ],
+          "scope": "all paid",
+          "date": "2026-07-13T18:29:31Z",
+          "url": "https://x.com/thsottiaux/status/2076735790567338203",
+          "account": "thsottiaux",
+          "note": "Thank you to the 7M active users who are now using Codex and ChatGPT Work. We have added a banked reset to everyone's account to celebrate the milestone. You can apply the reset in the desktop app or on web and it will replenish the weekly usage for you. Have fun out there."
+        },
+        {
+          "id": "2077114635308986427",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "milestone",
+            "product_launch"
+          ],
+          "scope": "all paid",
+          "date": "2026-07-14T19:34:54Z",
+          "url": "https://x.com/thsottiaux/status/2077114635308986427",
+          "account": "thsottiaux",
+          "note": "Hello. We have reached 8M active users across Codex and ChatGPT Work. We are once again resetting the usage limits for all. And we continue to not have the 5h rate limit as well, allowing everyone to explore the boundaries of GPT-5.6 Sol and discover how ambitious you can be."
+        },
+        {
+          "id": "2077607697487188198",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "milestone"
+          ],
+          "scope": "all paid",
+          "date": "2026-07-16T04:14:09Z",
+          "url": "https://x.com/thsottiaux/status/2077607697487188198",
+          "account": "thsottiaux",
+          "note": "Another reset for our Codex and ChatGPT Work users. Actually hit 9M active users way earlier today, but then got distracted by the approximately millions of things the team is doing to keep the systems up and reliable. Should have that sweet 100% weekly usage limit back in a few"
+        },
+        {
+          "id": "2078320950488297917",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "weekend_holiday",
+            "usage_anomaly",
+            "capacity"
+          ],
+          "scope": "all paid",
+          "date": "2026-07-18T03:28:22Z",
+          "url": "https://x.com/thsottiaux/status/2078320950488297917",
+          "account": "thsottiaux",
+          "note": "Oops... I did it again. Enjoy reset usage limits for all paid users for Codex and ChatGPT Work. Super grateful for an incredible team who is iterating at lightspeed and keeping the infra up as we scale faster than ever. Enjoy the weekend!"
+        },
+        {
+          "id": "2079609157934886975",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "milestone"
+          ],
+          "scope": "all paid",
+          "date": "2026-07-21T16:47:15Z",
+          "url": "https://x.com/thsottiaux/status/2079609157934886975",
+          "account": "thsottiaux",
+          "note": "10M! New day, new usage reset for paid users of Codex and ChatGPT Work. Lands in the next hour. Enjoy."
+        },
+        {
+          "id": "2081096447718723984",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "incident"
+          ],
+          "scope": "all paid",
+          "date": "2026-07-25T19:17:12Z",
+          "url": "https://x.com/thsottiaux/status/2081096447718723984",
+          "account": "thsottiaux",
+          "note": "We have reset usage limits for all Codex and ChatGPT Work users. Last night around 2am to 4am we suffered an almost global outage. All well and recovered, but you know what comes next. We learn. We reset. Enjoy."
+        },
+        {
+          "id": "2081940052154933696",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "goodwill"
+          ],
+          "scope": "all paid",
+          "date": "2026-07-28T03:09:23Z",
+          "url": "https://x.com/thsottiaux/status/2081940052154933696",
+          "account": "thsottiaux",
+          "note": "Back at the laptop. The usage limits have been reset for all paid users of Codex and ChatGPT Work. Weeeeeeeee. It's a good day!"
+        },
+        {
+          "id": "2082317452755751098",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "product_launch",
+            "usage_anomaly"
+          ],
+          "scope": "all paid",
+          "date": "2026-07-29T04:09:02Z",
+          "url": "https://x.com/thsottiaux/status/2082317452755751098",
+          "account": "thsottiaux",
+          "note": "Hello people of Sol! I've reset usage limits for all ChatGPT Work and Codex users. Together with that, a quick update on GPT-5.6 Sol usage limits. Over the past few weeks, many of you have told us that Sol was using your Codex limits faster than expected. To be clear, we have"
+        },
+        {
+          "id": "2083395449814229287",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "milestone",
+            "weekend_holiday"
+          ],
+          "scope": "all paid",
+          "date": "2026-08-01T03:32:37Z",
+          "url": "https://x.com/thsottiaux/status/2083395449814229287",
+          "account": "thsottiaux",
+          "note": "To celebrate a week of efficiency and let you run 100'000 Luna threads this weekend... that's right... wait for it... I have reset usage limits for Codex and ChatGPT Work. Enjoy."
+        },
+        {
+          "id": "2086188036493344823",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "milestone",
+            "product_launch"
+          ],
+          "scope": "all paid",
+          "date": "2026-08-08T20:29:22Z",
+          "url": "https://x.com/thsottiaux/status/2086188036493344823",
+          "account": "thsottiaux",
+          "note": "That's right, GPT-5.6 Sol is awesome and can be used pretty much anywhere, including in the CC harness. To celebrate this, together with the fact that I'm not going anywhere... I have reset usage limits for all paid users of ChatGPT Work and Codex. Have fun out there!"
+        },
+        {
+          "id": "2086972802457063486",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "goodwill"
+          ],
+          "scope": "all paid",
+          "date": "2026-08-11T00:27:44Z",
+          "url": "https://x.com/thsottiaux/status/2086972802457063486",
+          "account": "thsottiaux",
+          "note": "Hi. It is done."
+        },
+        {
+          "id": "2087706104814023111",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "milestone"
+          ],
+          "scope": "all paid",
+          "date": "2026-08-13T01:01:37Z",
+          "url": "https://x.com/thsottiaux/status/2087706104814023111",
+          "account": "thsottiaux",
+          "note": "Old news actually from a bunch of days ago, but crossed that 15M. Enjoy a nice reset everyone. Landing in the next hour or so, go /fast."
+        },
+        {
+          "id": "2090766694897619318",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "banked",
+          "reason_tags": [
+            "milestone",
+            "banked_credit"
+          ],
+          "scope": "all paid",
+          "date": "2026-08-21T11:43:19Z",
+          "url": "https://x.com/thsottiaux/status/2090766694897619318",
+          "account": "thsottiaux",
+          "note": "It's me again. I come bearing great news. First of all, we have hit 20M active users for Codex some time this week. Second of all, this is cause for celebration and during the day we will credit every Codex and ChatGPT Work user with a BANKED reset that you can use at your own"
+        },
+        {
+          "id": "2091688655828246890",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "incident",
+            "weekend_holiday"
+          ],
+          "scope": "all paid",
+          "date": "2026-08-24T00:46:51Z",
+          "url": "https://x.com/thsottiaux/status/2091688655828246890",
+          "account": "thsottiaux",
+          "note": "Good Sunday. Reset has been propagated to accounts and we landed some fixes to usage for things mentioned yesterday as issues we found. You should feel a positive difference. More to come tomorrow and will keep communicating."
+        },
+        {
+          "id": "2092311059197808936",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "goodwill"
+          ],
+          "scope": "all paid",
+          "date": "2026-08-25T14:30:00Z",
+          "url": "https://x.com/thsottiaux/status/2092311059197808936",
+          "account": "thsottiaux",
+          "note": "@dtzy_88 Ah yeah, forgot to say"
+        },
+        {
+          "id": "2093014447833116908",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "goodwill"
+          ],
+          "scope": "all paid",
+          "date": "2026-08-27T16:35:05Z",
+          "url": "https://x.com/thsottiaux/status/2093014447833116908",
+          "account": "thsottiaux",
+          "note": "Never slept better and feeling reseted. Brand new me and brand new usage for all ChatGPT Work and Codex users. Regaining my youth one button press at a time. Happy Thursday"
+        },
+        {
+          "id": "2093801758665715784",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "incident",
+            "weekend_holiday"
+          ],
+          "scope": "all paid",
+          "date": "2026-08-29T20:43:34Z",
+          "url": "https://x.com/thsottiaux/status/2093801758665715784",
+          "account": "thsottiaux",
+          "note": "We are reseting usage for all paid users of Codex and ChatGPT Work. Please continue reading for an update on Codex usage limits. The team has been working around the clock, going through thousands of reports and shipping fixes. Depending on how you use Codex, you should see yo..."
+        },
+        {
+          "id": "2094251180121854309",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "milestone"
+          ],
+          "scope": "all paid",
+          "date": "2026-08-31T02:29:25Z",
+          "url": "https://x.com/thsottiaux/status/2094251180121854309",
+          "account": "thsottiaux",
+          "note": "What I wanted to say yesterday is that we hit 25M active users and to celebrate we have now reset usage for all paid subscriptions for ChatGPT Work and Codex. See you see for more news from The Reset Company."
+        },
+        {
+          "id": "2095651088502591861",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "banked",
+          "reason_tags": [
+            "product_launch",
+            "banked_credit"
+          ],
+          "scope": "all paid",
+          "date": "2026-09-03T23:12:09Z",
+          "url": "https://x.com/thsottiaux/status/2095651088502591861",
+          "account": "thsottiaux",
+          "note": "We will give one banked reset for every day you don't have access to Astra on your paid ChatGPT plan, starting today. Team is moving mountains to give access as fast as we can. First one will land in ~ 3 hours. There is still time to create your account if you don't have one."
+        },
+        {
+          "id": "2096035437299237298",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "banked",
+          "reason_tags": [
+            "weekend_holiday",
+            "product_launch",
+            "banked_credit"
+          ],
+          "scope": "all paid",
+          "date": "2026-09-05T00:39:25Z",
+          "url": "https://x.com/thsottiaux/status/2096035437299237298",
+          "account": "thsottiaux",
+          "note": "Because we are beyond happy to have Astra rolled out today ahead of schedule and you have been super patient with us (not really, but it\u2019s ok!)\u2026 we will do the full banked reset today too for all Plus, Pro and Business users. Lands end of day. Happy Astra day and enjoy a pheno..."
+        },
+        {
+          "id": "2097174560412246215",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "product_launch"
+          ],
+          "scope": "all paid",
+          "date": "2026-09-08T01:56:57Z",
+          "url": "https://x.com/thsottiaux/status/2097174560412246215",
+          "account": "thsottiaux",
+          "note": "All reset for everyone. Enjoy the week with Astra."
+        }
+      ]
+    },
+    "grok": {
+      "name": "Grok",
+      "product": "Grok / xAI",
+      "account": null,
+      "accountUrl": null,
+      "status": "todo",
+      "note": "Grok / xAI usage-limit reset tracking is deferred. Stub provider only.",
+      "events": []
+    }
+  }
+}
