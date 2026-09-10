@@ -18,11 +18,11 @@ export default function App() {
 
   useEffect(() => {
     Promise.all([
-      fetch('/data/resets.json').then((r) => {
+      fetch(`${import.meta.env.BASE_URL}data/resets.json`).then((r) => {
         if (!r.ok) throw new Error(`resets.json ${r.status}`);
         return r.json();
       }),
-      fetch('/data/summary.json').then((r) => {
+      fetch(`${import.meta.env.BASE_URL}data/summary.json`).then((r) => {
         if (!r.ok) throw new Error(`summary.json ${r.status}`);
         return r.json();
       }),
@@ -159,16 +159,16 @@ export default function App() {
           <strong>Data</strong>
           <ul>
             <li>
-              <a href="/data/summary.json">/data/summary.json</a>
+              <a href={`${import.meta.env.BASE_URL}data/summary.json`}>/data/summary.json</a>
             </li>
             <li>
-              <a href="/data/resets.json">/data/resets.json</a>
+              <a href={`${import.meta.env.BASE_URL}data/resets.json`}>/data/resets.json</a>
             </li>
             <li>
-              <a href="/llms.txt">/llms.txt</a>
+              <a href={`${import.meta.env.BASE_URL}llms.txt`}>/llms.txt</a>
             </li>
             <li>
-              <a href="/rss.xml">/rss.xml</a>
+              <a href={`${import.meta.env.BASE_URL}rss.xml`}>/rss.xml</a>
             </li>
           </ul>
         </div>
