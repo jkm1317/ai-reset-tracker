@@ -74,6 +74,14 @@ npm run preview
 
 Static output lands in `dist/` — deploy that folder to any static host (GitHub Pages, Netlify, Cloudflare Pages, S3, etc.). Base path is `/ai-reset-tracker/` for GitHub Pages.
 
+## Blind backtest
+
+```bash
+npm run backtest
+```
+
+Writes `scripts/backtest-report.md` + `scripts/backtest-results.json` (walk history day-by-day with `anticipate()` blinded to future events).
+
 ## Refresh seed data
 
 Re-fetch upstream Claude/Codex catalogs and regenerate `public/data/*` (preserves curated Grok events + competitive tags):

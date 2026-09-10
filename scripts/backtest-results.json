@@ -1,0 +1,1286 @@
+{
+  "generatedAt": "2026-09-10T18:51:52.007Z",
+  "evalEnd": "2026-09-10",
+  "method": "Blind walk: at UTC midnight T, anticipate(provider, events<T, rivals, now=T). Outcomes: reset in (T, T+Kd]. Warmup: ≥2 prior resets before T.",
+  "providers": {
+    "claude": {
+      "resetCount": 11,
+      "firstReset": "2026-04-16T20:02:04Z",
+      "lastReset": "2026-09-04T20:08:45Z",
+      "evalStart": "2026-04-24",
+      "evalEnd": "2026-09-10",
+      "scoredDays": 140,
+      "summary": {
+        "scoredDays": 140,
+        "daysWith3dOutcome": 137,
+        "daysWith7dOutcome": 133,
+        "horizonCompleteDays": {
+          "end": "2026-09-10",
+          "start": "2026-04-24"
+        },
+        "baseline3": 0.18248175182481752,
+        "baseline7": 0.42105263157894735,
+        "byBand": {
+          "low": {
+            "days": 25,
+            "hitRate3": 0.28,
+            "hitRate7": 0.52,
+            "lift3": 1.5344000000000002,
+            "lift7": 1.235,
+            "avgScore": 8
+          },
+          "moderate": {
+            "days": 35,
+            "hitRate3": 0.2,
+            "hitRate7": 0.5428571428571428,
+            "lift3": 1.096,
+            "lift7": 1.2892857142857144,
+            "avgScore": 25.02857142857143
+          },
+          "elevated": {
+            "days": 30,
+            "hitRate3": 0.23333333333333334,
+            "hitRate7": 0.5,
+            "lift3": 1.2786666666666666,
+            "lift7": 1.1875,
+            "avgScore": 42.93333333333333
+          },
+          "high": {
+            "days": 43,
+            "hitRate3": 0.06976744186046512,
+            "hitRate7": 0.20930232558139536,
+            "lift3": 0.38232558139534883,
+            "lift7": 0.497093023255814,
+            "avgScore": 64.53488372093024
+          }
+        },
+        "byScoreBucket": {
+          "18-34": {
+            "days": 35,
+            "hitRate3": 0.2,
+            "hitRate7": 0.5428571428571428,
+            "lift7": 1.2892857142857144,
+            "avgScore": 25.02857142857143
+          },
+          "0-17": {
+            "days": 25,
+            "hitRate3": 0.28,
+            "hitRate7": 0.52,
+            "lift7": 1.235,
+            "avgScore": 8
+          },
+          "35-54": {
+            "days": 30,
+            "hitRate3": 0.23333333333333334,
+            "hitRate7": 0.5,
+            "lift7": 1.1875,
+            "avgScore": 42.93333333333333
+          },
+          "55-74": {
+            "days": 33,
+            "hitRate3": 0.09090909090909091,
+            "hitRate7": 0.24242424242424243,
+            "lift7": 0.5757575757575758,
+            "avgScore": 60.75757575757576
+          },
+          "75-100": {
+            "days": 10,
+            "hitRate3": 0,
+            "hitRate7": 0.1,
+            "lift7": 0.23750000000000002,
+            "avgScore": 77
+          }
+        },
+        "avgScoreOnHit7d": 32.05357142857143,
+        "avgScoreOnMiss7d": 43.42857142857143,
+        "brier7d": 0.3480909774436093,
+        "elevatedHigh": {
+          "days": 73,
+          "fireRate": 0.5488721804511278,
+          "precision7d": 0.3287671232876712,
+          "lift7": 0.7808219178082192
+        },
+        "primarySample": 133
+      },
+      "elevatedHighDays": [
+        {
+          "date": "2026-04-29",
+          "score": 40,
+          "oddsLabel": "elevated",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-04-30",
+          "score": 40,
+          "oddsLabel": "elevated",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-05-01",
+          "score": 64,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-05-02",
+          "score": 58,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-05-03",
+          "score": 58,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-05-04",
+          "score": 42,
+          "oddsLabel": "elevated",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-05-05",
+          "score": 55,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-05-06",
+          "score": 43,
+          "oddsLabel": "elevated",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-05-07",
+          "score": 43,
+          "oddsLabel": "elevated",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-05-08",
+          "score": 55,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-05-09",
+          "score": 55,
+          "oddsLabel": "high",
+          "hit7": true,
+          "hit3": false
+        },
+        {
+          "date": "2026-05-10",
+          "score": 55,
+          "oddsLabel": "high",
+          "hit7": true,
+          "hit3": false
+        },
+        {
+          "date": "2026-05-11",
+          "score": 43,
+          "oddsLabel": "elevated",
+          "hit7": true,
+          "hit3": false
+        },
+        {
+          "date": "2026-05-12",
+          "score": 43,
+          "oddsLabel": "elevated",
+          "hit7": true,
+          "hit3": false
+        },
+        {
+          "date": "2026-05-13",
+          "score": 43,
+          "oddsLabel": "elevated",
+          "hit7": true,
+          "hit3": true
+        },
+        {
+          "date": "2026-05-14",
+          "score": 43,
+          "oddsLabel": "elevated",
+          "hit7": true,
+          "hit3": true
+        },
+        {
+          "date": "2026-05-15",
+          "score": 55,
+          "oddsLabel": "high",
+          "hit7": true,
+          "hit3": true
+        },
+        {
+          "date": "2026-05-24",
+          "score": 42,
+          "oddsLabel": "elevated",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-05-26",
+          "score": 40,
+          "oddsLabel": "elevated",
+          "hit7": true,
+          "hit3": false
+        },
+        {
+          "date": "2026-05-29",
+          "score": 42,
+          "oddsLabel": "elevated",
+          "hit7": true,
+          "hit3": false
+        },
+        {
+          "date": "2026-05-30",
+          "score": 42,
+          "oddsLabel": "elevated",
+          "hit7": true,
+          "hit3": true
+        },
+        {
+          "date": "2026-05-31",
+          "score": 42,
+          "oddsLabel": "elevated",
+          "hit7": true,
+          "hit3": true
+        },
+        {
+          "date": "2026-06-29",
+          "score": 40,
+          "oddsLabel": "elevated",
+          "hit7": true,
+          "hit3": true
+        },
+        {
+          "date": "2026-06-30",
+          "score": 40,
+          "oddsLabel": "elevated",
+          "hit7": true,
+          "hit3": true
+        },
+        {
+          "date": "2026-07-01",
+          "score": 52,
+          "oddsLabel": "elevated",
+          "hit7": true,
+          "hit3": true
+        },
+        {
+          "date": "2026-07-03",
+          "score": 36,
+          "oddsLabel": "elevated",
+          "hit7": true,
+          "hit3": false
+        },
+        {
+          "date": "2026-07-10",
+          "score": 42,
+          "oddsLabel": "elevated",
+          "hit7": true,
+          "hit3": false
+        },
+        {
+          "date": "2026-07-11",
+          "score": 42,
+          "oddsLabel": "elevated",
+          "hit7": true,
+          "hit3": false
+        },
+        {
+          "date": "2026-07-12",
+          "score": 42,
+          "oddsLabel": "elevated",
+          "hit7": true,
+          "hit3": false
+        },
+        {
+          "date": "2026-07-17",
+          "score": 42,
+          "oddsLabel": "elevated",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-07-18",
+          "score": 42,
+          "oddsLabel": "elevated",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-07-19",
+          "score": 42,
+          "oddsLabel": "elevated",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-07-24",
+          "score": 52,
+          "oddsLabel": "elevated",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-07-25",
+          "score": 46,
+          "oddsLabel": "elevated",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-07-26",
+          "score": 46,
+          "oddsLabel": "elevated",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-07-27",
+          "score": 42,
+          "oddsLabel": "elevated",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-07-28",
+          "score": 42,
+          "oddsLabel": "elevated",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-07-30",
+          "score": 52,
+          "oddsLabel": "elevated",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-07-31",
+          "score": 64,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-08-01",
+          "score": 77,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-08-02",
+          "score": 77,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-08-03",
+          "score": 65,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-08-04",
+          "score": 65,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-08-05",
+          "score": 59,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-08-06",
+          "score": 59,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-08-07",
+          "score": 67,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-08-08",
+          "score": 67,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-08-09",
+          "score": 77,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-08-10",
+          "score": 65,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-08-11",
+          "score": 65,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-08-12",
+          "score": 59,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-08-13",
+          "score": 59,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-08-14",
+          "score": 77,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-08-15",
+          "score": 77,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-08-16",
+          "score": 77,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-08-17",
+          "score": 59,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-08-18",
+          "score": 59,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-08-19",
+          "score": 55,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-08-20",
+          "score": 55,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-08-21",
+          "score": 55,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-08-22",
+          "score": 77,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-08-23",
+          "score": 77,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-08-24",
+          "score": 65,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-08-25",
+          "score": 59,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-08-26",
+          "score": 59,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-08-27",
+          "score": 65,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-08-28",
+          "score": 77,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-08-29",
+          "score": 77,
+          "oddsLabel": "high",
+          "hit7": true,
+          "hit3": false
+        },
+        {
+          "date": "2026-08-30",
+          "score": 71,
+          "oddsLabel": "high",
+          "hit7": true,
+          "hit3": false
+        },
+        {
+          "date": "2026-08-31",
+          "score": 59,
+          "oddsLabel": "high",
+          "hit7": true,
+          "hit3": false
+        },
+        {
+          "date": "2026-09-01",
+          "score": 65,
+          "oddsLabel": "high",
+          "hit7": true,
+          "hit3": false
+        },
+        {
+          "date": "2026-09-02",
+          "score": 65,
+          "oddsLabel": "high",
+          "hit7": true,
+          "hit3": true
+        },
+        {
+          "date": "2026-09-03",
+          "score": 65,
+          "oddsLabel": "high",
+          "hit7": true,
+          "hit3": true
+        }
+      ]
+    },
+    "codex": {
+      "resetCount": 52,
+      "firstReset": "2025-09-17T04:02:52Z",
+      "lastReset": "2026-09-08T01:56:57Z",
+      "evalStart": "2025-11-06",
+      "evalEnd": "2026-09-10",
+      "scoredDays": 309,
+      "summary": {
+        "scoredDays": 309,
+        "daysWith3dOutcome": 306,
+        "daysWith7dOutcome": 302,
+        "horizonCompleteDays": {
+          "end": "2026-09-10",
+          "start": "2025-11-06"
+        },
+        "baseline3": 0.38562091503267976,
+        "baseline7": 0.6125827814569537,
+        "byBand": {
+          "low": {
+            "days": 125,
+            "hitRate3": 0.488,
+            "hitRate7": 0.72,
+            "lift3": 1.2654915254237287,
+            "lift7": 1.1753513513513512,
+            "avgScore": 8.336
+          },
+          "moderate": {
+            "days": 119,
+            "hitRate3": 0.3697478991596639,
+            "hitRate7": 0.6470588235294118,
+            "lift3": 0.9588377723970944,
+            "lift7": 1.0562798092209857,
+            "avgScore": 22.18487394957983
+          },
+          "elevated": {
+            "days": 40,
+            "hitRate3": 0.2,
+            "hitRate7": 0.375,
+            "lift3": 0.5186440677966102,
+            "lift7": 0.6121621621621621,
+            "avgScore": 42.125
+          },
+          "high": {
+            "days": 18,
+            "hitRate3": 0.05555555555555555,
+            "hitRate7": 0.16666666666666666,
+            "lift3": 0.14406779661016947,
+            "lift7": 0.27207207207207207,
+            "avgScore": 55
+          }
+        },
+        "byScoreBucket": {
+          "0-17": {
+            "days": 125,
+            "hitRate3": 0.488,
+            "hitRate7": 0.72,
+            "lift7": 1.1753513513513512,
+            "avgScore": 8.336
+          },
+          "18-34": {
+            "days": 119,
+            "hitRate3": 0.3697478991596639,
+            "hitRate7": 0.6470588235294118,
+            "lift7": 1.0562798092209857,
+            "avgScore": 22.18487394957983
+          },
+          "35-54": {
+            "days": 40,
+            "hitRate3": 0.2,
+            "hitRate7": 0.375,
+            "lift7": 0.6121621621621621,
+            "avgScore": 42.125
+          },
+          "55-74": {
+            "days": 18,
+            "hitRate3": 0.05555555555555555,
+            "hitRate7": 0.16666666666666666,
+            "lift7": 0.27207207207207207,
+            "avgScore": 55
+          }
+        },
+        "avgScoreOnHit7d": 17.518918918918917,
+        "avgScoreOnMiss7d": 26.632478632478634,
+        "brier7d": 0.46287781456953647,
+        "elevatedHigh": {
+          "days": 58,
+          "fireRate": 0.19205298013245034,
+          "precision7d": 0.3103448275862069,
+          "lift7": 0.5066169617893755
+        },
+        "primarySample": 302
+      },
+      "elevatedHighDays": [
+        {
+          "date": "2026-01-11",
+          "score": 42,
+          "oddsLabel": "elevated",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-01-16",
+          "score": 42,
+          "oddsLabel": "elevated",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-01-17",
+          "score": 42,
+          "oddsLabel": "elevated",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-01-18",
+          "score": 42,
+          "oddsLabel": "elevated",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-01-20",
+          "score": 43,
+          "oddsLabel": "elevated",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-01-21",
+          "score": 43,
+          "oddsLabel": "elevated",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-01-22",
+          "score": 43,
+          "oddsLabel": "elevated",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-01-23",
+          "score": 55,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-01-24",
+          "score": 55,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-01-25",
+          "score": 55,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-01-26",
+          "score": 43,
+          "oddsLabel": "elevated",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-01-27",
+          "score": 43,
+          "oddsLabel": "elevated",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-01-28",
+          "score": 43,
+          "oddsLabel": "elevated",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-01-29",
+          "score": 43,
+          "oddsLabel": "elevated",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-01-30",
+          "score": 55,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-01-31",
+          "score": 55,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-02-01",
+          "score": 55,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-02-02",
+          "score": 43,
+          "oddsLabel": "elevated",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-02-03",
+          "score": 43,
+          "oddsLabel": "elevated",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-02-04",
+          "score": 43,
+          "oddsLabel": "elevated",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-02-05",
+          "score": 43,
+          "oddsLabel": "elevated",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-02-06",
+          "score": 55,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-02-07",
+          "score": 55,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-02-08",
+          "score": 55,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-02-09",
+          "score": 43,
+          "oddsLabel": "elevated",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-02-10",
+          "score": 43,
+          "oddsLabel": "elevated",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-02-11",
+          "score": 43,
+          "oddsLabel": "elevated",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-02-12",
+          "score": 43,
+          "oddsLabel": "elevated",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-02-13",
+          "score": 55,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-02-14",
+          "score": 55,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-02-15",
+          "score": 55,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-02-16",
+          "score": 43,
+          "oddsLabel": "elevated",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-02-17",
+          "score": 43,
+          "oddsLabel": "elevated",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-02-18",
+          "score": 43,
+          "oddsLabel": "elevated",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-02-19",
+          "score": 43,
+          "oddsLabel": "elevated",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-02-20",
+          "score": 55,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-02-21",
+          "score": 55,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-02-22",
+          "score": 55,
+          "oddsLabel": "high",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-02-23",
+          "score": 43,
+          "oddsLabel": "elevated",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-02-24",
+          "score": 43,
+          "oddsLabel": "elevated",
+          "hit7": false,
+          "hit3": false
+        },
+        {
+          "date": "2026-02-25",
+          "score": 43,
+          "oddsLabel": "elevated",
+          "hit7": true,
+          "hit3": false
+        },
+        {
+          "date": "2026-02-26",
+          "score": 43,
+          "oddsLabel": "elevated",
+          "hit7": true,
+          "hit3": false
+        },
+        {
+          "date": "2026-02-27",
+          "score": 55,
+          "oddsLabel": "high",
+          "hit7": true,
+          "hit3": false
+        },
+        {
+          "date": "2026-02-28",
+          "score": 55,
+          "oddsLabel": "high",
+          "hit7": true,
+          "hit3": false
+        },
+        {
+          "date": "2026-03-01",
+          "score": 55,
+          "oddsLabel": "high",
+          "hit7": true,
+          "hit3": true
+        },
+        {
+          "date": "2026-03-02",
+          "score": 43,
+          "oddsLabel": "elevated",
+          "hit7": true,
+          "hit3": true
+        },
+        {
+          "date": "2026-03-03",
+          "score": 43,
+          "oddsLabel": "elevated",
+          "hit7": true,
+          "hit3": true
+        },
+        {
+          "date": "2026-05-15",
+          "score": 42,
+          "oddsLabel": "elevated",
+          "hit7": true,
+          "hit3": true
+        },
+        {
+          "date": "2026-05-16",
+          "score": 42,
+          "oddsLabel": "elevated",
+          "hit7": true,
+          "hit3": true
+        },
+        {
+          "date": "2026-06-20",
+          "score": 42,
+          "oddsLabel": "elevated",
+          "hit7": true,
+          "hit3": false
+        },
+        {
+          "date": "2026-06-21",
+          "score": 42,
+          "oddsLabel": "elevated",
+          "hit7": true,
+          "hit3": false
+        },
+        {
+          "date": "2026-07-03",
+          "score": 42,
+          "oddsLabel": "elevated",
+          "hit7": true,
+          "hit3": false
+        },
+        {
+          "date": "2026-07-04",
+          "score": 42,
+          "oddsLabel": "elevated",
+          "hit7": true,
+          "hit3": false
+        },
+        {
+          "date": "2026-07-05",
+          "score": 36,
+          "oddsLabel": "elevated",
+          "hit7": true,
+          "hit3": false
+        },
+        {
+          "date": "2026-08-21",
+          "score": 42,
+          "oddsLabel": "elevated",
+          "hit7": true,
+          "hit3": true
+        },
+        {
+          "date": "2026-08-28",
+          "score": 38,
+          "oddsLabel": "elevated",
+          "hit7": true,
+          "hit3": true
+        },
+        {
+          "date": "2026-08-29",
+          "score": 38,
+          "oddsLabel": "elevated",
+          "hit7": true,
+          "hit3": true
+        },
+        {
+          "date": "2026-08-30",
+          "score": 36,
+          "oddsLabel": "elevated",
+          "hit7": true,
+          "hit3": true
+        }
+      ]
+    },
+    "grok": {
+      "resetCount": 2,
+      "firstReset": "2026-08-26T14:00:00Z",
+      "lastReset": "2026-09-01T16:00:00Z",
+      "evalStart": "2026-09-02",
+      "evalEnd": "2026-09-10",
+      "scoredDays": 9,
+      "summary": {
+        "scoredDays": 9,
+        "daysWith3dOutcome": 6,
+        "daysWith7dOutcome": 2,
+        "horizonCompleteDays": {
+          "end": "2026-09-10",
+          "start": "2026-09-02"
+        },
+        "baseline3": 0,
+        "baseline7": 0,
+        "byBand": {
+          "low": {
+            "days": 0,
+            "hitRate3": null,
+            "hitRate7": null,
+            "lift3": null,
+            "lift7": null,
+            "avgScore": null
+          },
+          "moderate": {
+            "days": 2,
+            "hitRate3": 0,
+            "hitRate7": 0,
+            "lift3": null,
+            "lift7": null,
+            "avgScore": 26
+          },
+          "elevated": {
+            "days": 0,
+            "hitRate3": null,
+            "hitRate7": null,
+            "lift3": null,
+            "lift7": null,
+            "avgScore": null
+          },
+          "high": {
+            "days": 0,
+            "hitRate3": null,
+            "hitRate7": null,
+            "lift3": null,
+            "lift7": null,
+            "avgScore": null
+          }
+        },
+        "byScoreBucket": {
+          "18-34": {
+            "days": 2,
+            "hitRate3": 0,
+            "hitRate7": 0,
+            "lift7": null,
+            "avgScore": 26
+          }
+        },
+        "avgScoreOnHit7d": null,
+        "avgScoreOnMiss7d": 26,
+        "brier7d": 0.06760000000000001,
+        "elevatedHigh": {
+          "days": 0,
+          "fireRate": 0,
+          "precision7d": null,
+          "lift7": null
+        },
+        "primarySample": 2
+      },
+      "elevatedHighDays": []
+    }
+  },
+  "combined": {
+    "scoredDays": 458,
+    "daysWith3dOutcome": 449,
+    "daysWith7dOutcome": 437,
+    "horizonCompleteDays": {
+      "note": "pooled provider-days"
+    },
+    "baseline3": 0.3184855233853007,
+    "baseline7": 0.551487414187643,
+    "byBand": {
+      "low": {
+        "days": 150,
+        "hitRate3": 0.4533333333333333,
+        "hitRate7": 0.6866666666666666,
+        "lift3": 1.4234032634032634,
+        "lift7": 1.2451175656984785,
+        "avgScore": 8.28
+      },
+      "moderate": {
+        "days": 156,
+        "hitRate3": 0.3269230769230769,
+        "hitRate7": 0.6153846153846154,
+        "lift3": 1.0264927380311997,
+        "lift7": 1.115863389722311,
+        "avgScore": 22.871794871794872
+      },
+      "elevated": {
+        "days": 70,
+        "hitRate3": 0.21428571428571427,
+        "hitRate7": 0.42857142857142855,
+        "lift3": 0.6728271728271727,
+        "lift7": 0.7771191464137521,
+        "avgScore": 42.47142857142857
+      },
+      "high": {
+        "days": 61,
+        "hitRate3": 0.06557377049180328,
+        "hitRate7": 0.19672131147540983,
+        "lift3": 0.20589246818755016,
+        "lift7": 0.3567104278620502,
+        "avgScore": 61.721311475409834
+      }
+    },
+    "byScoreBucket": {
+      "18-34": {
+        "days": 156,
+        "hitRate3": 0.3269230769230769,
+        "hitRate7": 0.6153846153846154,
+        "lift7": 1.115863389722311,
+        "avgScore": 22.871794871794872
+      },
+      "0-17": {
+        "days": 150,
+        "hitRate3": 0.4533333333333333,
+        "hitRate7": 0.6866666666666666,
+        "lift7": 1.2451175656984785,
+        "avgScore": 8.28
+      },
+      "35-54": {
+        "days": 70,
+        "hitRate3": 0.21428571428571427,
+        "hitRate7": 0.42857142857142855,
+        "lift7": 0.7771191464137521,
+        "avgScore": 42.47142857142857
+      },
+      "55-74": {
+        "days": 51,
+        "hitRate3": 0.0784313725490196,
+        "hitRate7": 0.21568627450980393,
+        "lift7": 0.3910991782605158,
+        "avgScore": 58.72549019607843
+      },
+      "75-100": {
+        "days": 10,
+        "hitRate3": 0,
+        "hitRate7": 0.1,
+        "lift7": 0.18132780082987554,
+        "avgScore": 77
+      }
+    },
+    "avgScoreOnHit7d": 20.896265560165975,
+    "avgScoreOnMiss7d": 33.224489795918366,
+    "brier7d": 0.4261336384439357,
+    "elevatedHigh": {
+      "days": 131,
+      "fireRate": 0.2997711670480549,
+      "precision7d": 0.32061068702290074,
+      "lift7": 0.581356308004181
+    },
+    "primarySample": 437
+  },
+  "verdict": "Not useful as a short-horizon predictor (and currently inverse): high-band 7d lift 0.36× vs low-band 1.25× (elevated+high precision 32.1% vs 55.1% baseline, n=131). Long-drought / high scores often sit inside already-long gaps, while frequent resetters keep “low” days busy within 7d — treat the UI score as a drought/rival dashboard, not a forecast."
+}
