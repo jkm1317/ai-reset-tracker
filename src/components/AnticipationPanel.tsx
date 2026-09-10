@@ -12,6 +12,31 @@ interface Props {
   detailed?: boolean;
 }
 
+/**
+ * UI-only honesty about 72h usefulness on the public announcement log.
+ * Derived from blind weekly backtest ceilings — not live scorer output.
+ * Do not surface OOS calibration or Brier skill claims here.
+ */
+const SIGNAL_HONESTY: Record<
+  ProviderId,
+  { useful: boolean; chip: string; detail?: string }
+> = {
+  claude: {
+    useful: false,
+    chip: '72h signal: not useful yet on public log',
+    detail: 'Ceiling on this thin public log — score is a pattern hint, not confidence.',
+  },
+  grok: {
+    useful: false,
+    chip: '72h signal: not useful yet on public log',
+    detail: 'Ceiling on this thin public log — score is a pattern hint, not confidence.',
+  },
+  codex: {
+    useful: true,
+    chip: 'Ranking clears bar · sample modest',
+  },
+};
+
 export function AnticipationPanel({
   provider,
   events,
@@ -21,6 +46,7 @@ export function AnticipationPanel({
   detailed = false,
 }: Props) {
   const result = anticipate(provider, events, rivalEvents);
+  const honesty = SIGNAL_HONESTY[provider];
   const top =
     result.features.find((f) => f.weight > 0) ??
     result.features[0] ??
@@ -29,7 +55,9 @@ export function AnticipationPanel({
 
   return (
     <section
-      className={`likelihood-box odds-tone-${result.oddsLabel}${prominent ? ' prominent' : ''}`}
+      className={`likelihood-box odds-tone-${result.oddsLabel}${prominent ? ' prominent' : ''}${
+        honesty.useful ? '' : ' signal-sparse'
+      }`}
       aria-label={`${productName} reset likelihood`}
     >
       <div className="likelihood-kicker">
@@ -43,6 +71,16 @@ export function AnticipationPanel({
           <span className="score-num">{result.score}</span>
           <span className="score-denom">/ 100</span>
         </div>
+      </div>
+
+      <div
+        className={`signal-honesty ${honesty.useful ? 'signal-ok' : 'signal-muted'}`}
+        title={honesty.detail}
+      >
+        <span className="signal-chip">{honesty.chip}</span>
+        {honesty.detail ? (
+          <span className="signal-detail">{honesty.detail}</span>
+        ) : null}
       </div>
 
       <p className="likelihood-why">
