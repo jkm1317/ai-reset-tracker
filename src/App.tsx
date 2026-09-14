@@ -18,12 +18,14 @@ export default function App() {
   const [tab, setTab] = useState<Tab>('overview');
 
   useEffect(() => {
+    const bust = `v=${Date.now()}`;
+    const opts: RequestInit = { cache: 'no-store' };
     Promise.all([
-      fetch(`${import.meta.env.BASE_URL}data/resets.json`).then((r) => {
+      fetch(`${import.meta.env.BASE_URL}data/resets.json?${bust}`, opts).then((r) => {
         if (!r.ok) throw new Error(`resets.json ${r.status}`);
         return r.json();
       }),
-      fetch(`${import.meta.env.BASE_URL}data/summary.json`).then((r) => {
+      fetch(`${import.meta.env.BASE_URL}data/summary.json?${bust}`, opts).then((r) => {
         if (!r.ok) throw new Error(`summary.json ${r.status}`);
         return r.json();
       }),
@@ -242,7 +244,7 @@ export default function App() {
             ))}
           </ul>
           <p className="muted small">
-            Seed generated {summary.generatedAt}. Inspired by{' '}
+            Catalog refreshed {summary.generatedAt} UTC · Codex last reset {summary.providers.codex.lastResetAt}. Inspired by{' '}
             <a href="https://claude-resets.com/" target="_blank" rel="noopener noreferrer">
               claude-resets.com
             </a>{' '}
