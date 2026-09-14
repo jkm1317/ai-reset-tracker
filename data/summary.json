@@ -1,0 +1,78 @@
+{
+  "site": "AI Reset Tracker",
+  "name": "ai-reset-tracker",
+  "generatedAt": "2026-09-14T16:56:08Z",
+  "disclaimer": "Unofficial community tracker. Not affiliated with Anthropic, OpenAI, xAI, Claude, Codex, or Grok.",
+  "providers": {
+    "claude": {
+      "name": "Claude",
+      "product": "Claude Code",
+      "account": "ClaudeDevs",
+      "accountUrl": "https://x.com/ClaudeDevs",
+      "resetCount": 11,
+      "policyChangeCount": 5,
+      "lastResetAt": "2026-09-04T20:08:45Z",
+      "lastResetUrl": "https://x.com/lydiahallie/status/2095967323412930677",
+      "lastResetAccount": "lydiahallie",
+      "lastResetScope": "Max",
+      "firstResetAt": "2026-04-16T20:02:04Z",
+      "meanGapDays": 14.1,
+      "longestGapDays": 50.7,
+      "daysSinceLast": 9.9,
+      "pacePerMonth": 2.4,
+      "datasetAttribution": "Adapted from https://claude-resets.com/data/resets.json"
+    },
+    "codex": {
+      "name": "Codex",
+      "product": "Codex / ChatGPT",
+      "account": "thsottiaux",
+      "accountUrl": "https://x.com/thsottiaux",
+      "resetCount": 53,
+      "policyChangeCount": 0,
+      "lastResetAt": "2026-09-12T08:09:17Z",
+      "lastResetUrl": "https://x.com/thsottiaux/status/2098685367058612394",
+      "lastResetAccount": "thsottiaux",
+      "lastResetScope": "all paid",
+      "firstResetAt": "2025-09-17T04:02:52Z",
+      "meanGapDays": 6.9,
+      "longestGapDays": 67.7,
+      "daysSinceLast": 2.4,
+      "pacePerMonth": 4.5,
+      "datasetAttribution": "Curated from https://codex-resets.com/ announcements"
+    },
+    "grok": {
+      "name": "Grok",
+      "product": "Grok / xAI",
+      "account": "xai",
+      "accountUrl": "https://x.com/xai",
+      "status": "active",
+      "note": "Paid SuperGrok uses an account-specific shared weekly usage pool (Settings → Usage), including redeemable banked credits (“Reset Available”) that do not replace the weekly clock. Free-tier Chat/Voice limits are separate. Public discretionary resets are sparse vs Claude/Codex — anticipator leans on sparse announcements + rival pressure.",
+      "resetCount": 2,
+      "policyChangeCount": 3,
+      "lastResetAt": "2026-09-01T16:00:00Z",
+      "lastResetUrl": "https://in.mashable.com/tech/113514/elon-musk-announces-bonus-token-reset-for-grok-ai-users-heres-how-to-access",
+      "lastResetAccount": "elonmusk",
+      "lastResetScope": "Grok / Bot users",
+      "firstResetAt": "2026-08-26T14:00:00Z",
+      "meanGapDays": 6.1,
+      "longestGapDays": 6.1,
+      "daysSinceLast": 13,
+      "pacePerMonth": 10,
+      "datasetAttribution": "docs.x.ai FAQ + sparse public announcements"
+    }
+  },
+  "definitions": {
+    "reset": "Announcement that flushed usage counters (5-hour and/or weekly).",
+    "policy": "Announcement that changed limits without flushing counters; listed but not counted as a reset.",
+    "immediate": "Reset applied (or propagating) without requiring the user to redeem a banked credit.",
+    "banked": "Credit placed in a reset bank for the user to apply later.",
+    "unknown": "Delivery mode unclear from the announcement text.",
+    "competitive_response": "Reset timing aligned with a rival lab launch/promo — retention-pressure interpretation."
+  },
+  "urls": {
+    "resets": "/data/resets.json",
+    "summary": "/data/summary.json",
+    "llms": "/llms.txt",
+    "rss": "/rss.xml"
+  }
+}
