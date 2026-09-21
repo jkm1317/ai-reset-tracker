@@ -1,7 +1,7 @@
 {
   "meta": {
     "name": "AI Reset Tracker",
-    "generatedAt": "2026-09-18T15:30:54Z",
+    "generatedAt": "2026-09-21T15:47:15Z",
     "attribution": [
       "Claude event catalog adapted from https://claude-resets.com/data/resets.json (with attribution).",
       "Codex announcements curated from https://codex-resets.com/ and @thsottiaux posts; timestamps from announcement times / status IDs.",
@@ -237,6 +237,20 @@
           "url": "https://x.com/ClaudeDevs/status/2093742321473065266",
           "account": "ClaudeDevs",
           "note": "Restated the permanent 25% weekly limit rise from September 14 for Pro, Max, Team and seat-based Enterprise, naming Claude Code explicitly."
+        },
+        {
+          "id": "2094856679250919746",
+          "provider": "claude",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "product_launch"
+          ],
+          "scope": "all",
+          "date": "2026-09-01T18:35:27Z",
+          "url": "https://x.com/ClaudeDevs/status/2094856679250919746",
+          "account": "ClaudeDevs",
+          "note": "Shipped Fable 5.1 and reset 5-hour and weekly limits for all users."
         },
         {
           "id": "2095967323412930677",
