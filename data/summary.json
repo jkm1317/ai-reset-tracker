@@ -1,7 +1,7 @@
 {
   "site": "AI Reset Tracker",
   "name": "ai-reset-tracker",
-  "generatedAt": "2026-09-21T15:47:15Z",
+  "generatedAt": "2026-09-22T15:26:55Z",
   "disclaimer": "Unofficial community tracker. Not affiliated with Anthropic, OpenAI, xAI, Claude, Codex, or Grok.",
   "providers": {
     "claude": {
@@ -18,7 +18,7 @@
       "firstResetAt": "2026-04-16T20:02:04Z",
       "meanGapDays": 12.8,
       "longestGapDays": 47.6,
-      "daysSinceLast": 16.8,
+      "daysSinceLast": 17.8,
       "pacePerMonth": 2.6,
       "datasetAttribution": "Adapted from https://claude-resets.com/data/resets.json"
     },
@@ -36,7 +36,7 @@
       "firstResetAt": "2025-09-17T04:02:52Z",
       "meanGapDays": 6.9,
       "longestGapDays": 67.7,
-      "daysSinceLast": 9.3,
+      "daysSinceLast": 10.3,
       "pacePerMonth": 4.5,
       "datasetAttribution": "Curated from https://codex-resets.com/ announcements"
     },
@@ -56,7 +56,7 @@
       "firstResetAt": "2026-08-26T14:00:00Z",
       "meanGapDays": 6.1,
       "longestGapDays": 6.1,
-      "daysSinceLast": 20,
+      "daysSinceLast": 21,
       "pacePerMonth": 10,
       "datasetAttribution": "docs.x.ai FAQ + sparse public announcements"
     }
