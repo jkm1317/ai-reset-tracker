@@ -1,7 +1,7 @@
 {
   "site": "AI Reset Tracker",
   "name": "ai-reset-tracker",
-  "generatedAt": "2026-09-22T15:26:55Z",
+  "generatedAt": "2026-09-23T15:46:34Z",
   "disclaimer": "Unofficial community tracker. Not affiliated with Anthropic, OpenAI, xAI, Claude, Codex, or Grok.",
   "providers": {
     "claude": {
@@ -9,17 +9,17 @@
       "product": "Claude Code",
       "account": "ClaudeDevs",
       "accountUrl": "https://x.com/ClaudeDevs",
-      "resetCount": 12,
-      "policyChangeCount": 5,
-      "lastResetAt": "2026-09-04T20:08:45Z",
-      "lastResetUrl": "https://x.com/lydiahallie/status/2095967323412930677",
-      "lastResetAccount": "lydiahallie",
-      "lastResetScope": "Max",
+      "resetCount": 14,
+      "policyChangeCount": 6,
+      "lastResetAt": "2026-09-22T16:44:06Z",
+      "lastResetUrl": "https://x.com/ClaudeDevs/status/2102438800836489554",
+      "lastResetAccount": "ClaudeDevs",
+      "lastResetScope": "Pro, Max + Team",
       "firstResetAt": "2026-04-16T20:02:04Z",
-      "meanGapDays": 12.8,
+      "meanGapDays": 12.2,
       "longestGapDays": 47.6,
-      "daysSinceLast": 17.8,
-      "pacePerMonth": 2.6,
+      "daysSinceLast": 1,
+      "pacePerMonth": 2.7,
       "datasetAttribution": "Adapted from https://claude-resets.com/data/resets.json"
     },
     "codex": {
@@ -27,17 +27,17 @@
       "product": "Codex / ChatGPT",
       "account": "thsottiaux",
       "accountUrl": "https://x.com/thsottiaux",
-      "resetCount": 53,
+      "resetCount": 54,
       "policyChangeCount": 0,
-      "lastResetAt": "2026-09-12T08:09:17Z",
-      "lastResetUrl": "https://x.com/thsottiaux/status/2098685367058612394",
+      "lastResetAt": "2026-09-22T18:23:37Z",
+      "lastResetUrl": "https://x.com/thsottiaux/status/2102463847714247142",
       "lastResetAccount": "thsottiaux",
       "lastResetScope": "all paid",
       "firstResetAt": "2025-09-17T04:02:52Z",
-      "meanGapDays": 6.9,
+      "meanGapDays": 7,
       "longestGapDays": 67.7,
-      "daysSinceLast": 10.3,
-      "pacePerMonth": 4.5,
+      "daysSinceLast": 0.9,
+      "pacePerMonth": 4.4,
       "datasetAttribution": "Curated from https://codex-resets.com/ announcements"
     },
     "grok": {
@@ -56,7 +56,7 @@
       "firstResetAt": "2026-08-26T14:00:00Z",
       "meanGapDays": 6.1,
       "longestGapDays": 6.1,
-      "daysSinceLast": 21,
+      "daysSinceLast": 22,
       "pacePerMonth": 10,
       "datasetAttribution": "docs.x.ai FAQ + sparse public announcements"
     }
