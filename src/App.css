@@ -856,6 +856,35 @@
   line-height: 1.35;
 }
 
+.delivery-bias {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  margin: -0.25rem 0 0.65rem;
+}
+
+.delivery-bias .signal-chip {
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.delivery-bias.bias-rival_pressure .signal-chip {
+  color: rgba(186, 210, 255, 0.95);
+  background: rgba(96, 165, 250, 0.1);
+  border-color: rgba(96, 165, 250, 0.35);
+}
+
+.delivery-bias.bias-incident .signal-chip {
+  color: rgba(255, 200, 170, 0.95);
+  background: rgba(251, 146, 60, 0.1);
+  border-color: rgba(251, 146, 60, 0.35);
+}
+
+.provider-columns .delivery-bias {
+  margin-bottom: 0.5rem;
+}
+
 .likelihood-box.signal-sparse {
   /* Soften confidence chrome when 72h signal is not useful yet */
   border-color: var(--border);

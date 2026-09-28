@@ -83,6 +83,19 @@ export function AnticipationPanel({
         ) : null}
       </div>
 
+      {result.deliveryBiasLabel ? (
+        <div
+          className={`delivery-bias bias-${result.deliveryBias}`}
+          title={
+            result.deliveryBias === 'rival_pressure'
+              ? 'Banked credits on this log lean rival launches / retention pressure, not outage goodwill.'
+              : 'Incident/outage signals lean immediate flushes; they are down-weighted for banked likelihood.'
+          }
+        >
+          <span className="signal-chip">{result.deliveryBiasLabel}</span>
+        </div>
+      ) : null}
+
       <p className="likelihood-why">
         <strong>Why:</strong> {why}
       </p>

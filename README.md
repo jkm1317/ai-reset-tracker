@@ -26,12 +26,13 @@ Score ≈ **100 × estimated P(public reset in the next ~72 hours / 3 days)** fr
 | Feature | Role |
 | --- | --- |
 | **72h gap hazard** | Empirical P(gap ends in (drought, drought+3] \| survived past drought), shrunk toward an early-cycle prior. Long droughts that outlived most historical gaps score **low** (not “overdue”). |
-| Rival pressure (~72h) | Short-window rival launch/milestone/banked events may **boost** the score only when past gap-starts for this provider show a positive shrunk lift; 7d rivals remain context. |
+| Rival pressure — banked path (~72h) | Rival **launches / competitive_response / non-incident banked** may **boost** more strongly when past gap-starts show positive lift (banked credits on this log lean retention/rival pressure). |
+| Incident context — immediate path | Pure incident/outage rival signals get a **smaller** chance-soon lift and are labeled for **immediate** flushes — not over-credited toward banked likelihood. |
 | Weekend / drought bins | Weekend proximity and coarse drought-bin smoothing — lifts fit only on past gap-starts / completed gaps at T (blind). Reason tags stay descriptive. |
 
 Labels track estimated chance-soon (ranking bands — not a claim of calibrated Brier skill): **low** &lt;30 · **moderate** &lt;45 · **elevated** &lt;60 · **high** ≥60 (72h bands; slightly lower than the old 7d cutovers).
 
-**Rival pressure thesis (context only):** labs sometimes reset when a rival ships; we still surface those events in the feature list without letting them dominate the probability.
+**Delivery bias chips:** when active, likelihood cards show `banked bias: rival pressure` vs `immediate bias: incident` so the banked-vs-incident read is visible.
 
 ## Grok / xAI notes
 

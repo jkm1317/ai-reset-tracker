@@ -1,4 +1,4 @@
-import type { AnticipationResult, ProviderId, ResetEvent } from './types';
+import type { AnticipationResult, DeliveryBias, ProviderId, ResetEvent } from './types';
 
 export function parseUtc(iso: string): Date {
   return new Date(iso.endsWith('Z') || iso.includes('+') ? iso : `${iso}Z`);
@@ -100,28 +100,84 @@ const RIVAL_PRESSURE_TAGS = new Set([
   'competitive_response',
 ]);
 
+/** Pure incident/outage tags — strong for immediate flushes, weak for banked credits. */
+const INCIDENT_TAGS = new Set(['incident', 'usage_anomaly', 'capacity']);
+
 /** Rival lookback for score boost (shorter than the old 7d context window). */
 const RIVAL_SCORE_WINDOW_DAYS = 3; // 72h
 const RIVAL_CONTEXT_WINDOW_DAYS = 7;
 
-function rivalPressureEvents(
+/** Caps: banked-path rival launches weigh more than pure incident signals. */
+const BANKED_RIVAL_CAP = 0.26;
+const BANKED_CREDIT_CAP = 0.16;
+const INCIDENT_RIVAL_CAP = 0.08;
+
+function hasRivalLaunchTag(e: ResetEvent): boolean {
+  return e.reason_tags.some((tag) => RIVAL_PRESSURE_TAGS.has(tag));
+}
+
+function hasIncidentTag(e: ResetEvent): boolean {
+  return e.reason_tags.some((tag) => INCIDENT_TAGS.has(tag));
+}
+
+/** Incident/outage without launch/competitive framing → immediate-path signal.
+ * Banked deliveries stay on the banked path even when an incident tag co-occurs
+ * (empirically rare); immediate+incident is the "we had a problem" flush path.
+ */
+function isPureIncident(e: ResetEvent): boolean {
+  if (e.kind !== 'reset') return false;
+  if (!hasIncidentTag(e) || hasRivalLaunchTag(e)) return false;
+  if (e.delivery === 'banked') return false;
+  return true;
+}
+
+/**
+ * Banked-path rival pressure: frontier launches / competitive_response / banked
+ * credits that are NOT pure incident goodwill. Empirically Codex banked resets
+ * skew launch/retention, not outage flushes.
+ */
+function isBankedPathRival(e: ResetEvent): boolean {
+  if (hasRivalLaunchTag(e)) return true;
+  if (e.kind === 'reset' && e.delivery === 'banked' && !isPureIncident(e)) return true;
+  return false;
+}
+
+function rivalEventsInWindow(
   rivalEvents: ResetEvent[],
   now: Date,
-  windowDays = RIVAL_CONTEXT_WINDOW_DAYS,
+  windowDays: number,
+  predicate: (e: ResetEvent) => boolean,
 ): ResetEvent[] {
   const cut = now.getTime() - windowDays * 86_400_000;
   return rivalEvents
     .filter((e) => {
       const t = parseUtc(e.date).getTime();
       if (t > now.getTime() || t < cut) return false;
-      if (e.kind === 'reset' && e.delivery === 'banked') return true;
-      return e.reason_tags.some((tag) => RIVAL_PRESSURE_TAGS.has(tag));
+      return predicate(e);
     })
     .sort((a, b) => parseUtc(b.date).getTime() - parseUtc(a.date).getTime());
 }
 
+function rivalPressureEvents(
+  rivalEvents: ResetEvent[],
+  now: Date,
+  windowDays = RIVAL_CONTEXT_WINDOW_DAYS,
+): ResetEvent[] {
+  return rivalEventsInWindow(rivalEvents, now, windowDays, isBankedPathRival);
+}
+
+function rivalIncidentEvents(
+  rivalEvents: ResetEvent[],
+  now: Date,
+  windowDays = RIVAL_SCORE_WINDOW_DAYS,
+): ResetEvent[] {
+  return rivalEventsInWindow(rivalEvents, now, windowDays, isPureIncident);
+}
+
 function describeRivalEvent(e: ResetEvent): string {
-  const tags = e.reason_tags.filter((t) => RIVAL_PRESSURE_TAGS.has(t) || t === 'banked_credit');
+  const tags = e.reason_tags.filter(
+    (t) => RIVAL_PRESSURE_TAGS.has(t) || t === 'banked_credit' || INCIDENT_TAGS.has(t),
+  );
   const tagBit = tags.length ? tags[0].replace(/_/g, ' ') : e.kind;
   const who =
     e.provider === 'claude'
@@ -285,8 +341,11 @@ function oddsFromScore(score: number): AnticipationResult['oddsLabel'] {
 /**
  * Honest anticipation: score ≈ 100 × P(public reset in next ~72 hours / 3 days | this
  * provider's gap history at T). NOT a schedule guarantee.
- * Additive blind features: drought-bin blend, rival pressure in last ~72h (lift fit on
- * past gap-starts only), weekend proximity (same), recent rival banked credits (~48h).
+ * Additive blind features: drought-bin blend, banked-path rival pressure (launches /
+ * competitive_response / non-incident banked) in last ~72h, weaker immediate-path
+ * incident signals, weekend proximity, recent rival banked credits (~48h).
+ * Delivery bias surfaces Josh's thesis: banked credits lean rival/retention;
+ * incidents lean immediate flushes.
  */
 export function anticipate(
   provider: ProviderId,
@@ -315,8 +374,9 @@ export function anticipate(
     pSoon = Math.min(pSoon, Math.max(0.28, freshRate + 0.18));
   }
 
-  // --- Rival short-window lift (fit on past gap-starts only; applied if rivals in last 72h) ---
+  // --- Banked-path rival lift (launches / competitive / non-incident banked; past gap-starts) ---
   const rivalsScore = rivalPressureEvents(rivalEvents, now, RIVAL_SCORE_WINDOW_DAYS);
+  const rivalsIncident = rivalIncidentEvents(rivalEvents, now, RIVAL_SCORE_WINDOW_DAYS);
   const rivalsBanked48 = rivalEvents.filter((e) => {
     const age = daysBetween(parseUtc(e.date), now);
     return (
@@ -324,16 +384,21 @@ export function anticipate(
       age <= 2 &&
       e.kind === 'reset' &&
       e.delivery === 'banked' &&
+      !isPureIncident(e) &&
       parseUtc(e.date).getTime() <= now.getTime()
     );
   });
+  const launchHeavy = rivalsScore.some(
+    (e) =>
+      e.reason_tags.includes('product_launch') ||
+      e.reason_tags.includes('competitive_response'),
+  );
   const rivalLift = pastGapStartLift(ownResets, (gapStartMs) => {
     const cut = gapStartMs - RIVAL_SCORE_WINDOW_DAYS * 86_400_000;
     return rivalEvents.some((e) => {
       const t = parseUtc(e.date).getTime();
       if (t > gapStartMs || t < cut) return false;
-      if (e.kind === 'reset' && e.delivery === 'banked') return true;
-      return e.reason_tags.some((tag) => RIVAL_PRESSURE_TAGS.has(tag));
+      return isBankedPathRival(e);
     });
   });
   const bankedLift = pastGapStartLift(ownResets, (gapStartMs) => {
@@ -344,18 +409,41 @@ export function anticipate(
         t <= gapStartMs &&
         t >= cut &&
         e.kind === 'reset' &&
-        e.delivery === 'banked'
+        e.delivery === 'banked' &&
+        !isPureIncident(e)
       );
     });
   });
+  const incidentLift = pastGapStartLift(ownResets, (gapStartMs) => {
+    const cut = gapStartMs - RIVAL_SCORE_WINDOW_DAYS * 86_400_000;
+    return rivalEvents.some((e) => {
+      const t = parseUtc(e.date).getTime();
+      if (t > gapStartMs || t < cut) return false;
+      return isPureIncident(e);
+    });
+  });
 
-  let rivalDelta = 0;
+  let bankedRivalDelta = 0;
+  let incidentRivalDelta = 0;
+  // Raise weight for rival frontier launches / competitive_response → near-term banked path.
+  const bankedCap = launchHeavy ? BANKED_RIVAL_CAP : 0.16;
   if (rivalsScore.length && rivalLift.nOn >= 2 && rivalLift.lift > 0) {
-    rivalDelta += Math.min(0.18, rivalLift.lift);
+    const scaled = launchHeavy ? rivalLift.lift * 1.2 : rivalLift.lift;
+    bankedRivalDelta += Math.min(bankedCap, scaled);
+  } else if (rivalsScore.length && launchHeavy) {
+    // Thesis prior: launches historically precede banked credits more than incidents;
+    // small floor when empirical lift is thin or non-positive on this public log.
+    bankedRivalDelta += 0.06;
   }
   if (rivalsBanked48.length && bankedLift.nOn >= 1 && bankedLift.lift > 0) {
-    rivalDelta += Math.min(0.12, bankedLift.lift);
+    bankedRivalDelta += Math.min(BANKED_CREDIT_CAP, bankedLift.lift);
   }
+  // Pure incident/outage rivals: keep a smaller lift for immediate flushes only —
+  // do not over-credit them for banked likelihood.
+  if (rivalsIncident.length && incidentLift.nOn >= 2 && incidentLift.lift > 0) {
+    incidentRivalDelta += Math.min(INCIDENT_RIVAL_CAP, incidentLift.lift * 0.65);
+  }
+  const rivalDelta = bankedRivalDelta + incidentRivalDelta;
   pSoon = clamp01(pSoon + rivalDelta);
 
   // --- Weekend proximity lift (past gap-starts only) ---
@@ -405,29 +493,30 @@ export function anticipate(
     });
   }
 
-  // Rival pressure: may move score when past gap-starts show positive short-window lift.
+  // Banked-path rival pressure (launches / competitive / non-incident banked).
   const rivalsCtx = rivalPressureEvents(rivalEvents, now, RIVAL_CONTEXT_WINDOW_DAYS);
   if (rivalsScore.length) {
     const top = rivalsScore[0];
     const age = daysBetween(parseUtc(top.date), now);
     const daysLabel =
       age < 1 ? 'today' : age < 1.5 ? '1 day ago' : `${age.toFixed(0)} days ago`;
-    const wRival = Math.round(100 * rivalDelta);
+    const wRival = Math.round(100 * bankedRivalDelta);
+    const launchNote = launchHeavy ? ' launch/competitive weighted up for banked path;' : '';
     features.push({
-      label: 'Rival pressure',
-      detail: `Rival shipped ${describeRivalEvent(top)} ${daysLabel} (within ~72h). Past gap-start lift ${rivalLift.lift >= 0 ? '+' : ''}${(100 * rivalLift.lift).toFixed(0)}pp (n_on=${rivalLift.nOn}) — ${wRival > 0 ? `applied +${wRival}` : 'too thin / non-positive to boost'}.`,
+      label: 'Rival pressure (banked path)',
+      detail: `Rival shipped ${describeRivalEvent(top)} ${daysLabel} (within ~72h).${launchNote} Past gap-start lift ${rivalLift.lift >= 0 ? '+' : ''}${(100 * rivalLift.lift).toFixed(0)}pp (n_on=${rivalLift.nOn}) — ${wRival > 0 ? `applied +${wRival}` : 'too thin / non-positive to boost'}.`,
       weight: wRival,
     });
   } else if (rivalsCtx.length) {
     features.push({
-      label: 'Rival pressure',
-      detail: `Rival activity in the last 7 days but outside the 72h score window — context only.`,
+      label: 'Rival pressure (banked path)',
+      detail: `Rival launch / banked activity in the last 7 days but outside the 72h score window — context only.`,
       weight: 0,
     });
   } else {
     features.push({
-      label: 'Rival pressure',
-      detail: 'No major rival launch / milestone / banked reset in the last 7 days.',
+      label: 'Rival pressure (banked path)',
+      detail: 'No major rival launch / milestone / non-incident banked reset in the last 7 days.',
       weight: 0,
     });
   }
@@ -435,8 +524,22 @@ export function anticipate(
   if (rivalsBanked48.length && bankedLift.lift > 0) {
     features.push({
       label: 'Rival banked credits',
-      detail: `Rival banked reset within ~48h; past gap-start lift +${(100 * bankedLift.lift).toFixed(0)}pp (n_on=${bankedLift.nOn}).`,
-      weight: Math.round(100 * Math.min(0.12, Math.max(0, bankedLift.lift))),
+      detail: `Rival non-incident banked reset within ~48h; past gap-start lift +${(100 * bankedLift.lift).toFixed(0)}pp (n_on=${bankedLift.nOn}).`,
+      weight: Math.round(100 * Math.min(BANKED_CREDIT_CAP, Math.max(0, bankedLift.lift))),
+    });
+  }
+
+  // Immediate-path incident context (lower weight — do not over-credit for banked odds).
+  if (rivalsIncident.length) {
+    const top = rivalsIncident[0];
+    const age = daysBetween(parseUtc(top.date), now);
+    const daysLabel =
+      age < 1 ? 'today' : age < 1.5 ? '1 day ago' : `${age.toFixed(0)} days ago`;
+    const wInc = Math.round(100 * incidentRivalDelta);
+    features.push({
+      label: 'Incident context (immediate path)',
+      detail: `Rival ${describeRivalEvent(top)} ${daysLabel} — pure incident/outage signals lean immediate flushes, not banked credits. ${wInc > 0 ? `Small +${wInc} for chance-soon;` : 'No score boost;'} capped well below launch pressure.`,
+      weight: wInc,
     });
   }
 
@@ -505,6 +608,26 @@ export function anticipate(
   score = Math.max(0, Math.min(100, score));
   const oddsLabel = oddsFromScore(score);
 
+  // Own recent incident tags (descriptive) — help pick immediate bias when no banked-path rivals.
+  const ownRecentIncident = ownResets
+    .slice(-5)
+    .some(
+      (e) =>
+        isPureIncident(e) &&
+        daysBetween(parseUtc(e.date), now) <= RIVAL_CONTEXT_WINDOW_DAYS,
+    );
+
+  let deliveryBias: DeliveryBias = 'neutral';
+  let deliveryBiasLabel: string | null = null;
+  // Prefer banked-path framing when rival launches / non-incident banked are in window.
+  if (rivalsScore.length > 0 || bankedRivalDelta > 0) {
+    deliveryBias = 'rival_pressure';
+    deliveryBiasLabel = 'banked bias: rival pressure';
+  } else if (rivalsIncident.length > 0 || incidentRivalDelta > 0 || ownRecentIncident) {
+    deliveryBias = 'incident';
+    deliveryBiasLabel = 'immediate bias: incident';
+  }
+
   features.sort((a, b) => Math.abs(b.weight) - Math.abs(a.weight) || b.weight - a.weight);
 
   return {
@@ -513,9 +636,11 @@ export function anticipate(
     score,
     droughtDays: drought,
     meanGap,
+    deliveryBias,
+    deliveryBiasLabel,
     features,
     disclaimer:
-      'Score ≈ estimated chance of a public reset in the next ~72 hours (3 days) from this provider’s own gap history — not a schedule or guarantee.',
+      'Score ≈ estimated chance of a public reset in the next ~72 hours (3 days) from this provider’s own gap history — not a schedule or guarantee. Banked credits historically lean rival/retention pressure; incidents lean immediate flushes.',
   };
 }
 

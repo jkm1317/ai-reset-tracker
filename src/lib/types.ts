@@ -68,12 +68,18 @@ export interface SummaryDataset {
   urls: Record<string, string>;
 }
 
+export type DeliveryBias = 'rival_pressure' | 'incident' | 'neutral';
+
 export interface AnticipationResult {
   provider: ProviderId;
   oddsLabel: 'low' | 'moderate' | 'elevated' | 'high';
   score: number;
   droughtDays: number;
   meanGap: number | null;
+  /** Thesis framing: banked credits lean rival/retention; incidents lean immediate flushes. */
+  deliveryBias: DeliveryBias;
+  /** Short UI chip, e.g. "banked bias: rival pressure". Null when neutral. */
+  deliveryBiasLabel: string | null;
   features: { label: string; detail: string; weight: number }[];
   disclaimer: string;
 }

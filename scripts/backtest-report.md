@@ -1,6 +1,6 @@
 # Anticipation scorer — blind backtest
 
-Generated: 2026-09-10T19:15:22.420Z (UTC)
+Generated: 2026-09-28T15:25:51.567Z (UTC)
 Evaluation end: 2026-09-10 UTC
 
 ## Method
@@ -18,7 +18,7 @@ Blind per-provider backtest: anticipate()/gap hazard sees only events before T. 
 
 ## claude
 
-- Resets in catalog: **11** (2026-04-16T20:02:04Z → 2026-09-04T20:08:45Z)
+- Resets in catalog: **14** (2026-04-16T20:02:04Z → 2026-09-22T16:44:06Z)
 - Eval window: **2026-04-24** → **2026-09-10**
 
 ### Weekly non-overlapping (primary)
@@ -26,19 +26,19 @@ Blind per-provider backtest: anticipate()/gap hazard sees only events before T. 
 | Metric | Value |
 | --- | --- |
 | Checkpoints (n) | 20 |
-| Base rate (72h hit) | 15.0% |
-| Brier | 0.162 (constant-base 0.127, skill -0.035) |
-| Log-loss | 0.580 (constant-base 0.423, skill -0.157) |
-| Mean p̂ on hit / miss | 0.077 / 0.167 |
+| Base rate (72h hit) | 20.0% |
+| Brier | 0.195 (constant-base 0.160, skill -0.035) |
+| Log-loss | 0.653 (constant-base 0.500, skill -0.153) |
+| Mean p̂ on hit / miss | 0.150 / 0.206 |
 | Elevated/high precision (72h) | — (n=0; target 50.0%; clears=false) |
-| Top-tercile precision (72h) | 0.0% (n=7; target 50.0%; clears=false) |
+| Top-tercile precision (72h) | 14.3% (n=7; target 50.0%; clears=false) |
 | Top-decile precision (72h) | 0.0% (n=2; target 50.0%; clears=false; block-bootstrap 95% [0.0%, 0.0%]) |
-| Secondary 7d base / Brier skill | 36.8% / -0.077 (n=19) |
+| Secondary 7d base / Brier skill | 47.4% / -0.103 (n=19) |
 
 | Band (by p̂) | n | Hit rate 72h | Lift vs base |
 | --- | ---: | ---: | ---: |
-| low | 16 | 18.8% | 1.25× |
-| moderate | 4 | 0.0% | 0.00× |
+| low | 14 | 28.6% | 1.43× |
+| moderate | 6 | 0.0% | 0.00× |
 | elevated | 0 | — | — |
 | high | 0 | — | — |
 
@@ -46,20 +46,20 @@ Blind per-provider backtest: anticipate()/gap hazard sees only events before T. 
 
 | Metric | Value |
 | --- | --- |
-| Checkpoints (n) | 10 |
-| Base rate (72h hit) | 10.0% |
-| Brier | 0.110 (constant-base 0.090, skill -0.020) |
-| Log-loss | 0.442 (constant-base 0.325, skill -0.117) |
-| Mean p̂ on hit / miss | 0.040 / 0.122 |
+| Checkpoints (n) | 12 |
+| Base rate (72h hit) | 16.7% |
+| Brier | 0.165 (constant-base 0.139, skill -0.026) |
+| Log-loss | 0.508 (constant-base 0.451, skill -0.058) |
+| Mean p̂ on hit / miss | 0.140 / 0.183 |
 | Elevated/high precision (72h) | — (n=0; target 50.0%; clears=false) |
 | Top-tercile precision (72h) | 0.0% (n=4; target 50.0%; clears=false) |
-| Top-decile precision (72h) | 0.0% (n=1; target 50.0%; clears=false; block-bootstrap 95% [0.0%, 0.0%]) |
-| Secondary 7d base / Brier skill | 22.2% / -0.005 (n=9) |
+| Top-decile precision (72h) | 0.0% (n=2; target 50.0%; clears=false; block-bootstrap 95% [0.0%, 0.0%]) |
+| Secondary 7d base / Brier skill | 45.5% / -0.096 (n=11) |
 
 | Band (by p̂) | n | Hit rate 72h | Lift vs base |
 | --- | ---: | ---: | ---: |
-| low | 10 | 10.0% | 1.00× |
-| moderate | 0 | — | — |
+| low | 9 | 22.2% | 1.33× |
+| moderate | 3 | 0.0% | 0.00× |
 | elevated | 0 | — | — |
 | high | 0 | — | — |
 
@@ -67,19 +67,19 @@ Blind per-provider backtest: anticipate()/gap hazard sees only events before T. 
 
 | Metric | Value |
 | --- | --- |
-| Checkpoints (n) | 8 |
-| Base rate (72h hit) | 12.5% |
-| Brier | 0.126 (constant-base 0.109, skill -0.017) |
-| Log-loss | 0.498 (constant-base 0.377, skill -0.122) |
-| Mean p̂ on hit / miss | 0.040 / 0.103 |
+| Checkpoints (n) | 11 |
+| Base rate (72h hit) | 9.1% |
+| Brier | 0.092 (constant-base 0.083, skill -0.009) |
+| Log-loss | 0.376 (constant-base 0.305, skill -0.071) |
+| Mean p̂ on hit / miss | 0.040 / 0.087 |
 | Elevated/high precision (72h) | — (n=0; target 50.0%; clears=false) |
-| Top-tercile precision (72h) | 0.0% (n=3; target 50.0%; clears=false) |
-| Top-decile precision (72h) | 0.0% (n=1; target 50.0%; clears=false; block-bootstrap 95% [0.0%, 0.0%]) |
-| Secondary 7d base / Brier skill | 25.0% / -0.032 (n=8) |
+| Top-tercile precision (72h) | 0.0% (n=4; target 50.0%; clears=false) |
+| Top-decile precision (72h) | 0.0% (n=2; target 50.0%; clears=false; block-bootstrap 95% [0.0%, 0.0%]) |
+| Secondary 7d base / Brier skill | 45.5% / -0.156 (n=11) |
 
 | Band (by p̂) | n | Hit rate 72h | Lift vs base |
 | --- | ---: | ---: | ---: |
-| low | 8 | 12.5% | 1.00× |
+| low | 11 | 9.1% | 1.00× |
 | moderate | 0 | — | — |
 | elevated | 0 | — | — |
 | high | 0 | — | — |
@@ -89,25 +89,25 @@ Blind per-provider backtest: anticipate()/gap hazard sees only events before T. 
 | Metric | Value |
 | --- | --- |
 | Checkpoints (n) | 137 |
-| Base rate (72h hit) | 18.2% |
-| Brier | 0.158 (constant-base 0.149, skill -0.009) |
-| Log-loss | 0.527 (constant-base 0.475, skill -0.052) |
-| Mean p̂ on hit / miss | 0.131 / 0.124 |
+| Base rate (72h hit) | 22.6% |
+| Brier | 0.198 (constant-base 0.175, skill -0.023) |
+| Log-loss | 0.651 (constant-base 0.535, skill -0.117) |
+| Mean p̂ on hit / miss | 0.134 / 0.151 |
 | Elevated/high precision (72h) | — (n=0; target 50.0%; clears=false) |
-| Top-tercile precision (72h) | 21.7% (n=46; target 50.0%; clears=false) |
-| Top-decile precision (72h) | 21.4% (n=14; target 50.0%; clears=false; block-bootstrap 95% [0.0%, 50.0%]) |
-| Secondary 7d base / Brier skill | 42.1% / -0.092 (n=133) |
+| Top-tercile precision (72h) | 17.4% (n=46; target 50.0%; clears=false) |
+| Top-decile precision (72h) | 14.3% (n=14; target 50.0%; clears=false; block-bootstrap 95% [0.0%, 42.9%]) |
+| Secondary 7d base / Brier skill | 46.6% / -0.110 (n=133) |
 
 | Band (by p̂) | n | Hit rate 72h | Lift vs base |
 | --- | ---: | ---: | ---: |
-| low | 125 | 17.6% | 0.96× |
-| moderate | 12 | 25.0% | 1.37× |
+| low | 120 | 24.2% | 1.07× |
+| moderate | 17 | 11.8% | 0.52× |
 | elevated | 0 | — | — |
 | high | 0 | — | — |
 
 ## codex
 
-- Resets in catalog: **52** (2025-09-17T04:02:52Z → 2026-09-08T01:56:57Z)
+- Resets in catalog: **55** (2025-09-17T04:02:52Z → 2026-09-26T18:17:54Z)
 - Eval window: **2025-11-06** → **2026-09-10**
 
 ### Weekly non-overlapping (primary)
@@ -116,18 +116,18 @@ Blind per-provider backtest: anticipate()/gap hazard sees only events before T. 
 | --- | --- |
 | Checkpoints (n) | 44 |
 | Base rate (72h hit) | 45.5% |
-| Brier | 0.245 (constant-base 0.248, skill 0.003) |
-| Log-loss | 0.712 (constant-base 0.689, skill -0.023) |
-| Mean p̂ on hit / miss | 0.336 / 0.229 |
+| Brier | 0.243 (constant-base 0.248, skill 0.005) |
+| Log-loss | 0.709 (constant-base 0.689, skill -0.019) |
+| Mean p̂ on hit / miss | 0.341 / 0.231 |
 | Elevated/high precision (72h) | 80.0% (n=5; target 60.5%; clears=true) |
 | Top-tercile precision (72h) | 80.0% (n=15; target 60.5%; clears=true) |
 | Top-decile precision (72h) | 80.0% (n=5; target 60.5%; clears=true; block-bootstrap 95% [20.0%, 100.0%]) |
-| Secondary 7d base / Brier skill | 61.4% / -0.090 (n=44) |
+| Secondary 7d base / Brier skill | 61.4% / -0.088 (n=44) |
 
 | Band (by p̂) | n | Hit rate 72h | Lift vs base |
 | --- | ---: | ---: | ---: |
-| low | 22 | 27.3% | 0.60× |
-| moderate | 17 | 58.8% | 1.29× |
+| low | 21 | 28.6% | 0.63× |
+| moderate | 18 | 55.6% | 1.22× |
 | elevated | 5 | 80.0% | 1.76× |
 | high | 0 | — | — |
 
@@ -137,40 +137,40 @@ Blind per-provider backtest: anticipate()/gap hazard sees only events before T. 
 | --- | --- |
 | Checkpoints (n) | 50 |
 | Base rate (72h hit) | 58.0% |
-| Brier | 0.261 (constant-base 0.244, skill -0.018) |
-| Log-loss | 0.736 (constant-base 0.680, skill -0.056) |
-| Mean p̂ on hit / miss | 0.408 / 0.308 |
+| Brier | 0.259 (constant-base 0.244, skill -0.015) |
+| Log-loss | 0.731 (constant-base 0.680, skill -0.051) |
+| Mean p̂ on hit / miss | 0.413 / 0.308 |
 | Elevated/high precision (72h) | 85.7% (n=14; target 73.0%; clears=true) |
 | Top-tercile precision (72h) | 82.4% (n=17; target 73.0%; clears=true) |
 | Top-decile precision (72h) | 100.0% (n=5; target 73.0%; clears=true; block-bootstrap 95% [40.0%, 100.0%]) |
-| Secondary 7d base / Brier skill | 72.9% / -0.116 (n=48) |
+| Secondary 7d base / Brier skill | 72.9% / -0.115 (n=48) |
 
 | Band (by p̂) | n | Hit rate 72h | Lift vs base |
 | --- | ---: | ---: | ---: |
 | low | 11 | 36.4% | 0.63× |
 | moderate | 25 | 52.0% | 0.90× |
-| elevated | 13 | 84.6% | 1.46× |
-| high | 1 | 100.0% | 1.72× |
+| elevated | 12 | 83.3% | 1.44× |
+| high | 2 | 100.0% | 1.72× |
 
 ### Gap-conditional hazard residual (one row per gap, landmark d=0)
 
 | Metric | Value |
 | --- | --- |
-| Checkpoints (n) | 49 |
-| Base rate (72h hit) | 51.0% |
-| Brier | 0.274 (constant-base 0.250, skill -0.025) |
-| Log-loss | 0.769 (constant-base 0.693, skill -0.076) |
-| Mean p̂ on hit / miss | 0.346 / 0.297 |
-| Elevated/high precision (72h) | 62.5% (n=8; target 66.0%; clears=false) |
-| Top-tercile precision (72h) | 64.7% (n=17; target 66.0%; clears=false) |
-| Top-decile precision (72h) | 60.0% (n=5; target 66.0%; clears=false; block-bootstrap 95% [20.0%, 100.0%]) |
-| Secondary 7d base / Brier skill | 71.4% / -0.133 (n=49) |
+| Checkpoints (n) | 52 |
+| Base rate (72h hit) | 48.1% |
+| Brier | 0.272 (constant-base 0.250, skill -0.022) |
+| Log-loss | 0.762 (constant-base 0.692, skill -0.070) |
+| Mean p̂ on hit / miss | 0.346 / 0.318 |
+| Elevated/high precision (72h) | 45.5% (n=11; target 63.1%; clears=false) |
+| Top-tercile precision (72h) | 55.6% (n=18; target 63.1%; clears=false) |
+| Top-decile precision (72h) | 33.3% (n=6; target 63.1%; clears=false; block-bootstrap 95% [0.0%, 83.3%]) |
+| Secondary 7d base / Brier skill | 71.2% / -0.128 (n=52) |
 
 | Band (by p̂) | n | Hit rate 72h | Lift vs base |
 | --- | ---: | ---: | ---: |
-| low | 21 | 38.1% | 0.75× |
-| moderate | 20 | 60.0% | 1.18× |
-| elevated | 8 | 62.5% | 1.22× |
+| low | 21 | 38.1% | 0.79× |
+| moderate | 20 | 60.0% | 1.25× |
+| elevated | 11 | 45.5% | 0.95× |
 | high | 0 | — | — |
 
 ### Daily overlapping (reference only — not the success bar)
@@ -179,20 +179,20 @@ Blind per-provider backtest: anticipate()/gap hazard sees only events before T. 
 | --- | --- |
 | Checkpoints (n) | 306 |
 | Base rate (72h hit) | 38.6% |
-| Brier | 0.222 (constant-base 0.237, skill 0.015) |
-| Log-loss | 0.654 (constant-base 0.667, skill 0.013) |
-| Mean p̂ on hit / miss | 0.325 / 0.222 |
+| Brier | 0.221 (constant-base 0.237, skill 0.016) |
+| Log-loss | 0.652 (constant-base 0.667, skill 0.015) |
+| Mean p̂ on hit / miss | 0.329 / 0.223 |
 | Elevated/high precision (72h) | 81.5% (n=27; target 53.6%; clears=true) |
-| Top-tercile precision (72h) | 60.8% (n=102; target 53.6%; clears=true) |
-| Top-decile precision (72h) | 77.4% (n=31; target 53.6%; clears=true; block-bootstrap 95% [51.6%, 93.5%]) |
-| Secondary 7d base / Brier skill | 61.3% / -0.098 (n=302) |
+| Top-tercile precision (72h) | 59.8% (n=102; target 53.6%; clears=true) |
+| Top-decile precision (72h) | 77.4% (n=31; target 53.6%; clears=true; block-bootstrap 95% [51.6%, 96.8%]) |
+| Secondary 7d base / Brier skill | 61.3% / -0.097 (n=302) |
 
 | Band (by p̂) | n | Hit rate 72h | Lift vs base |
 | --- | ---: | ---: | ---: |
-| low | 177 | 24.3% | 0.63× |
-| moderate | 102 | 52.0% | 1.35× |
-| elevated | 24 | 79.2% | 2.05× |
-| high | 3 | 100.0% | 2.59× |
+| low | 175 | 24.6% | 0.64× |
+| moderate | 104 | 51.0% | 1.32× |
+| elevated | 21 | 76.2% | 1.98× |
+| high | 6 | 100.0% | 2.59× |
 
 ## grok
 
@@ -205,13 +205,13 @@ Blind per-provider backtest: anticipate()/gap hazard sees only events before T. 
 | --- | --- |
 | Checkpoints (n) | 1 |
 | Base rate (72h hit) | 0.0% |
-| Brier | 0.006 (constant-base 0.000, skill -0.006) |
-| Log-loss | 0.083 (constant-base 0.000, skill -0.083) |
-| Mean p̂ on hit / miss | — / 0.080 |
+| Brier | 0.020 (constant-base 0.000, skill -0.020) |
+| Log-loss | 0.151 (constant-base 0.000, skill -0.151) |
+| Mean p̂ on hit / miss | — / 0.140 |
 | Elevated/high precision (72h) | — (n=0; target 50.0%; clears=false) |
 | Top-tercile precision (72h) | 0.0% (n=1; target 50.0%; clears=false) |
 | Top-decile precision (72h) | 0.0% (n=1; target 50.0%; clears=false; block-bootstrap 95% [—, —]) |
-| Secondary 7d base / Brier skill | 0.0% / -0.006 (n=1) |
+| Secondary 7d base / Brier skill | 0.0% / -0.020 (n=1) |
 
 | Band (by p̂) | n | Hit rate 72h | Lift vs base |
 | --- | ---: | ---: | ---: |
@@ -226,13 +226,13 @@ Blind per-provider backtest: anticipate()/gap hazard sees only events before T. 
 | --- | --- |
 | Checkpoints (n) | 1 |
 | Base rate (72h hit) | 0.0% |
-| Brier | 0.006 (constant-base 0.000, skill -0.006) |
-| Log-loss | 0.083 (constant-base 0.000, skill -0.083) |
-| Mean p̂ on hit / miss | — / 0.080 |
+| Brier | 0.020 (constant-base 0.000, skill -0.020) |
+| Log-loss | 0.151 (constant-base 0.000, skill -0.151) |
+| Mean p̂ on hit / miss | — / 0.140 |
 | Elevated/high precision (72h) | — (n=0; target 50.0%; clears=false) |
 | Top-tercile precision (72h) | 0.0% (n=1; target 50.0%; clears=false) |
 | Top-decile precision (72h) | 0.0% (n=1; target 50.0%; clears=false; block-bootstrap 95% [—, —]) |
-| Secondary 7d base / Brier skill | 0.0% / -0.006 (n=1) |
+| Secondary 7d base / Brier skill | 0.0% / -0.020 (n=1) |
 
 | Band (by p̂) | n | Hit rate 72h | Lift vs base |
 | --- | ---: | ---: | ---: |
@@ -251,13 +251,13 @@ _No rows._
 | --- | --- |
 | Checkpoints (n) | 6 |
 | Base rate (72h hit) | 0.0% |
-| Brier | 0.009 (constant-base 0.000, skill -0.009) |
-| Log-loss | 0.100 (constant-base 0.000, skill -0.100) |
-| Mean p̂ on hit / miss | — / 0.095 |
+| Brier | 0.024 (constant-base 0.000, skill -0.024) |
+| Log-loss | 0.169 (constant-base 0.000, skill -0.169) |
+| Mean p̂ on hit / miss | — / 0.155 |
 | Elevated/high precision (72h) | — (n=0; target 50.0%; clears=false) |
 | Top-tercile precision (72h) | 0.0% (n=2; target 50.0%; clears=false) |
 | Top-decile precision (72h) | 0.0% (n=1; target 50.0%; clears=false; block-bootstrap 95% [0.0%, 0.0%]) |
-| Secondary 7d base / Brier skill | 0.0% / -0.006 (n=2) |
+| Secondary 7d base / Brier skill | 0.0% / -0.020 (n=2) |
 
 | Band (by p̂) | n | Hit rate 72h | Lift vs base |
 | --- | ---: | ---: | ---: |
@@ -268,6 +268,6 @@ _No rows._
 
 ## Verdict
 
-claude: does NOT clear 72h usefulness bar on weekly (base 15.0%; elev/high prec — n=0 target 50.0%; top-decile 0.0%; top-tercile 0.0%; Brier skill -0.035; p̂ hit/miss 0.08/0.17; n_weekly=20, n_gap=8). Ceiling on this thin 72h log: hits often arrive at unprecedented droughts where survivors=0, so gap/rival/weekend features cannot concentrate ≥50% precision (best top-decile here 0.0% vs target 50.0%) — not faked. codex: CLEARS 72h bar on weekly (elev/high prec 80.0% n=5; top-decile 80.0%; top-tercile 80.0%; target 60.5%; Brier skill 0.003 > 0 vs base 45.5%; p̂ hit/miss 0.34/0.23; n_weekly=44, n_gap=49). grok: does NOT clear 72h usefulness bar on weekly (base 0.0%; elev/high prec — n=0 target 50.0%; top-decile 0.0%; top-tercile 0.0%; Brier skill -0.006; p̂ hit/miss —/0.08; n_weekly=1, n_gap=0). Ceiling on this thin 72h log: hits often arrive at unprecedented droughts where survivors=0, so gap/rival/weekend features cannot concentrate ≥50% precision (best top-decile here 0.0% vs target 50.0%) — not faked. Weekly (7d-apart, 72h outcome) is the primary non-overlap protocol; 7d hit is secondary. Post-reset is event-triggered (windows collide when resets are close). Pooled overlapping daily band-lift is intentionally not the success bar.
+claude: does NOT clear 72h usefulness bar on weekly (base 20.0%; elev/high prec — n=0 target 50.0%; top-decile 0.0%; top-tercile 14.3%; Brier skill -0.035; p̂ hit/miss 0.15/0.21; n_weekly=20, n_gap=11). Ceiling on this thin 72h log: hits often arrive at unprecedented droughts where survivors=0, so gap/rival/weekend features cannot concentrate ≥50% precision (best top-decile here 0.0% vs target 50.0%) — not faked. codex: CLEARS 72h bar on weekly (elev/high prec 80.0% n=5; top-decile 80.0%; top-tercile 80.0%; target 60.5%; Brier skill 0.005 > 0 vs base 45.5%; p̂ hit/miss 0.34/0.23; n_weekly=44, n_gap=52). grok: does NOT clear 72h usefulness bar on weekly (base 0.0%; elev/high prec — n=0 target 50.0%; top-decile 0.0%; top-tercile 0.0%; Brier skill -0.020; p̂ hit/miss —/0.14; n_weekly=1, n_gap=0). Ceiling on this thin 72h log: hits often arrive at unprecedented droughts where survivors=0, so gap/rival/weekend features cannot concentrate ≥50% precision (best top-decile here 0.0% vs target 50.0%) — not faked. Weekly (7d-apart, 72h outcome) is the primary non-overlap protocol; 7d hit is secondary. Post-reset is event-triggered (windows collide when resets are close). Pooled overlapping daily band-lift is intentionally not the success bar.
 
 _Descriptive backtest on a small public announcement log. Prefer positive Brier skill and call-precision above max(50%, baseline+15pp); do not claim calibrated Brier skill lightly. Post-reset rows are event-triggered and may overlap._

@@ -1,47 +1,47 @@
 {
-  "generatedAt": "2026-09-10T19:15:22.420Z",
+  "generatedAt": "2026-09-28T15:25:51.567Z",
   "evalEnd": "2026-09-10",
   "method": "Blind per-provider backtest: anticipate()/gap hazard sees only events before T. Primary estimand = P(reset within 72h/3d). Primary NON-OVERLAP protocol = weekly (7d-apart) checkpoints with 72h outcomes. Secondary = 7d hit on the same checkpoints when the window fits. Post-reset is event-triggered (NOT non-overlapping — windows collide when resets are close). Gap-conditional = one drought landmark per held-out gap. Success bar: elevated/high or top-decile 72h precision ≥ max(50%, baseline+15pp) with usable n; prefer Brier skill > 0. Do not claim calibrated Brier skill lightly. Pooled overlapping daily band lift is NOT the success criterion.",
   "providers": {
     "claude": {
-      "resetCount": 11,
+      "resetCount": 14,
       "firstReset": "2026-04-16T20:02:04Z",
-      "lastReset": "2026-09-04T20:08:45Z",
+      "lastReset": "2026-09-22T16:44:06Z",
       "evalStart": "2026-04-24",
       "evalEnd": "2026-09-10",
       "weekly": {
         "protocol": "weekly_nonoverlap",
         "horizonDays": 3,
         "n": 20,
-        "baseRate": 0.15,
-        "brier": 0.162445,
-        "logLoss": 0.5801626762999795,
-        "baselineBrier": 0.12749999999999995,
-        "baselineLogLoss": 0.42270908780599104,
-        "brierSkill": -0.03494500000000006,
-        "logLossSkill": -0.1574535884939885,
+        "baseRate": 0.2,
+        "brier": 0.19527,
+        "logLoss": 0.6532473485975423,
+        "baselineBrier": 0.16000000000000006,
+        "baselineLogLoss": 0.5004024235381879,
+        "brierSkill": -0.03526999999999994,
+        "logLossSkill": -0.15284492505935443,
         "separation": {
-          "avgPOnHit": 0.07666666666666666,
-          "avgPOnMiss": 0.16705882352941176,
-          "nHit": 3,
-          "nMiss": 17
+          "avgPOnHit": 0.15000000000000002,
+          "avgPOnMiss": 0.20625000000000004,
+          "nHit": 4,
+          "nMiss": 16
         },
         "byBand": {
           "low": {
-            "days": 16,
-            "hitRate": 0.1875,
-            "hitRate7": 0.1875,
-            "lift": 1.25,
-            "lift7": 1.25,
-            "avgP": 0.10749999999999998
+            "days": 14,
+            "hitRate": 0.2857142857142857,
+            "hitRate7": 0.2857142857142857,
+            "lift": 1.4285714285714284,
+            "lift7": 1.4285714285714284,
+            "avgP": 0.12285714285714287
           },
           "moderate": {
-            "days": 4,
+            "days": 6,
             "hitRate": 0,
             "hitRate7": 0,
             "lift": 0,
             "lift7": 0,
-            "avgP": 0.3375
+            "avgP": 0.36333333333333334
           },
           "elevated": {
             "days": 0,
@@ -64,82 +64,82 @@
           "nDraws": 400,
           "blockLen": 2,
           "precision": 0,
-          "mean": 0.0025,
+          "mean": 0.01375,
           "lo": 0,
           "hi": 0,
           "nTop": 2,
-          "baseRate": 0.15,
+          "baseRate": 0.2,
           "target": 0.5,
           "clearsBar": false
         },
         "elevatedHigh": {
           "n": 0,
           "precision": null,
-          "baseRate": 0.15,
+          "baseRate": 0.2,
           "target": 0.5,
           "clearsBar": false
         },
         "topTercile": {
           "n": 7,
-          "precision": 0,
-          "threshold": 0.16,
-          "baseRate": 0.15,
+          "precision": 0.14285714285714285,
+          "threshold": 0.26,
+          "baseRate": 0.2,
           "target": 0.5,
           "clearsBar": false
         },
         "secondary7d": {
           "n": 19,
-          "baseRate": 0.3684210526315789,
-          "brier": 0.3098105263157895,
-          "baselineBrier": 0.23268698060941825,
-          "brierSkill": -0.07712354570637123,
+          "baseRate": 0.47368421052631576,
+          "brier": 0.3525157894736843,
+          "baselineBrier": 0.24930747922437677,
+          "brierSkill": -0.10320831024930752,
           "separation": {
-            "avgPOnHit": 0.1285714285714286,
-            "avgPOnMiss": 0.16833333333333333,
-            "nHit": 7,
-            "nMiss": 12
+            "avgPOnHit": 0.18555555555555558,
+            "avgPOnMiss": 0.197,
+            "nHit": 9,
+            "nMiss": 10
           },
           "topDecile": {
             "n": 2,
-            "precision": 0,
-            "threshold": 0.33,
-            "baseRate": 0.3684210526315789
+            "precision": 0.5,
+            "threshold": 0.38,
+            "baseRate": 0.47368421052631576
           }
         }
       },
       "postReset": {
         "protocol": "post_reset_event_triggered",
         "horizonDays": 3,
-        "n": 10,
-        "baseRate": 0.1,
-        "brier": 0.11006,
-        "logLoss": 0.4421718179430134,
-        "baselineBrier": 0.09000000000000001,
-        "baselineLogLoss": 0.3250829733914482,
-        "brierSkill": -0.020059999999999995,
-        "logLossSkill": -0.11708884455156521,
+        "n": 12,
+        "baseRate": 0.16666666666666666,
+        "brier": 0.16459166666666664,
+        "logLoss": 0.5083980063641421,
+        "baselineBrier": 0.13888888888888892,
+        "baselineLogLoss": 0.4505612088663047,
+        "brierSkill": -0.025702777777777713,
+        "logLossSkill": -0.05783679749783743,
         "separation": {
-          "avgPOnHit": 0.04,
-          "avgPOnMiss": 0.12222222222222223,
-          "nHit": 1,
-          "nMiss": 9
+          "avgPOnHit": 0.14,
+          "avgPOnMiss": 0.183,
+          "nHit": 2,
+          "nMiss": 10
         },
         "byBand": {
           "low": {
-            "days": 10,
-            "hitRate": 0.1,
-            "hitRate7": 0.1,
-            "lift": 1,
-            "lift7": 1,
-            "avgP": 0.11399999999999999
+            "days": 9,
+            "hitRate": 0.2222222222222222,
+            "hitRate7": 0.2222222222222222,
+            "lift": 1.3333333333333333,
+            "lift7": 1.3333333333333333,
+            "avgP": 0.11666666666666667
           },
           "moderate": {
-            "days": 0,
-            "hitRate": null,
-            "hitRate7": null,
-            "lift": null,
-            "lift7": null,
-            "avgP": null
+            "days": 3,
+            "hitRate": 0,
+            "hitRate7": 0,
+            "lift": 0,
+            "lift7": 0,
+            "avgP": 0.35333333333333333
           },
           "elevated": {
             "days": 0,
@@ -162,74 +162,74 @@
           "nDraws": 400,
           "blockLen": 2,
           "precision": 0,
-          "mean": 0,
+          "mean": 0.01,
           "lo": 0,
           "hi": 0,
-          "nTop": 1,
-          "baseRate": 0.1,
+          "nTop": 2,
+          "baseRate": 0.16666666666666666,
           "target": 0.5,
           "clearsBar": false
         },
         "elevatedHigh": {
           "n": 0,
           "precision": null,
-          "baseRate": 0.1,
+          "baseRate": 0.16666666666666666,
           "target": 0.5,
           "clearsBar": false
         },
         "topTercile": {
           "n": 4,
           "precision": 0,
-          "threshold": 0.14,
-          "baseRate": 0.1,
+          "threshold": 0.26,
+          "baseRate": 0.16666666666666666,
           "target": 0.5,
           "clearsBar": false
         },
         "secondary7d": {
-          "n": 9,
-          "baseRate": 0.2222222222222222,
-          "brier": 0.17784444444444442,
-          "baselineBrier": 0.1728395061728395,
-          "brierSkill": -0.0050049382716049196,
+          "n": 11,
+          "baseRate": 0.45454545454545453,
+          "brier": 0.34347272727272726,
+          "baselineBrier": 0.2479338842975206,
+          "brierSkill": -0.09553884297520665,
           "separation": {
-            "avgPOnHit": 0.135,
-            "avgPOnMiss": 0.09571428571428572,
-            "nHit": 2,
-            "nMiss": 7
+            "avgPOnHit": 0.162,
+            "avgPOnMiss": 0.15500000000000003,
+            "nHit": 5,
+            "nMiss": 6
           },
           "topDecile": {
-            "n": 1,
-            "precision": 1,
-            "threshold": 0.23,
-            "baseRate": 0.2222222222222222
+            "n": 2,
+            "precision": 0.5,
+            "threshold": 0.34,
+            "baseRate": 0.45454545454545453
           }
         }
       },
       "gapConditional": {
         "protocol": "gap_conditional_one_per_gap",
         "horizonDays": 3,
-        "n": 8,
-        "baseRate": 0.125,
-        "brier": 0.12620868862937767,
-        "logLoss": 0.4982871739284854,
-        "baselineBrier": 0.109375,
-        "baselineLogLoss": 0.3767701612564368,
-        "brierSkill": -0.016833688629377674,
-        "logLossSkill": -0.12151701267204862,
+        "n": 11,
+        "baseRate": 0.09090909090909091,
+        "brier": 0.09170005804650959,
+        "logLoss": 0.3756799910550878,
+        "baselineBrier": 0.08264462809917353,
+        "baselineLogLoss": 0.3046360973492381,
+        "brierSkill": -0.00905542994733606,
+        "logLossSkill": -0.07104389370584974,
         "separation": {
           "avgPOnHit": 0.04,
-          "avgPOnMiss": 0.10271111111111111,
+          "avgPOnMiss": 0.08665535353535354,
           "nHit": 1,
-          "nMiss": 7
+          "nMiss": 10
         },
         "byBand": {
           "low": {
-            "days": 8,
-            "hitRate": 0.125,
-            "hitRate7": 0.125,
+            "days": 11,
+            "hitRate": 0.09090909090909091,
+            "hitRate7": 0.09090909090909091,
             "lift": 1,
             "lift7": 1,
-            "avgP": 0.09487222222222222
+            "avgP": 0.0824139577594123
           },
           "moderate": {
             "days": 0,
@@ -263,43 +263,43 @@
           "mean": 0,
           "lo": 0,
           "hi": 0,
-          "nTop": 1,
-          "baseRate": 0.125,
+          "nTop": 2,
+          "baseRate": 0.09090909090909091,
           "target": 0.5,
           "clearsBar": false
         },
         "elevatedHigh": {
           "n": 0,
           "precision": null,
-          "baseRate": 0.125,
+          "baseRate": 0.09090909090909091,
           "target": 0.5,
           "clearsBar": false
         },
         "topTercile": {
-          "n": 3,
+          "n": 4,
           "precision": 0,
-          "threshold": 0.125,
-          "baseRate": 0.125,
+          "threshold": 0.09999999999999999,
+          "baseRate": 0.09090909090909091,
           "target": 0.5,
           "clearsBar": false
         },
         "secondary7d": {
-          "n": 8,
-          "baseRate": 0.25,
-          "brier": 0.21995868862937767,
-          "baselineBrier": 0.1875,
-          "brierSkill": -0.032458688629377674,
+          "n": 11,
+          "baseRate": 0.45454545454545453,
+          "brier": 0.4040600213155637,
+          "baselineBrier": 0.2479338842975206,
+          "brierSkill": -0.15612613701804307,
           "separation": {
-            "avgPOnHit": 0.0825,
-            "avgPOnMiss": 0.0989962962962963,
-            "nHit": 2,
+            "avgPOnHit": 0.0644040404040404,
+            "avgPOnMiss": 0.09742222222222223,
+            "nHit": 5,
             "nMiss": 6
           },
           "topDecile": {
-            "n": 1,
+            "n": 2,
             "precision": 0,
-            "threshold": 0.16666666666666666,
-            "baseRate": 0.25
+            "threshold": 0.125,
+            "baseRate": 0.45454545454545453
           }
         }
       },
@@ -307,35 +307,35 @@
         "protocol": "daily_overlapping_reference",
         "horizonDays": 3,
         "n": 137,
-        "baseRate": 0.18248175182481752,
-        "brier": 0.15781751824817533,
-        "logLoss": 0.5270441396226592,
-        "baselineBrier": 0.14918216207576268,
-        "baselineLogLoss": 0.47513589512187987,
-        "brierSkill": -0.00863535617241265,
-        "logLossSkill": -0.0519082445007793,
+        "baseRate": 0.22627737226277372,
+        "brier": 0.19825985401459853,
+        "logLoss": 0.6514945910008414,
+        "baselineBrier": 0.175075923064628,
+        "baselineLogLoss": 0.5347389746243386,
+        "brierSkill": -0.023183930949970538,
+        "logLossSkill": -0.11675561637650278,
         "separation": {
-          "avgPOnHit": 0.13119999999999998,
-          "avgPOnMiss": 0.12410714285714299,
-          "nHit": 25,
-          "nMiss": 112
+          "avgPOnHit": 0.13354838709677425,
+          "avgPOnMiss": 0.1513207547169811,
+          "nHit": 31,
+          "nMiss": 106
         },
         "byBand": {
           "low": {
-            "days": 125,
-            "hitRate": 0.176,
-            "hitRate7": 0.176,
-            "lift": 0.9644799999999999,
-            "lift7": 0.9644799999999999,
-            "avgP": 0.10648000000000013
+            "days": 120,
+            "hitRate": 0.24166666666666667,
+            "hitRate7": 0.24166666666666667,
+            "lift": 1.0680107526881721,
+            "lift7": 1.0680107526881721,
+            "avgP": 0.11966666666666662
           },
           "moderate": {
-            "days": 12,
-            "hitRate": 0.25,
-            "hitRate7": 0.25,
-            "lift": 1.37,
-            "lift7": 1.37,
-            "avgP": 0.32249999999999995
+            "days": 17,
+            "hitRate": 0.11764705882352941,
+            "hitRate7": 0.11764705882352941,
+            "lift": 0.5199240986717267,
+            "lift7": 0.5199240986717267,
+            "avgP": 0.3423529411764706
           },
           "elevated": {
             "days": 0,
@@ -357,55 +357,55 @@
         "topDecile": {
           "nDraws": 400,
           "blockLen": 2,
-          "precision": 0.21428571428571427,
-          "mean": 0.20749999999999974,
+          "precision": 0.14285714285714285,
+          "mean": 0.1528571428571428,
           "lo": 0,
-          "hi": 0.5,
+          "hi": 0.42857142857142855,
           "nTop": 14,
-          "baseRate": 0.18248175182481752,
+          "baseRate": 0.22627737226277372,
           "target": 0.5,
           "clearsBar": false
         },
         "elevatedHigh": {
           "n": 0,
           "precision": null,
-          "baseRate": 0.18248175182481752,
+          "baseRate": 0.22627737226277372,
           "target": 0.5,
           "clearsBar": false
         },
         "topTercile": {
           "n": 46,
-          "precision": 0.21739130434782608,
-          "threshold": 0.15,
-          "baseRate": 0.18248175182481752,
+          "precision": 0.17391304347826086,
+          "threshold": 0.16,
+          "baseRate": 0.22627737226277372,
           "target": 0.5,
           "clearsBar": false
         },
         "secondary7d": {
           "n": 133,
-          "baseRate": 0.42105263157894735,
-          "brier": 0.3360699248120301,
-          "baselineBrier": 0.2437673130193898,
-          "brierSkill": -0.09230261179264027,
+          "baseRate": 0.46616541353383456,
+          "brier": 0.3591451127819548,
+          "baselineBrier": 0.24885522075866326,
+          "brierSkill": -0.11028989202329156,
           "separation": {
-            "avgPOnHit": 0.1285714285714286,
-            "avgPOnMiss": 0.12272727272727288,
-            "nHit": 56,
-            "nMiss": 77
+            "avgPOnHit": 0.14774193548387088,
+            "avgPOnMiss": 0.13873239436619716,
+            "nHit": 62,
+            "nMiss": 71
           },
           "topDecile": {
             "n": 14,
-            "precision": 0.42857142857142855,
-            "threshold": 0.29,
-            "baseRate": 0.42105263157894735
+            "precision": 0.5,
+            "threshold": 0.3,
+            "baseRate": 0.46616541353383456
           }
         }
       }
     },
     "codex": {
-      "resetCount": 52,
+      "resetCount": 55,
       "firstReset": "2025-09-17T04:02:52Z",
-      "lastReset": "2026-09-08T01:56:57Z",
+      "lastReset": "2026-09-26T18:17:54Z",
       "evalStart": "2025-11-06",
       "evalEnd": "2026-09-10",
       "weekly": {
@@ -413,34 +413,34 @@
         "horizonDays": 3,
         "n": 44,
         "baseRate": 0.45454545454545453,
-        "brier": 0.24484090909090908,
-        "logLoss": 0.7120758798512913,
+        "brier": 0.24290454545454543,
+        "logLoss": 0.7085036217409967,
         "baselineBrier": 0.24793388429752064,
         "baselineLogLoss": 0.6890092384766583,
-        "brierSkill": 0.003092975206611559,
-        "logLossSkill": -0.02306664137463299,
+        "brierSkill": 0.005029338842975212,
+        "logLossSkill": -0.01949438326433839,
         "separation": {
-          "avgPOnHit": 0.3355,
-          "avgPOnMiss": 0.22875,
+          "avgPOnHit": 0.34149999999999997,
+          "avgPOnMiss": 0.23125000000000004,
           "nHit": 20,
           "nMiss": 24
         },
         "byBand": {
           "low": {
-            "days": 22,
-            "hitRate": 0.2727272727272727,
-            "hitRate7": 0.2727272727272727,
-            "lift": 0.6,
-            "lift7": 0.6,
-            "avgP": 0.15909090909090912
+            "days": 21,
+            "hitRate": 0.2857142857142857,
+            "hitRate7": 0.2857142857142857,
+            "lift": 0.6285714285714286,
+            "lift7": 0.6285714285714286,
+            "avgP": 0.15380952380952384
           },
           "moderate": {
-            "days": 17,
-            "hitRate": 0.5882352941176471,
-            "hitRate7": 0.5882352941176471,
-            "lift": 1.2941176470588236,
-            "lift7": 1.2941176470588236,
-            "avgP": 0.3711764705882353
+            "days": 18,
+            "hitRate": 0.5555555555555556,
+            "hitRate7": 0.5555555555555556,
+            "lift": 1.2222222222222223,
+            "lift7": 1.2222222222222223,
+            "avgP": 0.3688888888888889
           },
           "elevated": {
             "days": 5,
@@ -448,7 +448,7 @@
             "hitRate7": 0.8,
             "lift": 1.7600000000000002,
             "lift7": 1.7600000000000002,
-            "avgP": 0.47800000000000004
+            "avgP": 0.502
           },
           "high": {
             "days": 0,
@@ -463,7 +463,7 @@
           "nDraws": 400,
           "blockLen": 2,
           "precision": 0.8,
-          "mean": 0.7585000000000012,
+          "mean": 0.7760000000000007,
           "lo": 0.2,
           "hi": 1,
           "nTop": 5,
@@ -489,19 +489,19 @@
         "secondary7d": {
           "n": 44,
           "baseRate": 0.6136363636363636,
-          "brier": 0.32711363636363644,
+          "brier": 0.32517727272727276,
           "baselineBrier": 0.23708677685950413,
-          "brierSkill": -0.0900268595041323,
+          "brierSkill": -0.08809049586776863,
           "separation": {
-            "avgPOnHit": 0.3111111111111111,
-            "avgPOnMiss": 0.2235294117647059,
+            "avgPOnHit": 0.3155555555555556,
+            "avgPOnMiss": 0.22705882352941179,
             "nHit": 27,
             "nMiss": 17
           },
           "topDecile": {
             "n": 5,
             "precision": 0.8,
-            "threshold": 0.45,
+            "threshold": 0.46,
             "baseRate": 0.6136363636363636
           }
         }
@@ -511,14 +511,14 @@
         "horizonDays": 3,
         "n": 50,
         "baseRate": 0.58,
-        "brier": 0.26127599999999995,
-        "logLoss": 0.7358330218493294,
+        "brier": 0.25893,
+        "logLoss": 0.7308164766726971,
         "baselineBrier": 0.24359999999999973,
         "baselineLogLoss": 0.6802920001921535,
-        "brierSkill": -0.01767600000000022,
-        "logLossSkill": -0.05554102165717589,
+        "brierSkill": -0.01533000000000026,
+        "logLossSkill": -0.05052447648054359,
         "separation": {
-          "avgPOnHit": 0.40758620689655173,
+          "avgPOnHit": 0.4127586206896552,
           "avgPOnMiss": 0.30761904761904757,
           "nHit": 29,
           "nMiss": 21
@@ -541,20 +541,20 @@
             "avgP": 0.36599999999999994
           },
           "elevated": {
-            "days": 13,
-            "hitRate": 0.8461538461538461,
-            "hitRate7": 0.8461538461538461,
-            "lift": 1.4588859416445623,
-            "lift7": 1.4588859416445623,
-            "avgP": 0.5076923076923078
+            "days": 12,
+            "hitRate": 0.8333333333333334,
+            "hitRate7": 0.8333333333333334,
+            "lift": 1.4367816091954024,
+            "lift7": 1.4367816091954024,
+            "avgP": 0.51
           },
           "high": {
-            "days": 1,
+            "days": 2,
             "hitRate": 1,
             "hitRate7": 1,
             "lift": 1.7241379310344829,
             "lift7": 1.7241379310344829,
-            "avgP": 0.77
+            "avgP": 0.7
           }
         },
         "topDecile": {
@@ -587,11 +587,11 @@
         "secondary7d": {
           "n": 48,
           "baseRate": 0.7291666666666666,
-          "brier": 0.31373541666666666,
+          "brier": 0.31263541666666667,
           "baselineBrier": 0.19748263888888898,
-          "brierSkill": -0.11625277777777768,
+          "brierSkill": -0.11515277777777769,
           "separation": {
-            "avgPOnHit": 0.3822857142857143,
+            "avgPOnHit": 0.384,
             "avgPOnMiss": 0.2761538461538462,
             "nHit": 35,
             "nMiss": 13
@@ -607,44 +607,44 @@
       "gapConditional": {
         "protocol": "gap_conditional_one_per_gap",
         "horizonDays": 3,
-        "n": 49,
-        "baseRate": 0.5102040816326531,
-        "brier": 0.2744540516321378,
-        "logLoss": 0.7685883000319553,
-        "baselineBrier": 0.24989587671803395,
-        "baselineLogLoss": 0.6929389195380604,
-        "brierSkill": -0.024558174914103864,
-        "logLossSkill": -0.07564938049389491,
+        "n": 52,
+        "baseRate": 0.4807692307692308,
+        "brier": 0.2719649786258124,
+        "logLoss": 0.7620778856196667,
+        "baselineBrier": 0.24963017751479288,
+        "baselineLogLoss": 0.6924073531233144,
+        "brierSkill": -0.022334801111019542,
+        "logLossSkill": -0.06967053249635236,
         "separation": {
           "avgPOnHit": 0.34605676744570607,
-          "avgPOnMiss": 0.297399638103567,
+          "avgPOnMiss": 0.31778721247754654,
           "nHit": 25,
-          "nMiss": 24
+          "nMiss": 27
         },
         "byBand": {
           "low": {
             "days": 21,
             "hitRate": 0.38095238095238093,
             "hitRate7": 0.38095238095238093,
-            "lift": 0.7466666666666666,
-            "lift7": 0.7466666666666666,
+            "lift": 0.7923809523809523,
+            "lift7": 0.7923809523809523,
             "avgP": 0.2129120672109551
           },
           "moderate": {
             "days": 20,
             "hitRate": 0.6,
             "hitRate7": 0.6,
-            "lift": 1.176,
-            "lift7": 1.176,
+            "lift": 1.248,
+            "lift7": 1.248,
             "avgP": 0.3743422762772452
           },
           "elevated": {
-            "days": 8,
-            "hitRate": 0.625,
-            "hitRate7": 0.625,
-            "lift": 1.2249999999999999,
-            "lift7": 1.2249999999999999,
-            "avgP": 0.4788764454566622
+            "days": 11,
+            "hitRate": 0.45454545454545453,
+            "hitRate7": 0.45454545454545453,
+            "lift": 0.9454545454545454,
+            "lift7": 0.9454545454545454,
+            "avgP": 0.47942499873285893
           },
           "high": {
             "days": 0,
@@ -658,47 +658,47 @@
         "topDecile": {
           "nDraws": 400,
           "blockLen": 2,
-          "precision": 0.6,
-          "mean": 0.652000000000002,
-          "lo": 0.2,
-          "hi": 1,
-          "nTop": 5,
-          "baseRate": 0.5102040816326531,
-          "target": 0.6602040816326531,
+          "precision": 0.3333333333333333,
+          "mean": 0.3795833333333343,
+          "lo": 0,
+          "hi": 0.8333333333333334,
+          "nTop": 6,
+          "baseRate": 0.4807692307692308,
+          "target": 0.6307692307692307,
           "clearsBar": false
         },
         "elevatedHigh": {
-          "n": 8,
-          "precision": 0.625,
-          "baseRate": 0.5102040816326531,
-          "target": 0.6602040816326531,
+          "n": 11,
+          "precision": 0.45454545454545453,
+          "baseRate": 0.4807692307692308,
+          "target": 0.6307692307692307,
           "clearsBar": false
         },
         "topTercile": {
-          "n": 17,
-          "precision": 0.6470588235294118,
-          "threshold": 0.3939393939393939,
-          "baseRate": 0.5102040816326531,
-          "target": 0.6602040816326531,
+          "n": 18,
+          "precision": 0.5555555555555556,
+          "threshold": 0.4054054054054054,
+          "baseRate": 0.4807692307692308,
+          "target": 0.6307692307692307,
           "clearsBar": false
         },
         "secondary7d": {
-          "n": 49,
-          "baseRate": 0.7142857142857143,
-          "brier": 0.3375811706115977,
-          "baselineBrier": 0.2040816326530611,
-          "brierSkill": -0.1334995379585366,
+          "n": 52,
+          "baseRate": 0.7115384615384616,
+          "brier": 0.3329157564472681,
+          "baselineBrier": 0.20525147928994059,
+          "brierSkill": -0.12766427715732753,
           "separation": {
-            "avgPOnHit": 0.3458515648898824,
-            "avgPOnMiss": 0.26315755210588393,
-            "nHit": 35,
-            "nMiss": 14
+            "avgPOnHit": 0.35315402602121093,
+            "avgPOnMiss": 0.2776649973501071,
+            "nHit": 37,
+            "nMiss": 15
           },
           "topDecile": {
-            "n": 5,
-            "precision": 1,
-            "threshold": 0.47826086956521735,
-            "baseRate": 0.7142857142857143
+            "n": 6,
+            "precision": 0.8333333333333334,
+            "threshold": 0.4807692307692307,
+            "baseRate": 0.7115384615384616
           }
         }
       },
@@ -707,59 +707,59 @@
         "horizonDays": 3,
         "n": 306,
         "baseRate": 0.38562091503267976,
-        "brier": 0.2222996732026144,
-        "logLoss": 0.6538476587598305,
+        "brier": 0.22130718954248374,
+        "logLoss": 0.6518863265979696,
         "baselineBrier": 0.23691742492203932,
         "baselineLogLoss": 0.6667489101256513,
-        "brierSkill": 0.01461775171942492,
-        "logLossSkill": 0.012901251365820765,
+        "brierSkill": 0.015610235379555581,
+        "logLossSkill": 0.014862583527681661,
         "separation": {
-          "avgPOnHit": 0.3253389830508477,
-          "avgPOnMiss": 0.22159574468085108,
+          "avgPOnHit": 0.32949152542372895,
+          "avgPOnMiss": 0.22255319148936167,
           "nHit": 118,
           "nMiss": 188
         },
         "byBand": {
           "low": {
-            "days": 177,
-            "hitRate": 0.24293785310734464,
-            "hitRate7": 0.24293785310734464,
-            "lift": 0.6299913817868429,
-            "lift7": 0.6299913817868429,
-            "avgP": 0.16463276836158183
+            "days": 175,
+            "hitRate": 0.24571428571428572,
+            "hitRate7": 0.24571428571428572,
+            "lift": 0.6371912832929781,
+            "lift7": 0.6371912832929781,
+            "avgP": 0.16359999999999994
           },
           "moderate": {
-            "days": 102,
-            "hitRate": 0.5196078431372549,
-            "hitRate7": 0.5196078431372549,
-            "lift": 1.347457627118644,
-            "lift7": 1.347457627118644,
-            "avgP": 0.36215686274509806
+            "days": 104,
+            "hitRate": 0.5096153846153846,
+            "hitRate7": 0.5096153846153846,
+            "lift": 1.3215449804432853,
+            "lift7": 1.3215449804432853,
+            "avgP": 0.3618269230769231
           },
           "elevated": {
-            "days": 24,
-            "hitRate": 0.7916666666666666,
-            "hitRate7": 0.7916666666666666,
-            "lift": 2.0529661016949152,
-            "lift7": 2.0529661016949152,
-            "avgP": 0.49874999999999997
+            "days": 21,
+            "hitRate": 0.7619047619047619,
+            "hitRate7": 0.7619047619047619,
+            "lift": 1.975786924939467,
+            "lift7": 1.975786924939467,
+            "avgP": 0.5004761904761905
           },
           "high": {
-            "days": 3,
+            "days": 6,
             "hitRate": 1,
             "hitRate7": 1,
             "lift": 2.5932203389830506,
             "lift7": 2.5932203389830506,
-            "avgP": 0.6666666666666666
+            "avgP": 0.6583333333333333
           }
         },
         "topDecile": {
           "nDraws": 400,
           "blockLen": 2,
           "precision": 0.7741935483870968,
-          "mean": 0.7557258064516127,
+          "mean": 0.7603225806451607,
           "lo": 0.5161290322580645,
-          "hi": 0.9354838709677419,
+          "hi": 0.967741935483871,
           "nTop": 31,
           "baseRate": 0.38562091503267976,
           "target": 0.5356209150326797,
@@ -774,8 +774,8 @@
         },
         "topTercile": {
           "n": 102,
-          "precision": 0.6078431372549019,
-          "threshold": 0.32,
+          "precision": 0.5980392156862745,
+          "threshold": 0.33,
           "baseRate": 0.38562091503267976,
           "target": 0.5356209150326797,
           "clearsBar": true
@@ -783,12 +783,12 @@
         "secondary7d": {
           "n": 302,
           "baseRate": 0.6125827814569537,
-          "brier": 0.33570298013245037,
+          "brier": 0.3343559602649007,
           "baselineBrier": 0.23732511731941527,
-          "brierSkill": -0.0983778628130351,
+          "brierSkill": -0.09703084294548545,
           "separation": {
-            "avgPOnHit": 0.294,
-            "avgPOnMiss": 0.19760683760683762,
+            "avgPOnHit": 0.29627027027027025,
+            "avgPOnMiss": 0.19811965811965812,
             "nHit": 185,
             "nMiss": 117
           },
@@ -812,15 +812,15 @@
         "horizonDays": 3,
         "n": 1,
         "baseRate": 0,
-        "brier": 0.0064,
-        "logLoss": 0.08338160893905101,
+        "brier": 0.019600000000000003,
+        "logLoss": 0.15082288973458366,
         "baselineBrier": 0,
         "baselineLogLoss": 0.000001000000500029089,
-        "brierSkill": -0.0064,
-        "logLossSkill": -0.08338060893855098,
+        "brierSkill": -0.019600000000000003,
+        "logLossSkill": -0.15082188973408364,
         "separation": {
           "avgPOnHit": null,
-          "avgPOnMiss": 0.08,
+          "avgPOnMiss": 0.14,
           "nHit": 0,
           "nMiss": 1
         },
@@ -831,7 +831,7 @@
             "hitRate7": 0,
             "lift": null,
             "lift7": null,
-            "avgP": 0.08
+            "avgP": 0.14
           },
           "moderate": {
             "days": 0,
@@ -880,7 +880,7 @@
         "topTercile": {
           "n": 1,
           "precision": 0,
-          "threshold": 0.08,
+          "threshold": 0.14,
           "baseRate": 0,
           "target": 0.5,
           "clearsBar": false
@@ -888,19 +888,19 @@
         "secondary7d": {
           "n": 1,
           "baseRate": 0,
-          "brier": 0.0064,
+          "brier": 0.019600000000000003,
           "baselineBrier": 0,
-          "brierSkill": -0.0064,
+          "brierSkill": -0.019600000000000003,
           "separation": {
             "avgPOnHit": null,
-            "avgPOnMiss": 0.08,
+            "avgPOnMiss": 0.14,
             "nHit": 0,
             "nMiss": 1
           },
           "topDecile": {
             "n": 1,
             "precision": 0,
-            "threshold": 0.08,
+            "threshold": 0.14,
             "baseRate": 0
           }
         }
@@ -910,15 +910,15 @@
         "horizonDays": 3,
         "n": 1,
         "baseRate": 0,
-        "brier": 0.0064,
-        "logLoss": 0.08338160893905101,
+        "brier": 0.019600000000000003,
+        "logLoss": 0.15082288973458366,
         "baselineBrier": 0,
         "baselineLogLoss": 0.000001000000500029089,
-        "brierSkill": -0.0064,
-        "logLossSkill": -0.08338060893855098,
+        "brierSkill": -0.019600000000000003,
+        "logLossSkill": -0.15082188973408364,
         "separation": {
           "avgPOnHit": null,
-          "avgPOnMiss": 0.08,
+          "avgPOnMiss": 0.14,
           "nHit": 0,
           "nMiss": 1
         },
@@ -929,7 +929,7 @@
             "hitRate7": 0,
             "lift": null,
             "lift7": null,
-            "avgP": 0.08
+            "avgP": 0.14
           },
           "moderate": {
             "days": 0,
@@ -978,7 +978,7 @@
         "topTercile": {
           "n": 1,
           "precision": 0,
-          "threshold": 0.08,
+          "threshold": 0.14,
           "baseRate": 0,
           "target": 0.5,
           "clearsBar": false
@@ -986,19 +986,19 @@
         "secondary7d": {
           "n": 1,
           "baseRate": 0,
-          "brier": 0.0064,
+          "brier": 0.019600000000000003,
           "baselineBrier": 0,
-          "brierSkill": -0.0064,
+          "brierSkill": -0.019600000000000003,
           "separation": {
             "avgPOnHit": null,
-            "avgPOnMiss": 0.08,
+            "avgPOnMiss": 0.14,
             "nHit": 0,
             "nMiss": 1
           },
           "topDecile": {
             "n": 1,
             "precision": 0,
-            "threshold": 0.08,
+            "threshold": 0.14,
             "baseRate": 0
           }
         }
@@ -1025,15 +1025,15 @@
         "horizonDays": 3,
         "n": 6,
         "baseRate": 0,
-        "brier": 0.00925,
-        "logLoss": 0.09995771259750126,
+        "brier": 0.024250000000000004,
+        "logLoss": 0.16857623396303859,
         "baselineBrier": 0,
         "baselineLogLoss": 0.000001000000500029089,
-        "brierSkill": -0.00925,
-        "logLossSkill": -0.09995671259700123,
+        "brierSkill": -0.024250000000000004,
+        "logLossSkill": -0.16857523396253857,
         "separation": {
           "avgPOnHit": null,
-          "avgPOnMiss": 0.09499999999999999,
+          "avgPOnMiss": 0.15500000000000003,
           "nHit": 0,
           "nMiss": 6
         },
@@ -1044,7 +1044,7 @@
             "hitRate7": 0,
             "lift": null,
             "lift7": null,
-            "avgP": 0.09499999999999999
+            "avgP": 0.15500000000000003
           },
           "moderate": {
             "days": 0,
@@ -1093,7 +1093,7 @@
         "topTercile": {
           "n": 2,
           "precision": 0,
-          "threshold": 0.11,
+          "threshold": 0.17,
           "baseRate": 0,
           "target": 0.5,
           "clearsBar": false
@@ -1101,24 +1101,24 @@
         "secondary7d": {
           "n": 2,
           "baseRate": 0,
-          "brier": 0.0064,
+          "brier": 0.019600000000000003,
           "baselineBrier": 0,
-          "brierSkill": -0.0064,
+          "brierSkill": -0.019600000000000003,
           "separation": {
             "avgPOnHit": null,
-            "avgPOnMiss": 0.08,
+            "avgPOnMiss": 0.14,
             "nHit": 0,
             "nMiss": 2
           },
           "topDecile": {
             "n": 1,
             "precision": 0,
-            "threshold": 0.08,
+            "threshold": 0.14,
             "baseRate": 0
           }
         }
       }
     }
   },
-  "verdict": "claude: does NOT clear 72h usefulness bar on weekly (base 15.0%; elev/high prec — n=0 target 50.0%; top-decile 0.0%; top-tercile 0.0%; Brier skill -0.035; p̂ hit/miss 0.08/0.17; n_weekly=20, n_gap=8). Ceiling on this thin 72h log: hits often arrive at unprecedented droughts where survivors=0, so gap/rival/weekend features cannot concentrate ≥50% precision (best top-decile here 0.0% vs target 50.0%) — not faked. codex: CLEARS 72h bar on weekly (elev/high prec 80.0% n=5; top-decile 80.0%; top-tercile 80.0%; target 60.5%; Brier skill 0.003 > 0 vs base 45.5%; p̂ hit/miss 0.34/0.23; n_weekly=44, n_gap=49). grok: does NOT clear 72h usefulness bar on weekly (base 0.0%; elev/high prec — n=0 target 50.0%; top-decile 0.0%; top-tercile 0.0%; Brier skill -0.006; p̂ hit/miss —/0.08; n_weekly=1, n_gap=0). Ceiling on this thin 72h log: hits often arrive at unprecedented droughts where survivors=0, so gap/rival/weekend features cannot concentrate ≥50% precision (best top-decile here 0.0% vs target 50.0%) — not faked. Weekly (7d-apart, 72h outcome) is the primary non-overlap protocol; 7d hit is secondary. Post-reset is event-triggered (windows collide when resets are close). Pooled overlapping daily band-lift is intentionally not the success bar."
+  "verdict": "claude: does NOT clear 72h usefulness bar on weekly (base 20.0%; elev/high prec — n=0 target 50.0%; top-decile 0.0%; top-tercile 14.3%; Brier skill -0.035; p̂ hit/miss 0.15/0.21; n_weekly=20, n_gap=11). Ceiling on this thin 72h log: hits often arrive at unprecedented droughts where survivors=0, so gap/rival/weekend features cannot concentrate ≥50% precision (best top-decile here 0.0% vs target 50.0%) — not faked. codex: CLEARS 72h bar on weekly (elev/high prec 80.0% n=5; top-decile 80.0%; top-tercile 80.0%; target 60.5%; Brier skill 0.005 > 0 vs base 45.5%; p̂ hit/miss 0.34/0.23; n_weekly=44, n_gap=52). grok: does NOT clear 72h usefulness bar on weekly (base 0.0%; elev/high prec — n=0 target 50.0%; top-decile 0.0%; top-tercile 0.0%; Brier skill -0.020; p̂ hit/miss —/0.14; n_weekly=1, n_gap=0). Ceiling on this thin 72h log: hits often arrive at unprecedented droughts where survivors=0, so gap/rival/weekend features cannot concentrate ≥50% precision (best top-decile here 0.0% vs target 50.0%) — not faked. Weekly (7d-apart, 72h outcome) is the primary non-overlap protocol; 7d hit is secondary. Post-reset is event-triggered (windows collide when resets are close). Pooled overlapping daily band-lift is intentionally not the success bar."
 }
