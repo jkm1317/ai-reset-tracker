@@ -1,7 +1,7 @@
 {
   "meta": {
     "name": "AI Reset Tracker",
-    "generatedAt": "2026-10-07T15:11:41Z",
+    "generatedAt": "2026-10-09T15:37:59Z",
     "attribution": [
       "Claude event catalog adapted from https://claude-resets.com/data/resets.json (with attribution).",
       "Codex announcements curated from https://codex-resets.com/ and @thsottiaux posts; timestamps from announcement times / status IDs.",
@@ -1161,6 +1161,20 @@
           "url": "https://x.com/thsottiaux/status/2107676072871600470",
           "account": "thsottiaux",
           "note": "We shipped four things that were deemed good to great and some math proofs, but the vote is clear and the community demands a reset. I did calibrate it and it *seems* that the game is rigged in reset's favor, but such are the rules at the moment. Therefore ... the reset has been"
+        },
+        {
+          "id": "2108040921044639779",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "banked",
+          "reason_tags": [
+            "goodwill"
+          ],
+          "scope": "all paid",
+          "date": "2026-10-08T03:44:55Z",
+          "url": "https://x.com/thsottiaux/status/2108040921044639779",
+          "account": "thsottiaux",
+          "note": "Confirmed landed across all accounts. How are we doing so far?"
         }
       ]
     },
