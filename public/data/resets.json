@@ -1,7 +1,7 @@
 {
   "meta": {
     "name": "AI Reset Tracker",
-    "generatedAt": "2026-10-22T15:10:01Z",
+    "generatedAt": "2026-10-23T15:06:08Z",
     "attribution": [
       "Claude event catalog adapted from https://claude-resets.com/data/resets.json (with attribution).",
       "Codex announcements curated from https://codex-resets.com/ and @thsottiaux posts; timestamps from announcement times / status IDs.",
@@ -309,7 +309,7 @@
           "date": "2026-09-22T16:44:06Z",
           "url": "https://x.com/ClaudeDevs/status/2102438800836489554",
           "account": "ClaudeDevs",
-          "note": "Launched Opus 5.5 with 20% higher 5-hour session limits, and gave Pro, Max and Team users a banked reset to apply from Settings → Usage any time until October 22."
+          "note": "Launched Opus 5.5 with 20% higher 5-hour session limits, and gave Pro, Max and Team users a banked reset to apply any time until October 22."
         }
       ]
     },
@@ -1245,6 +1245,20 @@
           "url": "https://x.com/thsottiaux/status/2112432076767289678",
           "account": "thsottiaux",
           "note": "Day 15/ Nevermind, we're still cooking... and reset. Enjoy."
+        },
+        {
+          "id": "2113162413008884099",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "goodwill"
+          ],
+          "scope": "all paid",
+          "date": "2026-10-22T17:00:00Z",
+          "url": "https://x.com/thsottiaux/status/2113162413008884099",
+          "account": "thsottiaux",
+          "note": "Codex usage limits have been reset. Check your limits."
         }
       ]
     },
