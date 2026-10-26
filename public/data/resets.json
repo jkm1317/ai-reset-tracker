@@ -1,7 +1,7 @@
 {
   "meta": {
     "name": "AI Reset Tracker",
-    "generatedAt": "2026-10-23T15:06:08Z",
+    "generatedAt": "2026-10-26T15:08:41Z",
     "attribution": [
       "Claude event catalog adapted from https://claude-resets.com/data/resets.json (with attribution).",
       "Codex announcements curated from https://codex-resets.com/ and @thsottiaux posts; timestamps from announcement times / status IDs.",
@@ -1257,6 +1257,48 @@
           "scope": "all paid",
           "date": "2026-10-22T17:00:00Z",
           "url": "https://x.com/thsottiaux/status/2113162413008884099",
+          "account": "thsottiaux",
+          "note": "Codex usage limits have been reset. Check your limits."
+        },
+        {
+          "id": "2113492502355562875",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "goodwill"
+          ],
+          "scope": "all paid",
+          "date": "2026-10-23T17:00:00Z",
+          "url": "https://x.com/thsottiaux/status/2113492502355562875",
+          "account": "thsottiaux",
+          "note": "Codex usage limits have been reset. Check your limits."
+        },
+        {
+          "id": "2114237083652882932",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "goodwill"
+          ],
+          "scope": "all paid",
+          "date": "2026-10-25T06:06:16Z",
+          "url": "https://x.com/thsottiaux/status/2114237083652882932",
+          "account": "thsottiaux",
+          "note": "It is all propagated. Enjoy some mad codexing tomorrow. Fun week ahead too."
+        },
+        {
+          "id": "2114588174249071102",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "goodwill"
+          ],
+          "scope": "all paid",
+          "date": "2026-10-26T07:00:00Z",
+          "url": "https://x.com/thsottiaux/status/2114588174249071102",
           "account": "thsottiaux",
           "note": "Codex usage limits have been reset. Check your limits."
         }
