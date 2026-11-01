@@ -1,7 +1,7 @@
 {
   "site": "AI Reset Tracker",
   "name": "ai-reset-tracker",
-  "generatedAt": "2026-10-29T15:08:46Z",
+  "generatedAt": "2026-11-01T15:39:20Z",
   "disclaimer": "Unofficial community tracker. Not affiliated with Anthropic, OpenAI, xAI, Claude, Codex, or Grok.",
   "providers": {
     "claude": {
@@ -18,7 +18,7 @@
       "firstResetAt": "2026-04-16T20:02:04Z",
       "meanGapDays": 12.2,
       "longestGapDays": 47.6,
-      "daysSinceLast": 36.9,
+      "daysSinceLast": 40,
       "pacePerMonth": 2.7,
       "datasetAttribution": "Adapted from https://claude-resets.com/data/resets.json"
     },
@@ -27,16 +27,16 @@
       "product": "Codex / ChatGPT",
       "account": "thsottiaux",
       "accountUrl": "https://x.com/thsottiaux",
-      "resetCount": 69,
+      "resetCount": 70,
       "policyChangeCount": 0,
-      "lastResetAt": "2026-10-28T06:29:38Z",
-      "lastResetUrl": "https://x.com/thsottiaux/status/2115330127886463244",
+      "lastResetAt": "2026-11-01T00:43:20Z",
+      "lastResetUrl": "https://x.com/thsottiaux/status/2116692529970311254",
       "lastResetAccount": "thsottiaux",
       "lastResetScope": "all paid",
       "firstResetAt": "2025-09-17T04:02:52Z",
-      "meanGapDays": 6,
+      "meanGapDays": 5.9,
       "longestGapDays": 67.7,
-      "daysSinceLast": 1.4,
+      "daysSinceLast": 0.6,
       "pacePerMonth": 5.2,
       "datasetAttribution": "Curated from https://codex-resets.com/ announcements"
     },
@@ -56,7 +56,7 @@
       "firstResetAt": "2026-08-26T14:00:00Z",
       "meanGapDays": 6.1,
       "longestGapDays": 6.1,
-      "daysSinceLast": 58,
+      "daysSinceLast": 61,
       "pacePerMonth": 10,
       "datasetAttribution": "docs.x.ai FAQ + sparse public announcements"
     }
