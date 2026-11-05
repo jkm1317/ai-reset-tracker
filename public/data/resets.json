@@ -1,7 +1,7 @@
 {
   "meta": {
     "name": "AI Reset Tracker",
-    "generatedAt": "2026-11-04T16:12:52Z",
+    "generatedAt": "2026-11-05T16:11:39Z",
     "attribution": [
       "Claude event catalog adapted from https://claude-resets.com/data/resets.json (with attribution).",
       "Codex announcements curated from https://codex-resets.com/ and @thsottiaux posts; timestamps from announcement times / status IDs.",
