@@ -1,7 +1,7 @@
 {
   "meta": {
     "name": "AI Reset Tracker",
-    "generatedAt": "2026-11-10T16:10:38Z",
+    "generatedAt": "2026-11-11T16:05:26Z",
     "attribution": [
       "Claude event catalog adapted from https://claude-resets.com/data/resets.json (with attribution).",
       "Codex announcements curated from https://codex-resets.com/ and @thsottiaux posts; timestamps from announcement times / status IDs.",
@@ -310,6 +310,36 @@
           "url": "https://x.com/ClaudeDevs/status/2102438800836489554",
           "account": "ClaudeDevs",
           "note": "Launched Opus 5.5 with 20% higher 5-hour session limits, and gave Pro, Max and Team users a banked reset to apply any time until October 22."
+        },
+        {
+          "id": "2119873095129550880",
+          "provider": "claude",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "product_launch"
+          ],
+          "scope": "paid plans",
+          "date": "2026-11-09T19:21:45Z",
+          "url": "https://x.com/bcherny/status/2119873095129550880",
+          "account": "bcherny",
+          "note": "Eligible paid accounts get a Fable 5.2 reset grant: Max/Ultra and premium Team/legacy seat-based Enterprise receive 1–3 by paid tenure (under 6 months: 1; 6–12 months: 2; over 12 months: 3); Pro and standard Team receive one. Each restores only Fable usage on the weekly meter; other weekly usage stays spent. It also refills the 5-hour window if the account has one."
+        },
+        {
+          "id": "2120275296637321476",
+          "provider": "claude",
+          "kind": "reset",
+          "delivery": "immediate",
+          "reason_tags": [
+            "incident",
+            "milestone",
+            "product_launch"
+          ],
+          "scope": "Pro, Max, Ultra + Team",
+          "date": "2026-11-10T21:59:58Z",
+          "url": "https://x.com/ClaudeDevs/status/2120275296637321476",
+          "account": "ClaudeDevs",
+          "note": "One free full reset for all Pro, Max, Ultra and Team users, across all models and limits, usable until December 10 at 2:00 PM PT. Anthropic offered it to make up for recent issues that used more limits than intended, including Fable resets that did little for users who had already hit their weekly limits across all models."
         }
       ]
     },
