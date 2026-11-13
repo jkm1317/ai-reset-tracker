@@ -1,7 +1,7 @@
 {
   "meta": {
     "name": "AI Reset Tracker",
-    "generatedAt": "2026-11-12T16:06:06Z",
+    "generatedAt": "2026-11-13T16:12:46Z",
     "attribution": [
       "Claude event catalog adapted from https://claude-resets.com/data/resets.json (with attribution).",
       "Codex announcements curated from https://codex-resets.com/ and @thsottiaux posts; timestamps from announcement times / status IDs.",
@@ -1373,6 +1373,21 @@
           "url": "https://x.com/thsottiaux/status/2117035794678546764",
           "account": "thsottiaux",
           "note": "Day 28/ Banked 2/2"
+        },
+        {
+          "id": "2120999993079451919",
+          "provider": "codex",
+          "kind": "reset",
+          "delivery": "banked",
+          "reason_tags": [
+            "milestone",
+            "banked_credit"
+          ],
+          "scope": "all paid",
+          "date": "2026-11-12T21:59:39Z",
+          "url": "https://x.com/thsottiaux/status/2120999993079451919",
+          "account": "thsottiaux",
+          "note": "We shipped some good updates to dots today and the banked reset has been activated and should land in everyones accounts sometime soon!"
         }
       ]
     },
